@@ -1,0 +1,380 @@
+\documentclass[12pt, oneside, final]{lib/ucthesis}
+\def\ssp{\def\baselinestretch{1.0}\large\normalsize}
+\ssp
+
+\usepackage{subfiles}
+\usepackage{cite}
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\usepackage{amsmath}    % need for sub equations
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}   % need for figures
+\usepackage{subcaption}
+\usepackage{url}
+\usepackage{algorithmic}
+%\usepackage{algorithm}
+\usepackage{color}
+\usepackage{mathtools}    % need for sub equations
+\usepackage{cancel}
+\usepackage{bm}
+\usepackage[ruled,vlined,titlenotnumbered,linesnumbered]{algorithm2e}
+\usepackage{float}
+\usepackage{enumitem}
+
+\pdfinfo{
+       /Title      (U. C. Berkeley Dissertation)
+       /Author     (Mo Chen)
+       /Keywords   ()
+    }
+% This gives you control over how far down in the hierarchy the
+% table of contents will print. I use 2.
+\setcounter{tocdepth}{1}
+\setcounter{secnumdepth}{3}
+\setlength{\parindent}{5ex}
+
+% \include{chapters/preamble}
+
+% \graphicspath{{resources/}}
+
+\newcommand\degrees{\ensuremath{^\circ}}
+\newcommand{\tab}{\hspace{5mm}}
+\newcommand{\blankpage}{\clearpage ~ \newpage}
+
+  
+% UTM stuff
+\newcommand{\pos}{p} % position
+\newcommand{\Pos}{\bar{p}} % a particular position (or desired position}
+\newcommand{\vel}{v} % velocity
+\newcommand{\Vel}{\bar{v}} % a particular position (or desired position}
+\newcommand{\hw}{\mathbb{H}} % a single highway
+\newcommand{\hws}{\mathbb{S}} % a sequence of highways
+\newcommand{\hwd}{\hat{d}}
+\newcommand{\cost}[1]{c_\text{#1}}
+\newcommand{\wpt}{\mathcal{W}}
+\newcommand{\cmap}{c}
+\newcommand{\ccost}{C}
+\newcommand{\ppath}{\mathbb{P}}
+\newcommand{\ocost}{V}
+
+\newcommand{\sepdist}{d_\text{sep}} % separation distance
+
+\newcommand{\td}{t_\text{faulty}} % time to descend
+\newcommand{\veh}[1]{Q_{#1}}
+\newcommand{\vehSCS}[1]{\mathcal{Q}_{#1}} % vehicle safety check set
+
+% Approx Decomp
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\xset}{\mathcal{X}}
+\newcommand{\yset}{\mathcal{Y}}
+\newcommand{\xfset}{\mathbb{X}}
+\newcommand{\yfset}{\mathbb{Y}}
+\newcommand{\cset}{\mathcal{U}}
+\newcommand{\cfset}{\mathbb{U}}
+\newcommand{\dset}{\mathcal{D}}
+\newcommand{\dfset}{\mathbb{D}}
+\newcommand{\reachset}{\mathcal{V}}
+\newcommand{\targetset}{\mathcal{L}}
+
+
+% NNET
+\newcommand{\ttr}{\phi}
+\newcommand{\lvf}{\phi}
+\newcommand{\ham}{H}
+\newcommand{\state}{z}
+
+\newcommand{\ctrl}{u}
+\newcommand{\dyn}{f}
+\newcommand{\traj}{\xi}
+\newcommand{\idyn}{g}
+\newcommand{\fset}{\mathbb F}
+
+\newcommand{\ctime}{\tau}
+\newcommand{\rect}{\psi}
+\newcommand{\weights}{\mathbb W}
+\newcommand{\keep}{A}
+\newcommand{\dataset}{\mathcal D}
+\newcommand{\trainset}{\mathcal X}
+\newcommand{\emax}{M_\epsilon} % number of samples to take in epsilon ball
+\newcommand{\ips}{\iter_\text{ps}} % iteration for prune-switch
+\newcommand{\imax}{\iter_\text{max}} % maximum # of iterations
+\newcommand{\smax}{M_\text{max}} % maximum # of states near bar x
+\newcommand{\controlset}{\mathcal V}
+\newcommand{\Epsilon}{\mathcal E}
+\newcommand{\iter}{\text{iter}}
+\newcommand{\costset}{\mathcal X_C}
+
+% Decomposition
+\newcommand{\scstate}{x} % subsystem state
+\newcommand{\scctrl}{w} % subsystem control
+\newcommand{\spart}{\state} % state partition
+\newcommand{\cpart}{\ctrl} % control partition
+
+\newcommand{\cpset}{\cset}
+\newcommand{\cpfset}{\cfset}
+\newcommand{\sccset}{\mathcal W}
+\newcommand{\sccfset}{\mathbb W}
+
+\newcommand{\dstb}{d} % disturbance
+\newcommand{\dpart}{\dstb} % disturbance
+\newcommand{\scdstb}{b}
+
+\newcommand{\genset}{\mathcal{S}}
+\newcommand{\zset}{\mathcal{Z}}
+
+\newcommand{\proj}{\text{proj}}
+\newcommand{\bp}{\proj^{-1}}
+
+\newcommand{\fdyn}{f} % full dynamics
+\newcommand{\scdyn}{g} % self-contained dynamics
+\newcommand{\sctraj}{\xi}
+
+\newcommand{\valfunc}{V} % value function
+\newcommand{\scvf}{\valfunc^\text{SC}} % self-contained value function
+\newcommand{\fc}{l} % Final condition
+\newcommand{\ic}{l} % Initial condition
+
+\newcommand{\scham}{\ham^\text{SC}} % self-contained Hamiltonian
+\newcommand{\minbrs}{\mathcal A} % minimal backward reachable set
+\newcommand{\maxbrs}{\mathcal R} % maximal backward reachable set
+\newcommand{\minbrt}{\bar\minbrs} % minimal backward reachable tube
+\newcommand{\maxbrt}{\bar\maxbrs} % maximal backward reachable tube
+\newcommand{\sctarget}[1]{\targetset_{#1}}
+
+% FaSTrack
+\newcommand{\pcset}{\mathcal{U}_p} %planner control set
+\newcommand{\pcfset}{\mathbb{U}_p} %planner control function set
+\newcommand{\tcset}{\mathcal{U}_s} %tracker control set
+\newcommand{\tcfset}{\mathbb{U}_s} %tracker control funciton set
+
+
+\newcommand{\pset}{\mathcal{P}} %planner set set
+\newcommand{\tset}{\mathcal{S}} %tracker set
+\newcommand{\rset}{\mathcal{R}}
+
+\newcommand{\tvar}{t}
+\newcommand{\thor}{T} % Time horizon
+
+\newcommand{\tstate}{s} % Tracker state
+\newcommand{\pstate}{p} % Planner state
+\newcommand{\rstate}{r} % Relative state
+
+
+\newcommand{\ttraj}{\xi_{\tdyn}} % Tracker trajectory
+\newcommand{\ptraj}{\xi_{\pdyn}} %Planner trajectory
+\newcommand{\rtraj}{\xi_\rdyn}
+
+\newcommand{\senseDist}{m}
+
+
+\newcommand{\tctrl}{u_s} % Tracker control
+
+\newcommand{\pctrl}{u_p} % Planner control
+
+\newcommand{\tdyn}{f} % Tracker dynamics
+\newcommand{\pdyn}{h} % Planner Dynamics
+\newcommand{\rdyn}{g} % Relative dynamics
+
+\newcommand{\plannerfunc}{j}
+
+\newcommand{\ptind}{i} % Index of vehicle state corresponding to planner state
+\newcommand{\ptmat}{Q} % Matrix for transforming planner state to the same length as tracker state
+\newcommand{\tpmat}{Q^T}
+
+\newcommand{\errfunc}{l} % Error function
+
+
+\newcommand{\deriv}{\nabla\valfunc} %gradient look-up table
+
+\newcommand{\dx}{\Delta x} %distance allowed in a time step
+\newcommand{\dt}{\Delta t} %time step
+
+\newcommand{\obsSense}{\mathcal{O}_{sense}}
+\newcommand{\obsAug}{\mathcal{O}_{aug}}
+
+\newcommand{\TEB}{\mathcal B} % tracking error bound
+
+%% STP
+\newcommand{\dist}{\text{dist}} % Distance
+\newcommand{\rc}{R_c} % Capture radius
+\newcommand{\cradius}{\rc}
+\newcommand{\N}{N} % number of agents
+
+
+\newcommand{\intr}{I} % Intruder index
+
+\newcommand{\npos}{h} % non-position states
+
+
+\newcommand{\errstate}{e}
+
+\newcommand{\obsset}{\mathcal{G}} % Obstacle (the one used to solve PDE)
+\newcommand{\dz}{\mathcal{Z}} % danger zone
+\newcommand{\sep}{\mathcal{S}} % Separation region
+\newcommand{\buff}{\mathcal{B}} % Buffer region
+
+
+\newcommand{\valfuncfwd}{W} % value function for forwards reachable set
+\newcommand{\brs}{\mathcal{V}} % backwards reachable set
+\newcommand{\frs}{\mathcal{W}} % forwards reachable set
+\newcommand{\pfrs}{\mathcal{P}} % projected forwards reachable set
+
+\newcommand{\obsfunc}{g} % Obstacle function
+\newcommand{\costate}{\lambda}
+
+\newcommand{\disckernel}{\Omega} % Discriminating kernel
+
+\newcommand{\edt}{t^\text{EDT}} % earliest departure time
+\newcommand{\ldt}{t^\text{LDT}} % latest departure time
+\newcommand{\sta}{t^\text{STA}} % scheduled time of arrival
+\newcommand{\ioset}{\mathcal{O}} % Induced obstacle
+\newcommand{\boset}{\mathcal{M}} % Base obstacle
+\newcommand{\sosetp}{\mathcal{S}} % static obstacle in position space
+\newcommand{\soset}{\ioset^\text{static}} % static obstacle in state space
+\newcommand{\iat}{t^\text{IAT}} % intruder avoidance time
+\newcommand{\wcttr}{t^\text{WC}} % worst case TTR
+
+\newcommand{\basicham}{\ham^\text{basic}}
+
+\newcommand{\tsa}{\underline{t}} % time of start of avoidance
+\newcommand{\tea}{\bar{t}} % time of end of avoidance
+\newcommand{\nva}{\bar{k}} % Number of Vehicles to Avoid (NVA)
+\newcommand{\brd}{t^\text{BRD}} % Buffer Region Duration (BRD)
+\newcommand{\trd}{t^\text{RD}} % Remaining Duration (RD)
+\newcommand{\rvs}{\mathcal{N}^\text{RP}} % Re-Planning Vehicle Set
+\newcommand{\dsen}{d^\text{A}} % Sensing distance
+\newcommand{\avoidt}{\mathcal{A}} % Set of all avoid times
+
+\newcommand{\errorbound}{\mathcal{E}} % Error ``bubble" between vehicle and tracking reference
+\newcommand{\tracklaw}{\kappa} % Robust tracking law
+
+% Exact decomp
+\newtheorem{assumption}{Assumption}
+\newtheorem{alg}{Algorithm}
+\newtheorem{remark}{Remark}
+\newtheorem{observation}{Observation}
+
+\newtheorem{claim}{Claim}
+\newtheorem{prop}{Proposition}
+\newtheorem{proof}{Proof}
+\newtheorem{rem}{Remark}
+\newtheorem{defn}{Definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+
+\newtheorem{cor}{Corollary}
+
+\pagestyle{headings}
+% ========================================= DOCUMENT
+\begin{document}
+
+% Declarations for Front Matter
+
+% TITLE
+\title{Toward a Smart and Secure Power Grid}
+% Note that this must be exactly as it appears in University records.
+\author{Qie Hu}
+
+% PREVIOUS DEGREES
+% Put each previous degree on its own line in the following format:
+\prevdegrees{} % Optional 
+
+% DATE OF GRADUATION
+% This text will appear on the title page
+% Note that degrees are only granted in Fall and Spring at Berkeley.
+% This text will appear on the abstract page.
+% For Berkeley, it should be identical to the graduation month.
+\degreeyear{2017}
+\degreemonth{Fall}
+\defensemonth{Fall}
+\defenseyear{2017}
+
+\degree{Doctor of Philosophy}
+% COMMITTEE MEMBERS
+% You can have up to 5 members listed separately. 
+%After that, you throw them all into the "other members" category.
+\numberofmembers{3} 
+	\chair{Professor Claire Tomlin} 
+	\othermemberA{Professor Murat Arcak}
+	\othermemberB{Professor Anil Aswani} 
+	
+% DEPARTMENT/DEGREE PROGRAM
+%Your Department. Make sure this is the department and/or program
+% name that you are enrolled in...
+\field{Engineering - Electrical Engineering and Computer Sciences} 
+
+% CAMPUS NAME
+% Your UC Campus, e.g., "Berkeley"
+% Note that if you are not at Berkeley, you may have to modify the\vspace{12pt}
+% ucthesis.cls to change the wording on the Title page.
+\campus{Berkeley}
+
+\begin{frontmatter} 
+\maketitle
+%\approvalpage
+\copyrightpage
+\abstract
+Automation is becoming pervasive in everyday life, and many automated systems, such as unmanned aerial systems, autonomous cars, and many types of robots, are complex and safety-critical. Formal verification tools are essential for providing performance and safety guarantees for these systems. In particular, reachability analysis has previously been successfully applied to small scale control systems with general nonlinear dynamics under the influence of disturbances. Its exponentially scaling computational complexity, however, makes analyzing more complex, large scale systems intractable. Alleviating computation burden is in general a primary challenge in formal verification.
+
+This thesis presents ways to tackle this ``curse of dimensionality'' from multiple fronts, bringing tractable verification of complex, practical systems such as unmanned aerial systems, autonomous cars and robots, and biological systems closer to reality. The theoretical contributions pertain to Hamilton-Jacobi (HJ) reachability analysis, with applications to unmanned aerial system. In addition, this thesis also explores two frontiers of HJ reachability by combining the formal guarantees of reachability with the computational advantages of optimization and machine learning, and with fast motion planning algorithms commonly used in robotics. The potential and benefits of the theoretical advances are demonstrated in numerous practical applications.
+
+\endabstract
+
+\end{frontmatter}
+\begin{optionalFrontMatter}
+% ===============================================
+% OPTIONAL MATERIAL
+% Everything after this is optional and can appear in any order
+% you desire.
+%\begin{dedication}
+%% Prints the text of the file dedication.tex centered vertically on the page.
+%	\vspace*{\fill} 
+%
+%	\vspace*{\fill} 
+%\end{dedication}
+\end{optionalFrontMatter}
+\addcontentsline{toc}{chapter}{Contents}
+
+\tableofcontents
+
+\begin{acknowledgements}
+\thispagestyle{plain}
+
+First, I would like to express special appreciation ...
+
+\end{acknowledgements}
+
+%%%% END FRONT MATTER...
+
+
+% ============================= DISSERTATION TEXT
+% Begins regular arabic numeral page numbers...
+% CHAPTERS
+
+\begin{dissertationText}
+\chapter{Introduction}
+	\subfile{chapters/introduction}
+%\chapter{Background}~\label{chapter:background}
+%	\subfile{chapters/background}
+%\chapter{Unmanned Airspace Infrastructure}
+%	\subfile{chapters/unmanned_infrastructure}
+%\chapter{System Decomposition}
+%  \subfile{chapters/system_decomposition}
+%\chapter{Frontiers in HJ Reachability Verification}
+%  \subfile{chapters/frontiers}
+%\chapter{Conclusions and Future Work \label{chapter:conc}}
+%  \subfile{chapters/conc}
+
+\ssp	% SINGLE SPACE REFERENCES (optional)
+\bibliographystyle{plain}
+\bibliography{references}
+
+%% ------------------- OPTIONAL APPENDICES
+%\appendix
+%\chapter{Appendix Chapter}~\label{sec:appendix-pf}
+%	\subfile{chapters/chapter1}
+
+\end{dissertationText}
+\end{document}
+
+% Congratulations, Doc!
