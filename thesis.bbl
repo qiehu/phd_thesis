@@ -1,0 +1,300 @@
+\begin{thebibliography}{10}
+
+\bibitem{darksky}
+
+
+\bibitem{:ab}
+{PV Performance Modeling Collaborative}.
+
+\bibitem{:ac}
+{sMAP: The Simple Measurement and Actuation Profile}.
+
+\bibitem{:aa}
+{U.S. Department of Energy Buildings Energy Data Book}.
+
+\bibitem{VAV}
+{Commercial Buildings Energy Consumption Survey (CBECS): Overview of Commercial
+  Buildings, 2003}.
+\newblock Technical report, {Energy Information Administration, U.S. Department
+  of Energy}, 2008.
+
+\bibitem{SolarRad}
+{CIMIS Station Reports}.
+\newblock Technical report, California Irrigation Management Information
+  System, 2015.
+
+\bibitem{Aswani:2012aa}
+Anil Aswani, Neal Master, Jay Taneja, Virginia Smith, Andrew Krioukov, David
+  Culler, and Claire Tomlin.
+\newblock {Identifying Models of HVAC Systems Using Semiparametric Regression}.
+\newblock {\em American Control Conference}, 2012.
+
+\bibitem{Baccino:2014aa}
+F.~Baccino, F.~Conte, S.~Massucco, F.~Silvestro, and S.~Grillo.
+\newblock {Frequency Regulation by Management of Building Cooling Systems
+  through Model Predictive Control}.
+\newblock {\em Power Systems Computation Conference}, pages 1--7, 2014.
+
+\bibitem{Balandat:2014contractdesign}
+Maximilian Balandat, Frauke Oldewurtel, Mo~Chen, and Claire Tomlin.
+\newblock {Contract Design for Frequency Regulation by Aggregations of
+  Commercial Buildings}.
+\newblock {\em 52nd Annual Allerton Conference on Communication, Control, and
+  Computing}, 2014.
+
+\bibitem{Braun:2012}
+James Braun, Donghun Kim, Miroslav Baric, Pengfei Li, Satish Narayanan, Shui
+  Yuan, Eugene Cliff, John Burns, and Bill Henshaw.
+\newblock {Whole Building Control System Design and Evaluation:
+  Simulation-Based Assessment}.
+\newblock Technical report, {GPIC Energy Efficient Buildings Hub}, 2012.
+
+\bibitem{Cole:2013aa}
+Wesley~J. Cole, Elaine~T. Hale, and Thomas~F. Edgar.
+\newblock {Building Energy Model Reduction for Model Predictive Control Using
+  OpenStudio}.
+\newblock {\em American Control Conference}, 2013.
+
+\bibitem{Dawson-Haggerty:2012aa}
+Stephen Dawson-Haggerty, Andrew Krioukov, and David~E. Culler.
+\newblock {Experiences Integrating Building Data with sMAP}.
+\newblock Technical report, University of California, Berkeley, 2012.
+
+\bibitem{Dobbs:2012aa}
+Justin~R. Dobbs.
+\newblock {A Comparison of Thermal Zone Aggregation Methods}.
+\newblock {\em 51st Conference on Decision and Control}, 2012.
+
+\bibitem{Duffy:2009aa}
+M.~Duffy, M.~Hiller, D.~Bradley, W.~Keilholz, and J.~Thornton.
+\newblock {TRNSYS - Features and Functionality for Building Simulation}.
+\newblock {\em IBSPA Conference}, pages 1950 -- 1954, 2009.
+
+\bibitem{Fabietti:2016exp}
+Luca Fabietti, Tomasz~T. Gorecki, Faran~A. Qureshi, Altug Bitlislioglu, Ioannis
+  Lymperopoulos, and Colin~N. Jones.
+\newblock {Experimental Implementation of Frequency Regulation Services Using
+  Commercial Buildings}.
+\newblock {\em IEEE Transactions on Smart Grid}, 2016.
+
+\bibitem{Gorecki:2017exp}
+Tomasz~T. Gorecki, Luca Fabietti, Faran~A. Qureshi, and Colin~N. Jones.
+\newblock {Experimental Demonstration of Buildings Providing Frequency
+  Regulation Services in the Swiss Market}.
+\newblock {\em Energy and Buildings}, 144:229--240, 2017.
+
+\bibitem{Goyal:2012aa}
+Siddharth Goyal and Prabir Barooah.
+\newblock {A Method for Model-Reduction of Nonlinear Thermal Dynamics of
+  Multi-Zone Buildings}.
+\newblock {\em Energy and Buildings}, (47):332--340, 2012.
+
+\bibitem{Goyal:2013aa}
+Siddharth Goyal, Herbert~A. Ingley, and Prabir Barooah.
+\newblock {Occupancy-Based Zone-Climate Control for Energy-Efficient Buildings:
+  Complexity vs. Performance}.
+\newblock {\em Applied Energy}, (106):209--221, 2013.
+
+\bibitem{Hansen:2013aa}
+Shirley~J. Hansen and H.E. Burroughs.
+\newblock {\em {Managing Indoor Air Quality}}.
+\newblock Lulu Press, Inc., 2013.
+
+\bibitem{Hao_multizone}
+H.~Hao, A.~Kowli, Y.~Lin, P.~Barroah, and S.~Meyn.
+\newblock {Ancillary Service for the Grid via Control of Commercial Building
+  HVAC Systems}.
+\newblock {\em American Control Conference}, (467-472), June 2013.
+
+\bibitem{Hao:2014fan}
+He~Hao, Yashen Lin, Anupama~S. Kowli, Prabir Barooah, and Sean Meyn.
+\newblock {Ancillary Serivice to the Grid Through Control of Fans in Commercial
+  Building HVAC Systems}.
+\newblock {\em IEEE Transactions on Smart Grid}, 5(4):2066--2074, 2014.
+
+\bibitem{Hao:2012demandresponse}
+He~Hao, Tim Middelkoop, Prabir Barooah, and Sean Meyn.
+\newblock {How Demand Response from Commercial Biuldings will Provide the
+  Regulation Needs of the Grid}.
+\newblock {\em the 50th Annual Allerton Conference on Communication, Control
+  and Computing}, 2012.
+
+\bibitem{Hardle:2000aa}
+Wolfgang H{\"a}rdle, Hua Liang, and Jiti Gao.
+\newblock {\em {Partially Linear Models}}.
+\newblock Springer, 2000.
+
+\bibitem{Qie}
+Q.~Hu, F.~Oldewurtel, M.~Balandat, E.~Vrettos, D.~Zhou, and C.J. Tomlin.
+\newblock {Model Identification of Commercial Building HVAC Systems During
+  Regular Operation - Empirical Results and Challenges}.
+\newblock {\em American Control Conference (Accepted)}, 2016.
+
+\bibitem{Lofberg:2004yalmip}
+{Johan L\"ofberg}.
+\newblock {YALMIP: a Toolbox for Modeling and Optimization in MATLAB}.
+\newblock {\em IEEE International Symposium on Computer Aided Control Systems
+  Design}, pages 284--289, 2004.
+
+\bibitem{Koehler:2013aa}
+S.~Koehler and Francesco Borrelli.
+\newblock {Building Temperature Distributed Control via Explicit MPC and ``Trim
+  and Respond'' Methods}.
+\newblock {\em European Control Conference}, 2013.
+
+\bibitem{Lin:2013chiller}
+Yashen Lin, Prabir Barooah, and Sean Meyn.
+\newblock {Low Frequency Power Grid Ancillary Services from Commercial Building
+  HVAC Systems}.
+\newblock {\em IEEE SmartGridComm Symposium}, 2013.
+
+\bibitem{Lin:2015exp}
+Yashen Lin, Prabir Barooah, Sean Meyn, and Timothy Middelkoop.
+\newblock {Experimental Evaluation of Frequency Regulation From Commercial
+  Building HVAC Systems}.
+\newblock {\em IEEE Transactions on Smart Grid}, 6(2), 2015.
+
+\bibitem{Ma:2011aa}
+Yudong Ma, Garrett Anderson, and Francesco Borrelli.
+\newblock {A Distributed Predictive Control Approach to Building Temperature
+  Regulation}.
+\newblock {\em American Control Conference}, pages 2089--2094, 2011.
+
+\bibitem{Maasoumy:2014ab}
+Mehdi Maasoumy, M.~Razmara, M.~Shahbakhti, and Alberto Sangiovanni-Vincentelli.
+\newblock {Handling Model Uncertainty in Model Predictive Control for Energy
+  Efficient Buildings}.
+\newblock {\em Energy and Buildings}, 2014.
+
+\bibitem{Maasoumy:2014exp}
+Mehdi Maasoumy, Catherine Rosenberg, Alberto Sangiovanni-Vincentelli, and
+  Duncan~S. Callaway.
+\newblock {Model Predictive Control approach to Online Computation of
+  Demand-Side Flexibility of Commercial Buildings HVAC Systems for Supply
+  Following}.
+\newblock {\em American Control Conference}, pages 1082--1089, 2014.
+
+\bibitem{Macdonald:2014pjm}
+Jason MacDonald, Sila Kilicote, Jim Boch, Johathan Chen, and Robert Nawy.
+\newblock {Commercial Building Loads Providing Ancillary Services in PJM}.
+\newblock {\em ACEEE Summer Study on Energy Efficiency in Buildings}, 2014.
+
+\bibitem{Hvac_book}
+John~W. Mitchell and James~E. Braun.
+\newblock {\em {Principles of Heating, Ventilation and Air Conditioning in
+  Buildings}}.
+\newblock Wiley, 2012.
+
+\bibitem{Moderncontrol_book}
+Katsuhiko Ogata.
+\newblock {\em {Modern Control Engineering}}.
+\newblock Prentice Hall, 2010.
+
+\bibitem{PJM11}
+Forward~Market Operations.
+\newblock {\em {PJM Manual 11: Energy and Ancillary Services Market
+  Operations}}.
+\newblock PJM, 83 edition, July 2016.
+
+\bibitem{Parisio:2014aa}
+Alessandra Parisio, Luca Fabietti, Marco Molinari, Damiano Varagnolo, and
+  Karl~H. Johansson.
+\newblock {Control of HVAC Systems via Scenario-Based Explicit MPC}.
+\newblock {\em IEEE Conference on Decision and Control}, 2014.
+
+\bibitem{Perez-Lombard:2008aa}
+Luis P{\'e}rez-Lombard, Jos{\'e} Ortiz, and Christine Pout.
+\newblock {A Review on Buildings Energy Consumption Information}.
+\newblock {\em Energy and Buildings}, (40):394--398, 2008.
+
+\bibitem{PJM12}
+Chris Pilong.
+\newblock {\em PJM Manual 12: Balancing Operations}.
+\newblock PJM, 34 edition, April 2016.
+
+\bibitem{PJM_signal_price}
+{PJM Ancillary Services}.
+\newblock {Ancillary Services}.
+
+\bibitem{Radecki:2012aa}
+Peter Radecki and Brandon Hencey.
+\newblock {Online Building Thermal Parameter Estimation via Unscented Kalman
+  Filtering}.
+\newblock {\em American Control Conference}, 2012.
+
+\bibitem{Radecki:2013ab}
+Peter Radecki and Brandon Hencey.
+\newblock {Online Thermal Estimation, Control, and Self-Excitation of
+  Buildings}.
+\newblock {\em 52nd Conference on Decision and Control}, 2013.
+
+\bibitem{Ruppert:2003aa}
+David Ruppert, M.P. Wand, and R.J. Carroll.
+\newblock {\em {Semiparametric Regression}}.
+\newblock Cambridge University Press, 2003.
+
+\bibitem{Siroky:2011aa}
+Jan {\v S}iroky, Frauke Oldewurtel, Jir{\'\i} Cigler, and Samuel Pr{\'\i}vera.
+\newblock {Experimental Analysis of Model Predictive Control for an Energy
+  Efficient Building Heating System}.
+\newblock {\em Applied Energy}, 88:3079--3087, 2011.
+
+\bibitem{David}
+D.~Sturzenegger, D.~Gyalistras, M.~Morari, and R.S. Smith.
+\newblock {Semi-Automated Modular Modeling of Buildings for Model Predictive
+  Control}.
+\newblock {\em BuildSys 2012 -- Workshop of SCM SenSys Conference}, 2012.
+
+\bibitem{Sun}
+B.~Sun, P.B. Luh, Q.S. Jia, Z.~Jiang, F.~Wang, and C.~Song.
+\newblock {Building Energy Management: Integrated Control of Active and Passive
+  Heating, Cooling, Lighting, Shading, and Ventilation Systems}.
+\newblock {\em {IEEE Transactions on Automation Science and Engineering}},
+  2012.
+
+\bibitem{USenergy:2013}
+{US Energy Information Administration}.
+\newblock {The Annual Energy Outlook 2013}.
+\newblock Technical report, US Energy Information Administration, 2013.
+
+\bibitem{Vrettos:2016flexlab2}
+Evangelos Vrettos, Emre~C. Kara, Jason MacDonald, Goran Andersson, and Duncan
+  Callaway.
+\newblock {Experimental Demonstration of Frequency Regulation by Commercial
+  Buildings - Part II: Results and Performance Evaluation}.
+\newblock {\em IEEE Transactions on Smart Grid}, 2016.
+
+\bibitem{Vrettos:2016flexlab1}
+Evangelos Vrettos, Emre~C. Kara, Jason MacDonald, Goran Andersson, and
+  Duncan~S. Callaway.
+\newblock {Experimental Demonstration of Frequency Regulation by Commercial
+  Buildings - Part I: Modeling and Hierarchical Control Design}.
+\newblock {\em IEEE Transactions on Smart Grid}, 2016.
+
+\bibitem{Vrettos:2014aggregation}
+Evangelos Vrettos, Frauke Oldewurtel, Fengtian Zhu, and Goran Andersson.
+\newblock {Robust Provision of Frequency Reserves by Office Building
+  Aggregations}.
+\newblock {\em Proceedings of the 19th IFAC World Congress}, pages 12068 --
+  12073, 2014.
+
+\bibitem{Zhao2013EP}
+Jie Zhao, Khee~Poh Lam, and B.~Erik Ydstie.
+\newblock {EnergyPlus} model-based predictive control {(EPMPC)} by using
+  {MATLAB/SIMULINK} and {MLE+}.
+\newblock {\em Proceedings of 13th Conference of International Building
+  Performance Simulation Association}, 2013.
+
+\bibitem{Zhao:2013hvac}
+Peng Zhao, Gregor~P. Henze, Sandro Plamp, and Vincent~J. Cushing.
+\newblock {Evaluation of Commercial Building HVAC Systems as Frequency
+  Regulation Providers}.
+\newblock {\em Energy and Buildings}, 67:225--235, 2013.
+
+\bibitem{Zhou:2017modelcomp}
+Datong Zhou, Qie Hu, and Claire Tomlin.
+\newblock {Model Comparison of a Data-Driven and a Physical Model for
+  Simulating HVAC Systems}.
+\newblock {\em The 2017 American Control Conference}, 2017.
+
+\end{thebibliography}

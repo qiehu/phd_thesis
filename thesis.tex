@@ -12,19 +12,26 @@
 \usepackage{graphicx}   % need for figures
 \usepackage{subcaption}
 \usepackage{url}
-\usepackage{algorithmic}
-%\usepackage{algorithm}
+%\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \usepackage{color}
 \usepackage{mathtools}    % need for sub equations
 \usepackage{cancel}
 \usepackage{bm}
-\usepackage[ruled,vlined,titlenotnumbered,linesnumbered]{algorithm2e}
+%\usepackage[ruled,vlined,titlenotnumbered,linesnumbered]{algorithm2e}
 \usepackage{float}
 \usepackage{enumitem}
+\usepackage{booktabs}
+%\usepackage{gensymb}
+%\usepackage{fixltx2e}
+\usepackage{array}
+\usepackage{bm}
+%\usepackage{subfig}
 
 \pdfinfo{
        /Title      (U. C. Berkeley Dissertation)
-       /Author     (Mo Chen)
+       /Author     (Qie Hu)
        /Keywords   ()
     }
 % This gives you control over how far down in the hierarchy the
@@ -37,7 +44,7 @@
 
 % \graphicspath{{resources/}}
 
-\newcommand\degrees{\ensuremath{^\circ}}
+%\newcommand\degrees{\ensuremath{^\circ}}
 \newcommand{\tab}{\hspace{5mm}}
 \newcommand{\blankpage}{\clearpage ~ \newpage}
 
@@ -250,7 +257,7 @@
 
 % Exact decomp
 \newtheorem{assumption}{Assumption}
-\newtheorem{alg}{Algorithm}
+%\newtheorem{alg}{Algorithm}
 \newtheorem{remark}{Remark}
 \newtheorem{observation}{Observation}
 
@@ -356,8 +363,8 @@ First, I would like to express special appreciation ...
 	\subfile{chapters/introduction}
 %\chapter{Background}~\label{chapter:background}
 %	\subfile{chapters/background}
-%\chapter{Unmanned Airspace Infrastructure}
-%	\subfile{chapters/unmanned_infrastructure}
+\chapter{Frequency Regulation from Commercial Buildings}
+	\subfile{chapters/frequency_regulation}
 %\chapter{System Decomposition}
 %  \subfile{chapters/system_decomposition}
 %\chapter{Frontiers in HJ Reachability Verification}
