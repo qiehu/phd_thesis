@@ -1,0 +1,308 @@
+% !TEX root = ../../thesis.tex
+
+\section{Nonlinear Secure Estimation \label{sec:nonlinear_se}}
+%\begin{abstract}
+%\textcolor{black}{We focus on securely estimating the state of a nonlinear dynamical system from a set of corrupted measurements for two classes of nonlinear systems, and propose a technique which enables us to perform secure state estimation for those systems. We then illustrate how the proposed nonlinear secure state estimation technique \textcolor{black}{can be used to perform estimation} in the cyber layer of interconnected power systems under cyber-physical attacks and communication failures. In particular, we focus on an interconnected power system comprising several synchronous generators, transmission lines, loads, and energy storage units, and propose a secure estimator that allows us to securely estimate the dynamic states of the power network. Finally, we numerically demonstrate the effectiveness of the proposed secure estimation algorithm, and show that the algorithm enables the cyber layer to accurately reconstruct the attack signals.}
+%\end{abstract}
+
+
+\input{chapters/se_power/introduction.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\section{Error Correction: A Review}\label{sec:review}
+%
+%\textcolor{red}{May not be needed as it repeats what's in the linear SE section.}
+%
+%\subsection{Classical Error Correction}
+%\textbf{Compressed Sensing:} Sparse solutions $x\in \mathbb{R}^n$, are sought to the following problem:
+%\begin{equation}
+%	\min_x %\norm{x}_0 \text{ subject to } b= Ax
+%	\label{eq:CS}
+%\end{equation}
+%where $b \in \mathbb{R}^m$ are the measurements, and $A \in \mathbb{R}^{m\times n}~ (m \ll n)$ is a sensing matrix. 
+%%$\norm{x}_0$ 
+%denotes the number of nonzero elements of $x$. The following lemma provides a sufficient condition for a unique solution to (\ref{eq:CS}).
+%
+%%\textcolor{black}{in II.A., you reference [16] right before Lemma 1 and [18] inside Lemma 1.  This is confusing.  If you are referencing the form of Lemma 1 from [16] that is presented in [18] then you should be explicit about it.}
+%%\textcolor{black}{I removed [18] here, but we cite it later in IIB before equation (5).}
+%\begin{lem} (\hspace{1sp}\cite{Candes_Tao}) \label{lem:CS}
+%If the sparsest solution to (\ref{eq:CS}) has $\norm{x}_0 = q$ and $m\ge 2q$ and all subsets of $2q$ columns of $A$ are full rank, then the solution is unique.
+%\end{lem}
+%\begin{pf}
+%Suppose the solution is not unique. Therefore, there exists $x_1 \neq  x_2$ such that $Ax _1 = b$ and $Ax_2 = b$ where $\norm{x_1}_0 = \norm{x_2}_0 = q$. Then, $A(x_1 - x_2) = 0$ and $x_1 - x_2 \neq 0$. Since $\norm{x_1-x_2}_0 \leq 2q$ and all $2q$ columns of $A$ are full rank (i.e. linearly independent), it is impossible to have $x_1-x_2\neq 0$ that satisfies $A(x_1-x_2) = 0$. This contradicts the assumption.
+%\end{pf}\qed
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\textbf{The Error Correction Problem \cite{Candes_Tao}:} %\label{sec:error_correction}
+%Consider the classical error correction problem: $y=Cx + e$ where $C\in \mathbb{R}^{l\times n}$ is a coding matrix $(l > n)$ and assumed to be full rank. We wish to recover the input vector $x \in \mathbb{R}^n$ from corrupted measurements $y$. Here, $e$ is an arbitrary and unknown sparse error vector. To reconstruct $x$, note that it is obviously sufficient to reconstruct the vector $e$ since knowledge of $Cx + e$ together with $e$ gives $Cx$, and consequently $x$ since $C$ has full rank \cite{Candes_Tao}. In \cite{Candes_Tao}, the authors construct a matrix $F$ which annihilates $C$ on the left, i.e.,  $FCx = 0$ for all $x$. Then, they apply $F$ to the output $y$ and obtain
+%\begin{equation}
+%	\tilde y = F (Cx + e) = Fe.
+%\end{equation}
+%Thus, the decoding problem can be reduced to that of reconstructing a sparse vector $e$ from the observations $\tilde y = Fe$. Therefore, by Lemma \ref{lem:CS}, if all subsets of $2q$ columns of $F$ are full rank, then we can reconstruct any $e$ such that $\| e \|_0 \leq q$.
+%%We refer to a decoder that can correct $q$ errors as a $q$-error-correcting decoder.
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Secure Estimation for Linear Dynamical Systems \cite{David_Chang2} }
+%
+%%\textcolor{black}{II.B. seems like it should reference [11] -- is this the exact formulation in [11] or is it changed to suit the development here?  In any case, be explicit about this.}
+%
+%Consider the linear control system as follows:
+%\begin{equation}
+%\begin{aligned}
+%&x(k+1)= A x(k) ,\\
+%&y(k) = C x(k) + e(k)
+%\end{aligned}
+% \label{eq:system_model_se}
+%\end{equation}
+%where $x(k) \in \mathbb{R}^n $ and  $y(k) \in \mathbb{R}^p$ represent the states and outputs of the system at time $k$, respectively. $e(k) \in \mathbb{R}^p$ represents attack signals injected by malicious agents at the sensors, and the set of attacked sensors can change over time.
+%
+%Consider the problem of reconstructing the initial state $x(0)$ of the plant from the corrupted observations $y(k)$'s where $k=0,...,T-1$.
+%Let $E_{q,T}$ denote the set of error vectors $\begin{bmatrix} e(0); ~ ...~  ;  e(T-1) \end{bmatrix}   \in  \mathbb{R}^{p\cdot T} $ where each $e(k)$ satisfies $\|e(k)\|_0 \leq q \leq p$. %$\lvert \textsf{supp}(e(k)) \rvert \le q \le p $.
+%\begin{eqnarray} \label{eq:sys_err_corr}
+%\begin{aligned}
+%	Y &\triangleq \begin{bmatrix} y(0) \\ y(1) \\ \vdots \\ y(T-1) \end{bmatrix}
+%		= \begin{bmatrix} Cx(0) + e(0)\\ CA x(0) + e(1) \\ \vdots \\ CA^{T-1} x(0) + e(T-1) \end{bmatrix} \\
+%		& =
+%		\begin{bmatrix} C \\ CA \\ \vdots \\ CA^{T-1} \end{bmatrix} x(0) + E_{q,T} \triangleq \Phi x(0) + E_{q,T}
+%		\label{eq:decoder_Phi}
+%\end{aligned}
+%\end{eqnarray}
+%where $Y \in \mathbb{R}^{p\cdot T}$ is a collection of corrupted measurements over $T$ time steps and $\Phi \in \mathbb{R}^{p\cdot T \times n}$. \textcolor{black}{We call $\Phi$ the $T$-step observability matrix of the system.} %\st{ if $B=0$ (i.e., $A = A_o$)}. \st{Since we consider secure estimation of adversarial attacks,}
+%Here, we need to assume that $\operatorname{rank}(\Phi) = n$; otherwise, the system is unobservable and we cannot determine $x(0)$ even if there was no attack (i.e., $E_{q,T} = 0$).
+%
+%
+%Inspired by the error correction techniques proposed in \cite{Candes_Tao} and \cite{David_Chang2}, we first determine the error vector $E_{q,T}$, and then solve for $x(0)$. %[We say this upfront, so readers know what to expect, and it may be less surprising when they see the second method?]  \st{We consider the error correction approach.}
+%Consider the $QR$ decomposition of $\Phi \in \mathbb{R}^{p\cdot T \times n}$,
+%\begin{eqnarray}
+%	\Phi = \begin{bmatrix} Q_1 & Q_2 \end{bmatrix} \begin{bmatrix} R_1 \\ 0 \end{bmatrix} = Q_1 R_1
+%\end{eqnarray}
+%where $\begin{bmatrix} Q_1 & Q_2 \end{bmatrix} \in \mathbb{R}^{p\cdot T \times p\cdot T}$ is orthogonal, $Q_1 \in \mathbb{R}^{p\cdot T\times n}, Q_2 \in \mathbb{R}^{p\cdot T \times (p\cdot T-n)}$, and $R_1 \in \mathbb{R}^{n\times n}$ is a rank-$n$ upper triangular matrix.
+%Pre-multiplying (\ref{eq:decoder_Phi}) by $\begin{bmatrix} Q_1 & Q_2 \end{bmatrix} ^\top$ gives:
+%\begin{equation}
+%	\begin{bmatrix} Q_1 ^\top \\ Q_2 ^\top \end{bmatrix} Y = \begin{bmatrix}R_1 \\ 0  \end{bmatrix} x(0) + \begin{bmatrix} Q_1 ^\top \\ Q_2^\top \end{bmatrix} E_{q,T}.
+%	\label{eq:QR}
+%\end{equation}
+%We can compute $E_{q,T}$ by using the second block row:
+%\begin{equation}
+%	\tilde Y \triangleq Q_2^\top Y = Q_2^\top E_{q,T}
+%	\label{eq:E_est}
+%\end{equation}
+%where $Q_2^\top \in \mathbb {R} ^{ (p\cdot T-n) \times p\cdot T}$.
+%\textcolor{black}{From Lemma \ref{lem:CS}, (\ref{eq:E_est}) has a unique, $s$-sparse solution (where $s\le q\cdot T$) if all subsets of $2s$ columns (at most $2 q\cdot T$ columns) of $Q_2^\top$ are full rank. Therefore, we consider solving the following $l_1$-minimization problem:}
+%\begin{equation}
+%	\hat{E}_{q,T} = \arg \min_E \norm { E}_{l_1} \text{ subject to } \tilde Y = Q_2^\top E
+%	\label{eq:solve_E}
+%\end{equation}
+%\textcolor{black}{Note that the $l_0$-minimization problem can be approximated by an $l_1$-minimization problem to give a convex decoder that is computationally feasible. Motivated by the problem of finding sparse decompositions of special signals in the field of mathematical signal processing, a series of studies \cite{tao11}-\!\cite{Tropp11} showed exact equivalence between the two programs $l_0$ and $l_1$ when the Restricted Isometry Property conditions are satisfied. For more information on the equivalence between the $l_1$-minimization problem and the $l_0$-minimization problem, we refer the reader to \cite{tao11}-\!\cite{Tropp11}.}
+%
+%
+%
+%
+%%Clearly, this is a reasonable assumption if $(p\cdot T-n) \ge 2q\cdot T$.
+%
+%Now, given the vector $\hat{E}_{q,T}$, we can compute $x(0)$ from the first block row of (\ref{eq:QR}) as follows:
+%\begin{equation}
+%	x(0) = R_1^{-1} Q_1^\top (Y- \hat{E}_{q,T})
+%	\label{eq:QR1}
+%\end{equation}
+%The following lemma provides the conditions under which the solution to (\ref{eq:QR1}) exists and is unique.
+%%\textcolor{black}{Specifically, does Lemma 2 need a citation?} \textcolor{green}{I think we need a citation here}\textcolor{black}{This is a result proved in [11], is it OK to just cite [11] or do we need any other citations?}
+%\begin{lem} \label{lem:EC}
+%	$x(0) $ is the unique solution if all subsets of $2s$ columns of $Q_2 ^\top$ are linearly independent and $\Phi$ is full column rank. %Also, this condition is equivalent to $\| \Phi z \|_0 > 2s$ %$\lvert \textsf{supp}( \Phi z) \rvert > 2 s = 2 (q\cdot T)$
+%%for all $z \in \mathbb{R}^n \backslash \{ 0 \}$.
+%\end{lem}
+%\begin{pf}
+%By Lemma \ref{lem:CS} and noting that by definition the null space of $Q_2^\top$ equals the column space of $\Phi$. %For the second statement, we would like to show that the following are equivalent: \\
+%\end{pf}\qed
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{chapters/se_power/nonlinear_estimation.tex}
+\input{chapters/se_power/application.tex}
+\input{chapters/se_power/example.tex}
+
+
+
+\section{Conclusion}
+\textcolor{black}{We propose a secure state estimator for two classes of nonlinear dynamical systems. We then focus on the wide area control of power systems, and develop an estimator for dynamic states in power systems under cyber-physical attacks and communication failures. Finally, we numerically show that the performance of the cyber layer in power systems can be significantly improved by using our estimator.} \textcolor{black}{One possible direction for future research is reducing the computational complexity of the secure state estimators. Note that the computational complexity increases with the time index. Therefore, computing an exact solution to the $l_1$-minimization problem in a recursive way can significantly reduce the time required to obtain a new estimate.}
+
+
+%
+%\begin{thebibliography}{00}
+%
+%\bibitem{cps1} F. Pasqualetti, F. Dorfler, and F. Bullo, ``Control-Theoretic Methods for Cyber-physical Security: Geometric Principles for Optimal Cross-Layer Resilient Control Systems," {\em in IEEE Control Systems}, vol. 35, no. 1, pp. 110--127, Feb. 2015.
+%
+%
+%\bibitem{security_0} S. Sridhar, A. Hahn, and M. Govindarasu, ``Cyber-Physical System Security for the Electric Power Grid," {\em in Proceedings of the IEEE}, vol. 100, no. 1, pp. 210--224, Jan. 2012
+%
+%\bibitem{comm_net_1} X. Wang and P. Yi, ``Security framework for wireless communications
+%in smart distribution grid," {\em IEEE Trans. on Smart Grid}, vol. 2, no. 4, pp. 809--818, Dec. 2011.
+%
+%\bibitem{comm_net_2} Y. Zhang, L. Wang, W. Sun, R. Green, and M. Alam, ``Distributed intrusion
+%detection system in a multi-layer network architecture of smart
+%grids," {\em IEEE Trans. on Smart Grid}, vol. 2, no. 4, pp. 796--808, Dec. 2011.
+%
+%\bibitem{comm_net_3} H. Li, L. Lai, and W. Zhang, ``Communication requirement for reliable
+%and secure state estimation and control in smart grid," {\em IEEE Trans. on Smart
+%Grid}, vol. 2, no. 3, pp. 476--486, Sep. 2011.
+%
+%\bibitem{comm_net_4} Q. Li and G. Cao, ``Multicast authentication in the smart grid with onetime
+%signature," {\em IEEE Trans. on Smart Grid}, vol. 2, no. 4, pp. 686--696,
+%Dec. 2011.
+%
+%\bibitem{comm_early_1} C. Alcaraz, C. Fernandez-Gago, and J. Lopez, ``An early warning system based on reputation for energy control systems," {\em IEEE Trans. on Smart Grid},
+%vol. 2, no. 4, pp. 827--834, Dec. 2011.
+%
+%\bibitem{comm_early_2} C. W. Ten, J. Hong, and C. C. Liu, ``Anomaly detection for cybersecurity
+%of the substations," {\em IEEE Trans. on Smart Grid}, vol. 2, no. 4, pp. 865--873,
+%Dec. 2011.
+%
+%
+%\bibitem{ctrl_sec8} H. Fawzi, P. Tabuada, and S. Diggavi, ``Secure estimation and control for
+%cyber-physical systems under adversarial attacks," {\em IEEE Trans. on Automatic Control}, vol. 59, no. 6, pp. 1454--1467, June 2014.
+%
+%
+%\bibitem{new2} Y. Shoukry and P. Tabuada, ``Event-Triggered State Observers for Sparse Sensor Noise/Attacks," {\em IEEE Trans. on Automatic Control}, no. 99, pp. 1--13, 2015.
+%
+%
+%\bibitem{new3} S. Mishra, N. Karamchandani, P. Tabuada, and S. Diggavi, ``Secure state estimation and control using multiple (insecure) observers," {\em 53rd IEEE Conference on Decision and Control}, pp. 1620--1625, 2014.
+%
+%
+%
+%\bibitem{new4} M. S. Chong, M. Wakaiki, and J. P. Hespanha, ``Observability of linear systems under adversarial attacks," {\em in American Control Conference}, pp. 2439--2444, 2015.
+%
+%\bibitem{ctrl_sec9}  Q. Hu, Y. H. Chang,  and C. J. Tomlin, ``Secure Estimation for Unmanned Aerial Vehicles (UAVs) against Adversarial Attacks" International Council of the Aeronautical Sciences (ICAS), 2016.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\bibitem{new5} Y. Shoukry, P. Nuzzo, A. Puggelli, A. L. Sangiovanni-Vincentelli, S. A.
+%Seshia, and P. Tabuada, ``Secure state estimation for cyber physical
+%systems under sensor attacks: a satisfiability modulo theory approach,"
+%arXiv pre-print, Dec. 2014.
+%
+%
+%\bibitem{new6} M. Pajic, J. Weimer, N. Bezzo, P. Tabuada, O. Sokolsky, I. Lee,
+%and G. Pappas, ``Robustness of attack-resilient state estimators," {\em in
+%ACM/IEEE International Conference on Cyber-Physical Systems (ICCPS)}, 2014.
+%
+%\bibitem{new7} Y. Mo and B. Sinopoli, ``Secure control against replay attacks," {\em in
+%Allerton Conference on Communication, Control, and Computing}, 2009.
+%
+%\bibitem{new8} C.-Z. Bai and V. Gupta, ``On Kalman filtering in the presence of a
+%compromised sensor: fundamental performance bounds," {\em in American
+%Control Conference (ACC)}, 2014.
+%
+%\bibitem{new9} J. Mattingley and S. Boyd, ``Real-time convex optimization in signal
+%processing," {\em IEEE Signal Processing Magazine}, vol. 27, no. 3, pp. 50–-61, May 2010.
+%
+%\bibitem{new10} S. Farahmand, G. B. Giannakis, and D. Angelosante, ``Doubly robust
+%smoothing of dynamical processes via outlier sparsity constraints," {\em IEEE
+%Trans. on Signal Processing}, vol. 59, no. 10, pp. 4529-–4543, Oct. 2011.
+%
+%\bibitem{Kundur} P. Kundur, \emph{Power System Stability and Control}. McGraw-Hill, 1994.
+%
+%\bibitem{nonlin_est} S. Wang, W. Gao, and A. P. S. Meliopoulos, ``An alternative method for power system dynamic state estimation based on unscented transform,"
+%{\em IEEE Trans. on Power Systems}, vol. 27, no. 2, pp. 942--950, May 2012.
+%
+%\bibitem{kundur_time} S. Liu, B. Chen, T. Zourntos, D. Kundur, and K. Butler-Purry, ``A Coordinated Multi-Switch Attack for Cascading Failures in Smart Grid," {\em IEEE Trans. on Smart Grid}, vol. 5, no. 3, pp. 1183--1195, May 2014.
+%
+%
+%\bibitem{shoukry} Y. Shoukry, P. Nuzzo, N. Bezzo, A. L. Sangiovanni-Vincentelli, S. A. Seshia, and P. Tabuada, ``A satisfiability modulo theory approach to secure state reconstruction in differentially flat systems under sensor attacks,'' {\em arXiv:1509.03262v1}, Sep. 2015.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%
+%
+%\bibitem{pmu_w_0} A. Chakrabortty and P. Khargonekar, ``Introduction to Wide-Area Control of Power Systems," {\em in Proc. of American Control Conference}, pp. 6758â€“-6770, 2013.
+%
+%
+%\bibitem{pmu_w_1} Y. Liu \textit{et al.}, ``A US-wide power systems frequency monitoring network,"
+%{\em in Proc. IEEE PES General Meeting}, pp. 1914--1921, Jun. 2006.
+%
+%
+%\bibitem{pmu_w_3} A. R. Messina, V. Vittal, D. Ruiz-Vega, and G. Enriquez-Harper,
+%``Interpretation and visualization of wide-area PMU measurements
+%using Hilbert analysis," {\em IEEE Trans. on Power Systems}, vol. 21, no. 4, pp.
+%1760--1771, 2006.
+%
+%\bibitem{wacs_ref8} M. R. Younis, and R. Iravani, ``Wide-area damping control for inter-area oscillations: A comprehensive review," {\em Electrical Power \& Energy Conference (EPEC)}, pp. 1--6, Aug. 2013.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\bibitem{ref_v11} G. K. Gharban, and B. J. Cory, ``Non-linear dynamic power system state estimation," {\em IEEE Trans. on Power Systems}, vol. 1, no. 3, pp. 276--283, 1986.
+%
+%\bibitem{ref_v12} H. M. Beides, and G. T. Heydt, ``Dynamic state estimation of power system harmonics using Kalman filter methodology," {\em IEEE Trans. on
+%Power Delivery}, vol. 6, no. 4, pp. 1663--1670, Oct. 1991.
+%
+%\bibitem{ref_v13} L. Zhao, and A. Abur, ``Multiarea state estimation using synchronized phasor measurement," {\em IEEE Trans. on Power Systems}, vol. 20, no. 2, pp.
+%611--617, May 2005.
+%
+%\bibitem{ref_v14} K. Shih, and S. Huang, ``Application of a robust algorithm for dynamic state estimation of a power system," {\em IEEE Trans. on Power Systems}, vol. 17,
+%no. 1, pp. 141--147, Feb. 2002.
+%
+%\bibitem{ref_v15} J. Amit and N. R. Shivakumar, ``Impact of PMU in dynamic state estimation of power systems," {\em in Proc. 40th North American Power Symp.},
+%Calgary, AB, Canada, Sept. 28--30, 2008.
+%
+%
+%\bibitem{ref_v16} Z. Huang, K. Schneider, and J. Nieplocha, ``Feasibility studies of applying Kalman filter techniques to power system dynamic state estimation,"
+%{\em in Proc. 8th Int. Power Engineering Conf.}, pp. 376--382, 2007.
+%
+%
+%\bibitem{ref_v1} J. M. Hendrickx, K. H. Johansson, R. M. Jungers, H. Sandberg, and K. C. Sou, ``Efficient computations
+%of a security index for false data attacks in power networks," {\em IEEE Trans. on Automatic Control}, vol. 59, no. 12,
+%3194--3208, 2014.
+%
+%\bibitem{ref_v2} O. Kosut, L. Jia, R. J. Thomas, and L. Tong, ``Malicious data attacks on the smart grid," {\em IEEE
+%Trans. on Smart Grid}, vol. 2, no. 4, 645--658, 2011.
+%
+%\bibitem{Candes_Tao} E. Candes, J. Romberg, and T. Tao, ``Stable Signal Recovery from Incomplete and Inaccurate Measurements," Communications on pure and applied mathematics, vol. 59, no. 8, pp. 1207--1223, 2006.
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%\bibitem{David_Chang2} D. Hayden, Y. H. Chang, J. Goncalves, and C. Tomlin, ``Sparse network identifiability via Compressed Sensing," {\em Automatica}, vol. 68, pp. 9--17, Jun. 2016.
+%
+%\bibitem{tao11} E. J. Candes, and T. Tao, ``Decoding by linear programming," {\em IEEE Trans. on Information Theory}, vol. 51, no. 12, pp. 4203--4215, Dec. 2005.
+%
+%\bibitem{david11} D. L. Donoho, and M. Elad, ``Optimally sparse representation in general (nonorthogonal) dictionaries via $l_1$ minimization," {\em in Proc. National Academy of Sciences}, pp. 2197--2202, 2003.
+%
+%
+%\bibitem{Michael11}  M. Elad, and A. M. Bruckstein, ``A generalized uncertainty principle and sparse representation in pairs of bases," {\em IEEE Trans. on Information Theory}, vol. 48, no. 9, pp. 2558--2567, 2002.
+%
+%\bibitem{Gribonval11} R. Gribonval, and M. Nielsen, ``Sparse representations in unions of bases," {\em IEEE Trans. on Information Theory}, vol. 49, no. 12, pp. 3320--3325, 2003.
+%
+%\bibitem{Tropp11} J.A. Tropp, ``Greed is good: algorithmic results for sparse approximation," {\em IEEE Trans. on Information Theory}, vol. 50, no. 10, pp. 2231--2242, 2004.
+%
+%
+%
+%
+%\bibitem{facts_storage2} A. Farraj, E. Hammad, and D. Kundur, ``A Cyber-Enabled Stabilizing Control Scheme for Resilient Smart Grid Systems," {\em IEEE Trans. on Smart Grid}, no. 99, pp. 1--10, 2015.
+%
+%\bibitem{facts_storage21} A. Farraj, E. Hammad, and D. Kundur, ``On the Use of Energy Storage Systems and Linear Feedback Optimal Control for Transient Stability," {\em IEEE Trans. on Industrial Informatics}, no. 99, pp. 1-1, 2016.
+%
+%\bibitem{nerc} Available at \url{http://www.nerc.com/pa/Stand/Pages/CIPStandards.aspx}
+%
+%
+%
+%\bibitem{kron} F. Dorfler, and F. Bullo, ``Kron reduction of graphs with applications to electrical networks," {\em IEEE Trans. on Circuits \& Systems I: Regular Papers},
+%vol. 60, no. 1, pp. 150-–163, Jan 2013.
+%
+%\bibitem{new_england1} T. Athay, R. Podmore, and S. Virmani, ``A Practical Method for the
+%Direct Analysis of Transient Stability," {\em IEEE Trans. on Power
+%Apparatus and Systems}, vol. 98, pp. 573--584, 1979.
+%
+%\bibitem{new_england2} B. Pal and B. Chaudhuri, {\em Robust Control in Power Systems}. Power
+%Electronics and Power Systems Series, Springer, 2006.
+%
+%% NEW ADD
+%
+%\end{thebibliography}
+%
+

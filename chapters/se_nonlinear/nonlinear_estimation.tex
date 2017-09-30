@@ -1,0 +1,97 @@
+% !TEX root = ../../thesis.tex
+\subsection{Secure Estimation for Nonlinear Systems}\label{sec:nonlinear_estimation}
+Consider a nonlinear dynamical system given by
+\begin{equation}\label{eq:sys_dynamics}
+\begin{aligned}
+	x(k+1) &= A x (k) + f\big(x(k),e(k)\big) + u(k) \\
+	y(k) &= C x(k) + e(k)
+\end{aligned}
+\end{equation}
+where $x(k)\in \mathbb{R}^n$ represents the state at time $k\in
+\mathbb{N}$, $A \in \mathbb{R}^{n\times n}$, $f(x(k),e(k)): \mathbb{R}^n \times \mathbb{R}^p \rightarrow \mathbb{R}^n$ represent the system's dynamics, and $u(k) \in \mathbb{R}^n$ is a control input. $C \in \mathbb{R}^{p\times n}$ is the sensors' measurement matrix, $y(k) \in \mathbb{R}^p$ are the corrupted measurements at time $k\in\mathbb{N}$, and $e(k)\in \mathbb{R}^p$ represents attack signals injected by malicious agents at the sensors. \textcolor{black}{In general, at each time instant, the system dynamics can be a function of the received measurements $y(k)$ as well as the state of the system $x(k)$. Since $y(k)$ can be expressed as a function of $x(k)$ and $e(k)$ using the measurement equation, we consider $f(x(k),e(k))$ to be a function of both $x(k)$ and $e(k)$.}
+
+
+
+Our goal is to reconstruct $x(k)$ in (\ref{eq:sys_dynamics}) by using the received measurements. Here, we do not assume the errors $e(k)$ follow any particular model. More precisely, the $i$-th element of $e(k)$ can take any value in $\mathbb{R}$. However, if sensor $i\in \{1,2,\cdots,p\}$ is not attacked, then necessarily the $i$-th element of $e(k)$ is zero. \textcolor{black}{The only assumption concerning the corrupted sensors is the number of sensors that are attacked or corrupted due to failures. Our analytical results characterize the number of errors that can be corrected by a decoder.}
+
+
+Next, we focus on the problem of reconstructing state $x(k)$ for two classes of nonlinear systems. %\textcolor{black}
+
+%\vspace{-0.2cm}
+\subsection{Existence of Mapping Function with Error Correction}\label{map_1}
+Let us assume that there exists a mapping function $g\big(y(k)\big): \mathbb{R}^p \rightarrow \mathbb{R}^n$ such that
+\begin{equation}\label{eq:mapping1}
+g\big(y(k)\big)=f\big(x(k),e(k)\big)~
+\end{equation}
+The mapping function $g\big(y(k)\big)$ enables us to transform the nonlinear system in (\ref{eq:sys_dynamics}) into a linear system for which the error correction technique introduced in Section \ref{sec:review} can be used to reconstruct the initial state $x(0)$. To do so, we first use (\ref{eq:sys_dynamics}) and (\ref{eq:mapping1}) to obtain $g\big(y(k)\big)=x(k+1)-A x(k)-u(k)$ for all $k$. We then construct a vector $Y$ as follows:
+\begin{equation}\label{map_1_error_correction}
+\begin{aligned}
+	Y&=\begin{bmatrix} y(0) \\ y(1) - C \big(g(y(0))+ u(0)\big)  \\
+	y(2) - C \big( A g(y(0)) + A u(0) + g(y(1) ) + u(1) \big) \\ \vdots   \\
+	y(T-1) - C \big(A^{T-2} g(y(0)) + A^{T-2} u(0) + \cdots \big) \end{bmatrix}
+	\\&= \begin{bmatrix} C \\ CA \\ CA^2 \\  \vdots \\ CA^{T-1}  \end{bmatrix} x(0) + \begin{bmatrix} e(0) \\ e(1) \\ e(2) \\ \vdots  \\ e(T-1)\end{bmatrix} = \Phi x(0) + E
+\end{aligned}
+\end{equation}
+where $E=[e(0);e(1);\cdots;e(T-1)]\in \mathbb{R}^{p \cdot T}$ is the set of error vectors, and $\Phi=[C;CA;CA^2;\cdots;CA^{T-1}]$.
+%\sout {\textcolor{black}{In order to reconstruct $x(0)$, we need to have $\text{rank}(\Phi) = n$; otherwise, we cannot determine $x(0)$ even if there were no attack.}
+%\textcolor{black}{This may sound like $\text{rank}(\Phi) = n$ is the only condition needed to reconstruct $x(0)$?}}
+
+We can now apply the error correction technique introduced in the previous section to the linear system in (\ref{map_1_error_correction}). While the proposed technique enables us to reconstruct the initial state $x(0)$ from a set of corrupted measurements, it might not always be possible to find such a mapping function. Next, we focus on a larger class of nonlinear systems, and use feedback linearization to transform the nonlinear system in (\ref{eq:sys_dynamics}) into a linear system.
+
+
+
+%\vspace{-0.2cm}
+\subsection{Feedback Linearization}
+Let us assume that there exist mapping functions $g\big(y(k)\big)$ and $h_1\big(x(k)\big)$ (which are not necessarily linear), and a linear map $h_2\big(e(k)\big)$ such that:
+\begin{equation}\label{eq:form_feedback}
+f\big(x(k),e(k)\big)= g\big(y(k)\big) + h_1\big(x(k)\big) + h_2\big(e(k)\big)	
+\end{equation}
+where $g\big(y(k)\big): \mathbb{R}^p \rightarrow \mathbb{R}^n$, $h_1\big(x(k)\big): \mathbb{R}^n \rightarrow \mathbb{R}^n$, and $h_2\big(e(k)\big): \mathbb{R}^p \rightarrow \mathbb{R}^n$ are non-zero.
+%Since we have a local feedback loop, we can consider a new input variable
+Without loss of generality, we can choose the control input $u(k)$ such that $u(k)=-h_1 \big(x(k) \big)+v(k)$. \noindent \textcolor{black}{Note that the specific form of our control input does not mean that we cannot use the estimator in control applications. Here, $v(k)$ allows us to choose our control strategy in the desired way (e.g., LQG control).} By using this control input, we cancel out the nonlinear term $h_1\big(x(k)\big)$, and obtain:
+\begin{equation}
+\begin{aligned}
+	g\big(y(k)\big) &= x(k+1) - A x(k) - v(k) - h_2\big(e(k)\big).\nonumber
+\end{aligned}
+\end{equation}
+We can now construct a vector $Y$ as follows:
+\begin{equation}
+\begin{aligned}
+	Y=&\begin{bmatrix} y(0) \\ y(1) - C \big(g(y(0)) + v(0) \big) \\
+	y(2) - C \big( A g(y(0)) + Av(0)  + g(y(1))  + v(1) \big)\\ \vdots \\ y(T-1) - C \big(A^{T-2} g(y(0)) + A^{T-2} v(0) + \cdots \big) \end{bmatrix}  \\
+	=&~\Phi x(0) +
+	\begin{bmatrix} 0 \\ C h_2 \big(e(0) \big) \\ C A h_2 \big(e(0) \big) + C h_2 \big(e(1) \big)  \\ \vdots  \\ C A^{T-2} h_2 \big(e(0) \big)  \cdots \end{bmatrix}
+\end{aligned}
+\end{equation}
+Note that $h_2(\cdot)$ is a linear map (i.e., $h_2 \big(e(k) \big) = H e(k)$ where $H \in \mathbb{R}^{n \times p }$). Hence, we obtain:
+\begin{equation}\label{linear_feed}
+\begin{aligned}
+Y &= \Phi x(0) + \Psi E
+\end{aligned}
+\end{equation}
+where matrices $\Phi \in \mathbb{R}^{p\cdot T \times n}$ and $\Psi \in \mathbb{R}^{p\cdot T \times p\cdot T}$ are as follows:
+\begin{equation}
+\begin{aligned}
+\Phi=\begin{bmatrix} C \\ CA \\ CA^2 \\ \vdots \\ CA^{T-1} \end{bmatrix},
+\Psi = \begin{bmatrix} I & & & &   \\
+CH & I & & \\
+CAH & CH & I & \\
+\ddots & \ddots  &  \ddots &  \ddots & \\
+CA^{T-2} H & \cdots & \cdots & \cdots & I
+\end{bmatrix}.\nonumber
+\end{aligned}
+\end{equation}
+We can now apply the error correction method introduced in Section \ref{sec:review} to the linearized system in (\ref{linear_feed}) and reconstruct $x(0)$ if the condition in Lemma \ref{lem:EC} is satisfied.
+
+
+
+\begin{remark}
+(Measurement Noise) In practice, the measurements are noisy so one cannot assume that the $Ax$ term in (\ref{eq:CS}) is known with arbitrary precision. More appropriately, we need to assume that one is given noisy measurement, i.e., $b = Ax + \epsilon$, where $\epsilon$ represents measurement noise. In \cite{Candes_Tao}, the authors prove that one can recover approximately sparse signals with an error at most proportional to the noise level. Alternatively, one can combine secure estimation with a KF to improve the secure estimator's performance for noisy measurements \cite{ctrl_sec9}: the KF filters out both occasional estimation errors by the secure estimator and noisy measurements.
+\end{remark}
+
+
+In this study, we focus on sensor attack within a noiseless framework. Next, we consider an interconnected power system with several synchronous generators, and illustrate how the proposed nonlinear state estimation approach can be applied for secure state estimation of dynamic states (i.e., generator' phase angles and rotors' speeds).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

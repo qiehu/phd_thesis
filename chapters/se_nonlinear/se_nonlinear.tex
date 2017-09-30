@@ -1,0 +1,23 @@
+\documentclass[../../thesis.tex]{subfiles}
+ 
+
+ 
+\begin{document}
+
+%\input{chapters/se_power/main}
+
+
+%\begin{abstract}
+%\textcolor{black}{We focus on securely estimating the state of a nonlinear dynamical system from a set of corrupted measurements for two classes of nonlinear systems, and propose a technique which enables us to perform secure state estimation for those systems. We then illustrate how the proposed nonlinear secure state estimation technique \textcolor{black}{can be used to perform estimation} in the cyber layer of interconnected power systems under cyber-physical attacks and communication failures. In particular, we focus on an interconnected power system comprising several synchronous generators, transmission lines, loads, and energy storage units, and propose a secure estimator that allows us to securely estimate the dynamic states of the power network. Finally, we numerically demonstrate the effectiveness of the proposed secure estimation algorithm, and show that the algorithm enables the cyber layer to accurately reconstruct the attack signals.}
+%\end{abstract}
+
+\input{chapters/se_nonlinear/introduction.tex}
+\input{chapters/se_nonlinear/nonlinear_estimation.tex}
+\input{chapters/se_nonlinear/application.tex}
+\input{chapters/se_nonlinear/example.tex}
+
+\section{Conclusion}
+We propose a secure state estimator for two classes of nonlinear dynamical systems. We then focus on the wide area control of power systems, and develop an estimator for dynamic states in power systems under cyber-physical attacks and communication failures. Finally, we numerically show that the performance of the cyber layer in power systems can be significantly improved by using our estimator. One possible direction for future research is reducing the computational complexity of the secure state estimators. Note that the computational complexity increases with the time index. Therefore, computing an exact solution to the $l_1$-minimization problem in a recursive way can significantly reduce the time required to obtain a new estimate.
+
+
+\end{document}

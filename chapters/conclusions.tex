@@ -1,0 +1,44 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% introduction.tex (part of thesis.tex)
+% author: Qie Hu
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% !TEX root = ../thesis.tex
+
+\documentclass[../thesis.tex]{subfiles}
+\begin{document}
+
+\section{Contributions and Organization}
+
+In this paper, we experimentally demonstrate that VAV HVAC systems can be controlled to provide frequency regulation using a commercial building in regular operation.
+Our contributions are three-fold:
+
+First, we propose a procedure to identify a linear data-driven model of the HVAC system, that is easy to implement with the building in regular operation. 
+Our model describes the temperature evolution of multiple building zones and is amenable to control design.
+In addition, the model explicitly captures internal gains such as occupancy without the need for additional instrumentation such as carbon dioxide sensors.
+
+Second, we aim to improve existing frequency regulation control algorithms.
+%proposed in \cite{Vrettos:2016flexlab1}.
+Unlike the frequency tracking controller in \cite{Vrettos:2016flexlab1}, which relies on an accurate supply fan model, we propose a controller that is suitable when the building is subject to larger disturbances and/or modeling uncertainties. 
+%Our method also differs from \cite{Lin:2015exp} by computing the regulation capacities and baseline consumption at the beginning of each regulation period.
+
+Finally, on the experimental side, as far as we know, this is the first report where an occupied commercial building equipped with a VAV HVAC system successfully provides frequency regulation.
+Experiments are conducted in accordance with Pennsylvania, New Jersey, Maryland's (PJM) certification test (40 minute duration) and tracking requirements (over multiple hours), using historical PJM regulation signals.  
+Good tracking performance was achieved despite large disturbances such as occupancy and the use of a simple building model, which demonstrates the robustness of our method to uncertainties.
+
+This paper is organized as follows. We first briefly describe the building where experiments are conducted and our control scheme in Section \ref{sec:problem_statement}. Then, Section \ref{sec:model_id} presents the data-driven identification method for the building and fan models, followed by Section \ref{sec:control}, which describes the controller design in detail. Section \ref{sec:results} then demonstrates the performance our controller through extensive field experiment results.
+Finally, Section \ref{sec:conclusions} concludes.
+%The paper concludes with the experimental results %and a discussion on the economic potential of utilizing commercial buildings for frequency regulation 
+%and conclusions in Sections \ref{sec:results} and \ref{sec:conclusions}.
+
+
+\end{document}
+
+
+
+
+
+
+
+

@@ -48,228 +48,49 @@
 \newcommand{\tab}{\hspace{5mm}}
 \newcommand{\blankpage}{\clearpage ~ \newpage}
 
-  
-% UTM stuff
-\newcommand{\pos}{p} % position
-\newcommand{\Pos}{\bar{p}} % a particular position (or desired position}
-\newcommand{\vel}{v} % velocity
-\newcommand{\Vel}{\bar{v}} % a particular position (or desired position}
-\newcommand{\hw}{\mathbb{H}} % a single highway
-\newcommand{\hws}{\mathbb{S}} % a sequence of highways
-\newcommand{\hwd}{\hat{d}}
-\newcommand{\cost}[1]{c_\text{#1}}
-\newcommand{\wpt}{\mathcal{W}}
-\newcommand{\cmap}{c}
-\newcommand{\ccost}{C}
-\newcommand{\ppath}{\mathbb{P}}
-\newcommand{\ocost}{V}
-
-\newcommand{\sepdist}{d_\text{sep}} % separation distance
-
-\newcommand{\td}{t_\text{faulty}} % time to descend
-\newcommand{\veh}[1]{Q_{#1}}
-\newcommand{\vehSCS}[1]{\mathcal{Q}_{#1}} % vehicle safety check set
-
-% Approx Decomp
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\xset}{\mathcal{X}}
-\newcommand{\yset}{\mathcal{Y}}
-\newcommand{\xfset}{\mathbb{X}}
-\newcommand{\yfset}{\mathbb{Y}}
-\newcommand{\cset}{\mathcal{U}}
-\newcommand{\cfset}{\mathbb{U}}
-\newcommand{\dset}{\mathcal{D}}
-\newcommand{\dfset}{\mathbb{D}}
-\newcommand{\reachset}{\mathcal{V}}
-\newcommand{\targetset}{\mathcal{L}}
-
-
-% NNET
-\newcommand{\ttr}{\phi}
-\newcommand{\lvf}{\phi}
-\newcommand{\ham}{H}
-\newcommand{\state}{z}
-
-\newcommand{\ctrl}{u}
-\newcommand{\dyn}{f}
-\newcommand{\traj}{\xi}
-\newcommand{\idyn}{g}
-\newcommand{\fset}{\mathbb F}
-
-\newcommand{\ctime}{\tau}
-\newcommand{\rect}{\psi}
-\newcommand{\weights}{\mathbb W}
-\newcommand{\keep}{A}
-\newcommand{\dataset}{\mathcal D}
-\newcommand{\trainset}{\mathcal X}
-\newcommand{\emax}{M_\epsilon} % number of samples to take in epsilon ball
-\newcommand{\ips}{\iter_\text{ps}} % iteration for prune-switch
-\newcommand{\imax}{\iter_\text{max}} % maximum # of iterations
-\newcommand{\smax}{M_\text{max}} % maximum # of states near bar x
-\newcommand{\controlset}{\mathcal V}
-\newcommand{\Epsilon}{\mathcal E}
-\newcommand{\iter}{\text{iter}}
-\newcommand{\costset}{\mathcal X_C}
-
-% Decomposition
-\newcommand{\scstate}{x} % subsystem state
-\newcommand{\scctrl}{w} % subsystem control
-\newcommand{\spart}{\state} % state partition
-\newcommand{\cpart}{\ctrl} % control partition
-
-\newcommand{\cpset}{\cset}
-\newcommand{\cpfset}{\cfset}
-\newcommand{\sccset}{\mathcal W}
-\newcommand{\sccfset}{\mathbb W}
-
-\newcommand{\dstb}{d} % disturbance
-\newcommand{\dpart}{\dstb} % disturbance
-\newcommand{\scdstb}{b}
-
-\newcommand{\genset}{\mathcal{S}}
-\newcommand{\zset}{\mathcal{Z}}
-
-\newcommand{\proj}{\text{proj}}
-\newcommand{\bp}{\proj^{-1}}
-
-\newcommand{\fdyn}{f} % full dynamics
-\newcommand{\scdyn}{g} % self-contained dynamics
-\newcommand{\sctraj}{\xi}
-
-\newcommand{\valfunc}{V} % value function
-\newcommand{\scvf}{\valfunc^\text{SC}} % self-contained value function
-\newcommand{\fc}{l} % Final condition
-\newcommand{\ic}{l} % Initial condition
-
-\newcommand{\scham}{\ham^\text{SC}} % self-contained Hamiltonian
-\newcommand{\minbrs}{\mathcal A} % minimal backward reachable set
-\newcommand{\maxbrs}{\mathcal R} % maximal backward reachable set
-\newcommand{\minbrt}{\bar\minbrs} % minimal backward reachable tube
-\newcommand{\maxbrt}{\bar\maxbrs} % maximal backward reachable tube
-\newcommand{\sctarget}[1]{\targetset_{#1}}
-
-% FaSTrack
-\newcommand{\pcset}{\mathcal{U}_p} %planner control set
-\newcommand{\pcfset}{\mathbb{U}_p} %planner control function set
-\newcommand{\tcset}{\mathcal{U}_s} %tracker control set
-\newcommand{\tcfset}{\mathbb{U}_s} %tracker control funciton set
-
-
-\newcommand{\pset}{\mathcal{P}} %planner set set
-\newcommand{\tset}{\mathcal{S}} %tracker set
-\newcommand{\rset}{\mathcal{R}}
-
-\newcommand{\tvar}{t}
-\newcommand{\thor}{T} % Time horizon
-
-\newcommand{\tstate}{s} % Tracker state
-\newcommand{\pstate}{p} % Planner state
-\newcommand{\rstate}{r} % Relative state
-
-
-\newcommand{\ttraj}{\xi_{\tdyn}} % Tracker trajectory
-\newcommand{\ptraj}{\xi_{\pdyn}} %Planner trajectory
-\newcommand{\rtraj}{\xi_\rdyn}
-
-\newcommand{\senseDist}{m}
-
-
-\newcommand{\tctrl}{u_s} % Tracker control
-
-\newcommand{\pctrl}{u_p} % Planner control
-
-\newcommand{\tdyn}{f} % Tracker dynamics
-\newcommand{\pdyn}{h} % Planner Dynamics
-\newcommand{\rdyn}{g} % Relative dynamics
-
-\newcommand{\plannerfunc}{j}
-
-\newcommand{\ptind}{i} % Index of vehicle state corresponding to planner state
-\newcommand{\ptmat}{Q} % Matrix for transforming planner state to the same length as tracker state
-\newcommand{\tpmat}{Q^T}
-
-\newcommand{\errfunc}{l} % Error function
-
-
-\newcommand{\deriv}{\nabla\valfunc} %gradient look-up table
-
-\newcommand{\dx}{\Delta x} %distance allowed in a time step
-\newcommand{\dt}{\Delta t} %time step
-
-\newcommand{\obsSense}{\mathcal{O}_{sense}}
-\newcommand{\obsAug}{\mathcal{O}_{aug}}
-
-\newcommand{\TEB}{\mathcal B} % tracking error bound
-
-%% STP
-\newcommand{\dist}{\text{dist}} % Distance
-\newcommand{\rc}{R_c} % Capture radius
-\newcommand{\cradius}{\rc}
-\newcommand{\N}{N} % number of agents
-
-
-\newcommand{\intr}{I} % Intruder index
-
-\newcommand{\npos}{h} % non-position states
-
-
-\newcommand{\errstate}{e}
-
-\newcommand{\obsset}{\mathcal{G}} % Obstacle (the one used to solve PDE)
-\newcommand{\dz}{\mathcal{Z}} % danger zone
-\newcommand{\sep}{\mathcal{S}} % Separation region
-\newcommand{\buff}{\mathcal{B}} % Buffer region
-
-
-\newcommand{\valfuncfwd}{W} % value function for forwards reachable set
-\newcommand{\brs}{\mathcal{V}} % backwards reachable set
-\newcommand{\frs}{\mathcal{W}} % forwards reachable set
-\newcommand{\pfrs}{\mathcal{P}} % projected forwards reachable set
-
-\newcommand{\obsfunc}{g} % Obstacle function
-\newcommand{\costate}{\lambda}
-
-\newcommand{\disckernel}{\Omega} % Discriminating kernel
-
-\newcommand{\edt}{t^\text{EDT}} % earliest departure time
-\newcommand{\ldt}{t^\text{LDT}} % latest departure time
-\newcommand{\sta}{t^\text{STA}} % scheduled time of arrival
-\newcommand{\ioset}{\mathcal{O}} % Induced obstacle
-\newcommand{\boset}{\mathcal{M}} % Base obstacle
-\newcommand{\sosetp}{\mathcal{S}} % static obstacle in position space
-\newcommand{\soset}{\ioset^\text{static}} % static obstacle in state space
-\newcommand{\iat}{t^\text{IAT}} % intruder avoidance time
-\newcommand{\wcttr}{t^\text{WC}} % worst case TTR
-
-\newcommand{\basicham}{\ham^\text{basic}}
-
-\newcommand{\tsa}{\underline{t}} % time of start of avoidance
-\newcommand{\tea}{\bar{t}} % time of end of avoidance
-\newcommand{\nva}{\bar{k}} % Number of Vehicles to Avoid (NVA)
-\newcommand{\brd}{t^\text{BRD}} % Buffer Region Duration (BRD)
-\newcommand{\trd}{t^\text{RD}} % Remaining Duration (RD)
-\newcommand{\rvs}{\mathcal{N}^\text{RP}} % Re-Planning Vehicle Set
-\newcommand{\dsen}{d^\text{A}} % Sensing distance
-\newcommand{\avoidt}{\mathcal{A}} % Set of all avoid times
-
-\newcommand{\errorbound}{\mathcal{E}} % Error ``bubble" between vehicle and tracking reference
-\newcommand{\tracklaw}{\kappa} % Robust tracking law
-
-% Exact decomp
-\newtheorem{assumption}{Assumption}
-%\newtheorem{alg}{Algorithm}
-\newtheorem{remark}{Remark}
-\newtheorem{observation}{Observation}
-
-\newtheorem{claim}{Claim}
-\newtheorem{prop}{Proposition}
-\newtheorem{proof}{Proof}
-\newtheorem{rem}{Remark}
-\newtheorem{defn}{Definition}
-\newtheorem{thm}{Theorem}
 \newtheorem{lem}{Lemma}
+\newtheorem{remark}{Remark}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{result}{Result}
+\newtheorem{claim}{Claim}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{assumption}{Assumption}[section]
 
-\newtheorem{cor}{Corollary}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+\DeclareMathOperator*{\argmax}{\arg\!\max}
+
+% SE for linear systems
+\usepackage{epsfig}
+\usepackage{marvosym}
+\usepackage{soul}
+\usepackage{xcolor}
+\usepackage{epstopdf}
+\usepackage{cancel}
+\usepackage{pifont}
+\usepackage{url}
+%\usepackage{amsthm}
+
+% SE for nonlinear power systems
+\usepackage{steinmetz}
+
+\newcommand*{\dt}[1]{%
+\newcommand{\pf} {{\textit{Proof :}}}
+%\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+\allowdisplaybreaks
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+ \accentset{\mbox{\large\bfseries .}}{#1}}
+%\renewcommand{\baselinestretch}{0.96}
+%\newcommand*{\suchthat}{\;\ifnum\currentgrouptype=16 \middle\fi|\;}
+
+
+
+
+
+
+
 
 \pagestyle{headings}
 % ========================================= DOCUMENT
@@ -322,6 +143,7 @@
 \copyrightpage
 \abstract
 Automation is becoming pervasive in everyday life, and many automated systems, such as unmanned aerial systems, autonomous cars, and many types of robots, are complex and safety-critical. Formal verification tools are essential for providing performance and safety guarantees for these systems. In particular, reachability analysis has previously been successfully applied to small scale control systems with general nonlinear dynamics under the influence of disturbances. Its exponentially scaling computational complexity, however, makes analyzing more complex, large scale systems intractable. Alleviating computation burden is in general a primary challenge in formal verification.
+%$\norm{x}_0$ 
 
 This thesis presents ways to tackle this ``curse of dimensionality'' from multiple fronts, bringing tractable verification of complex, practical systems such as unmanned aerial systems, autonomous cars and robots, and biological systems closer to reality. The theoretical contributions pertain to Hamilton-Jacobi (HJ) reachability analysis, with applications to unmanned aerial system. In addition, this thesis also explores two frontiers of HJ reachability by combining the formal guarantees of reachability with the computational advantages of optimization and machine learning, and with fast motion planning algorithms commonly used in robotics. The potential and benefits of the theoretical advances are demonstrated in numerous practical applications.
 
@@ -359,18 +181,20 @@ First, I would like to express special appreciation ...
 % CHAPTERS
 
 \begin{dissertationText}
-\chapter{Introduction}
-	\subfile{chapters/introduction}
-%\chapter{Background}~\label{chapter:background}
-%	\subfile{chapters/background}
-\chapter{Frequency Regulation from Commercial Buildings}
-	\subfile{chapters/frequency_regulation}
-%\chapter{System Decomposition}
-%  \subfile{chapters/system_decomposition}
-%\chapter{Frontiers in HJ Reachability Verification}
-%  \subfile{chapters/frontiers}
-%\chapter{Conclusions and Future Work \label{chapter:conc}}
-%  \subfile{chapters/conc}
+\chapter{Introduction \label{chapter:intro}}
+%	\subfile{chapters/introduction}
+\chapter{Mathematical Modeling of Commercial Buildings' HVAC Systems \label{chapter:building_model}}
+	\subfile{chapters/building_model/building_model.tex}
+\chapter{Experimental Demonstration of Frequency Regulation from Commercial Buildings \label{chapter:building_exp}}
+%	\subfile{chapters/building_exp/building_exp.tex}
+\chapter{Secure Estimation for Linear Systems under Cyber Attacks \label{chapter:se_linear}}
+%	\subfile{chapters/se_linear/se_linear.tex}
+\chapter{Secure Estimation for Nonlinear Power Systems under Cyber Attacks \label{chapter:se_nonlinear}}
+%	\subfile{chapters/se_nonlinear/se_nonlinear.tex}
+\chapter{Conclusions and Future Work \label{chapter:conclusions}}
+%  \subfile{chapters/conclusions.tex}
+
+
 
 \ssp	% SINGLE SPACE REFERENCES (optional)
 \bibliographystyle{plain}
