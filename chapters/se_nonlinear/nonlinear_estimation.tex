@@ -86,7 +86,7 @@ We can now apply the error correction method introduced in Section \ref{sec:revi
 
 
 \begin{remark}
-(Measurement Noise) In practice, the measurements are noisy so one cannot assume that the $Ax$ term in (\ref{eq:CS}) is known with arbitrary precision. More appropriately, we need to assume that one is given noisy measurement, i.e., $b = Ax + \epsilon$, where $\epsilon$ represents measurement noise. In \cite{Candes_Tao}, the authors prove that one can recover approximately sparse signals with an error at most proportional to the noise level. Alternatively, one can combine secure estimation with a KF to improve the secure estimator's performance for noisy measurements \cite{ctrl_sec9}: the KF filters out both occasional estimation errors by the secure estimator and noisy measurements.
+(Measurement Noise) In practice, the measurements are noisy so one cannot assume that the $Ax$ term in (\ref{eq:CS}) is known with arbitrary precision. More appropriately, we need to assume that one is given noisy measurement, i.e., $b = Ax + \epsilon$, where $\epsilon$ represents measurement noise. In \cite{Candes_Tao}, the authors prove that one can recover approximately sparse signals with an error at most proportional to the noise level. Alternatively, one can combine secure estimation with a KF to improve the secure estimator's performance for noisy measurements \cite{Hu:2016uav}: the KF filters out both occasional estimation errors by the secure estimator and noisy measurements.
 \end{remark}
 
 
