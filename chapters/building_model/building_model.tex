@@ -11,6 +11,28 @@
 %We conclude that data-driven models could serve as a substitution for highly complex physics-based models with an insignificant loss of prediction accuracy for many applications.
 %\end{abstract}
 
+Commercial buildings are responsible for a large fraction of energy consumption in developed countries, and therefore are targets of energy efficiency programs. 
+%The inter-temporal consumption flexibility of buildings can be harnessed to improve the energy efficiency of buildings, or to provide ancillary service to the power grid.
+The large inherent thermal inertia of buildings means that its power consumption can be flexibly scheduled without compromising occupant comfort. 
+This temporal flexibility offers opportunities for energy savings and the provision of frequency regulation to support grid stability. 
+ 
+
+%There are a number of desirable features of a building model. 
+%First, the model should be identified using actual experimental data and capture realistic disturbances, such as internal gains. 
+%Second, multi-zone models may quantify buildings' electricity consumption flexibility more precisely.
+%For instance, multi-zone models enable the design of controllers that allow the temperature of a room to fluctuate when it is unoccupied, hence achieving energy savings which are not possible when simplified models that approximate the building as a single zone are used.
+%Third, not too computationally expensive.
+To realize these goals, it is of prime importance to identify a realistic model for the temperature dynamics of a building.
+Such a model should be identified using actual experimental data and capture realistic disturbances. 
+In addition, it should describe the building's temperature evolution with suitable accuracy and spatial granularity, without being too computationally expensive.
+However, there are many challenges in identifying such a building model. 
+First, buildings often have different types of spaces that are subject to very different uncertainties. 
+Second, disturbances such as occupancy are difficult to capture. 
+Third, buildings are often not sufficiently excited, as they must satisfy strict regulatory requirements during regular operation, which limit the type and duration of excitation experiments that can be conducted.  
+
+In this chapter, we present two methods for the identification of a building model: a physics-based method and a data-driven method. 
+We use both techniques to identify building models for the same testbed using experimental data collected from the building, and quantitatively compare the models using various metrics, including open-loop prediction accuracy and closed loop control strategies. 
+
 
 \input{chapters/building_model/introduction.tex}
 \input{chapters/building_model/preliminaries.tex}

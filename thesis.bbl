@@ -1,33 +1,27 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{100}
 
-\bibitem{darksky}
+\bibitem{comm_early_1}
+Cristina Alcaraz, Carmen Fernandez-Gago, and Javier Lopez.
+\newblock An early warning system based on reputation for energy control
+  systems.
+\newblock {\em IEEE Transactions on Smart Grid}, 2(4):827--834, 2011.
 
-
-\bibitem{:ab}
-{PV Performance Modeling Collaborative}.
-
-\bibitem{:ac}
-{sMAP: The Simple Measurement and Actuation Profile}.
-
-\bibitem{:aa}
-{U.S. Department of Energy Buildings Energy Data Book}.
-
-\bibitem{VAV}
-{Commercial Buildings Energy Consumption Survey (CBECS): Overview of Commercial
-  Buildings, 2003}.
-\newblock Technical report, {Energy Information Administration, U.S. Department
-  of Energy}, 2008.
-
-\bibitem{SolarRad}
-{CIMIS Station Reports}.
-\newblock Technical report, California Irrigation Management Information
-  System, 2015.
+\bibitem{Amazon}
+Amazon.
+\newblock {A}mazon {P}rime {A}ir.
+\newblock \url{http://www.amazon.com/b?node=8037720011}.
 
 \bibitem{Aswani:2012aa}
 Anil Aswani, Neal Master, Jay Taneja, Virginia Smith, Andrew Krioukov, David
   Culler, and Claire Tomlin.
 \newblock {Identifying Models of HVAC Systems Using Semiparametric Regression}.
 \newblock {\em American Control Conference}, 2012.
+
+\bibitem{new_england1}
+T.~Athay, R.~Podmore, and S.~Virmani.
+\newblock A practical method for the direct analysis of transient stability.
+\newblock {\em IEEE Transactions on Power Apparatus and Systems}, 98:573--584,
+  1979.
 
 \bibitem{Baccino:2014aa}
 F.~Baccino, F.~Conte, S.~Massucco, F.~Silvestro, and S.~Grillo.
@@ -42,18 +36,73 @@ Maximilian Balandat, Frauke Oldewurtel, Mo~Chen, and Claire Tomlin.
 \newblock {\em 52nd Annual Allerton Conference on Communication, Control, and
   Computing}, 2014.
 
+\bibitem{Blanke}
+Mogens Blanke, Michel Kinnaert, Jan Lunze, and Marcel Staroswiecki.
+\newblock {\em Diagnosis and fault-tolerant control}.
+\newblock Springer, Berlin, Germany, 2nd edition, 2006.
+
+\bibitem{Bouffard}
+Patrick Bouffard.
+\newblock On-board model predictive control of a quadrotor helicopter: Design,
+  implementation, and experiments.
+\newblock Technical Report UCB/EECS-2012-241, University of California
+  Berkeley, December 2012.
+
 \bibitem{Braun:2012}
 James Braun, Donghun Kim, Miroslav Baric, Pengfei Li, Satish Narayanan, Shui
   Yuan, Eugene Cliff, John Burns, and Bill Henshaw.
-\newblock {Whole Building Control System Design and Evaluation:
-  Simulation-Based Assessment}.
+\newblock {Whole building control system design and evaluation:
+  simulation-based assessment}.
 \newblock Technical report, {GPIC Energy Efficient Buildings Hub}, 2012.
+
+\bibitem{Candes_Tao}
+Emmanuel Candes, Justin Romberg, and Terence Tao.
+\newblock Stable signal recovery from incomplete and inaccurate measurements.
+\newblock {\em Communications on Pure and Applied Mathematics},
+  59(8):1207--1223, 2006.
+
+\bibitem{tao11}
+Emmanuel Candes and Terence Tao.
+\newblock Decoding by linear programming.
+\newblock {\em IEEE Transactions on Information Theory}, 51(12):4203--4215,
+  2005.
+
+\bibitem{Sastry}
+Alvaro~A Cardenas, Saurabh Amin, and Shankar Sastry.
+\newblock Secure control: towards survivable cyber-physical systems.
+\newblock {\em 28th international conference on distributed computing systems
+  workshop}, pages 495--500, June 2008.
+
+\bibitem{pmu_w_0}
+Aranya Chakrabortty and Pramod Khargonekar.
+\newblock Introduction to wide-area control of power systems.
+\newblock {\em Proceedings of American Control Conference}, 2013.
+
+\bibitem{new4}
+Michelle Chong, Masashi Wakaiki, and Joao Hespanha.
+\newblock Observability of linear systems under adversarial attack.
+\newblock {\em American Control Conference}, 2015.
+
+\bibitem{chong2016characterising}
+Michelle~S Chong and Margreta Kuijper.
+\newblock Characterising the vulnerability of linear control systems under
+  sensor attacks using a system's security index.
+\newblock In {\em Decision and Control (CDC), 2016 IEEE 55th Conference on},
+  pages 5906--5911. IEEE, 2016.
 
 \bibitem{Cole:2013aa}
 Wesley~J. Cole, Elaine~T. Hale, and Thomas~F. Edgar.
 \newblock {Building Energy Model Reduction for Model Predictive Control Using
   OpenStudio}.
 \newblock {\em American Control Conference}, 2013.
+
+\bibitem{smap}
+Stephen Dawson-Haggerty, Xiaofan Jiang, Gilman Tolle, Jorge Ortiz, and David
+  Culler.
+\newblock {SMAP - A Simple Measurement and Actuation Profile for Physical
+  Information}.
+\newblock {\em Proceedings of the 8th International Conference on Embedded
+  Networked Sensor Systems (SenSys)}, 2010.
 
 \bibitem{Dawson-Haggerty:2012aa}
 Stephen Dawson-Haggerty, Andrew Krioukov, and David~E. Culler.
@@ -65,10 +114,37 @@ Justin~R. Dobbs.
 \newblock {A Comparison of Thermal Zone Aggregation Methods}.
 \newblock {\em 51st Conference on Decision and Control}, 2012.
 
+\bibitem{Donoho2003}
+David~L. Donoho and Michael Elad.
+\newblock Optimally sparse representation in general (nonorthogonal)
+  dictionaries via $l_1$ minimization.
+\newblock {\em Proc. Natl. Acad. Sci.}, pages 2197--2202, 2003.
+
+\bibitem{kron}
+Florian Dorfler and Francesco Bullo.
+\newblock Kron reduction of graphs with applications to electrical networks.
+\newblock {\em IEEE Transactions on Circuits and Systems I: Regular Papers},
+  pages 150--163, 2012.
+
 \bibitem{Duffy:2009aa}
 M.~Duffy, M.~Hiller, D.~Bradley, W.~Keilholz, and J.~Thornton.
 \newblock {TRNSYS - Features and Functionality for Building Simulation}.
 \newblock {\em IBSPA Conference}, pages 1950 -- 1954, 2009.
+
+\bibitem{Elad2002}
+Michael Elad and Alfred~M. Bruckstein.
+\newblock A generalized uncertainty principle and sparse representation in
+  pairs of $r^n$ bases.
+\newblock {\em Information Theory, IEEE Transactions on}, 48(9):2558--2567,
+  2002.
+
+\bibitem{faa}
+FAA.
+\newblock Press release -- {DOT} and {FAA} propose new rules for small unmanned
+  aircraft systems.
+\newblock
+  \url{http://www.faa.gov/news/press_releases/news_story.cfm/?newsId=18295}.
+\newblock Accessed: 2015-02-15.
 
 \bibitem{Fabietti:2016exp}
 Luca Fabietti, Tomasz~T. Gorecki, Faran~A. Qureshi, Altug Bitlislioglu, Ioannis
@@ -77,23 +153,105 @@ Luca Fabietti, Tomasz~T. Gorecki, Faran~A. Qureshi, Altug Bitlislioglu, Ioannis
   Commercial Buildings}.
 \newblock {\em IEEE Transactions on Smart Grid}, 2016.
 
+\bibitem{new10}
+Shahrokh Farahmand, Georgios Giannakis, and Daniele Angelosante.
+\newblock Doubly robust smoothing of dynamical processes via outlier sparsity
+  constraints.
+\newblock {\em IEEE Transactions on Signal Processing}, 59(10):4529--4543,
+  2011.
+
+\bibitem{facts_storage2}
+Abdallah Farraj, Eman Hammad, and Deepa Kundur.
+\newblock A cyber-enabled stabilizing control scheme for resilient smart grid
+  systems.
+\newblock {\em IEEE Transactions on Smart Grid}, 7(4), 2015.
+
+\bibitem{facts_storage21}
+Abdallah Farraj, Eman Hammad, and Deepa Kundur.
+\newblock On the use of energy storage systems and linear feedback optimal
+  control for transient stability.
+\newblock {\em IEEE Transactions on Industrial Informatics}, 13(4), 2017.
+
+\bibitem{Fawzi:2014}
+Hamza Fawzi, Paulo Tabuada, and Suhas Diggavi.
+\newblock Secure estimation and control for cyber-physical systems under
+  adversarial attacks.
+\newblock {\em IEEE Transactions on Automatic Control}, 59(6):1454--1467, 2014.
+
+\bibitem{Pappas}
+Miao Fei, Miroslav Pajic, and George~J. Pappas.
+\newblock Stochastic game approach for replay attack detection.
+\newblock {\em 52nd IEEE Conference on Decision and Control}, pages 1854 --
+  1859, December 2013.
+
+\bibitem{ref_v11}
+C.K. Gharban and Brian~John Cory.
+\newblock Non-linear dynamic power system state estimation.
+\newblock {\em IEEE Transactions on Power Systems}, 1(3):276--283, 1986.
+
+\bibitem{ghena2014traffic}
+Branden Ghena, William Beyer, Allen Hillaker, Jonathan Pevarnek, and Alex~J.
+  Halderman.
+\newblock Green lights forever: analyzing the security of traffic
+  infrastructure.
+\newblock {\em Proceedings of the 8th {USENIX} workshop on offensive
+  technologies}, August 2014.
+
+\bibitem{Gligor}
+Virgil~D. Gligor.
+\newblock A note on denial-of-service in operating systems.
+\newblock {\em IEEE Transactions on Software Engineering}, 10(3):320 -- 324,
+  May 1984.
+
+\bibitem{QRdecomp}
+Colin~R Goodall.
+\newblock Computation using the qr decomposition.
+\newblock {\em Handbook of statistics}, 9:467--508, 1993.
+
+\bibitem{Google}
+Google.
+\newblock {G}oogle project wing.
+\newblock
+  \url{http://www.theatlantic.com/technology/archive/2014/08/inside-googles-secret-drone-delivery-program/379306/?single_page=true}.
+\newblock Accessed: 2014-08-28.
+
 \bibitem{Gorecki:2017exp}
 Tomasz~T. Gorecki, Luca Fabietti, Faran~A. Qureshi, and Colin~N. Jones.
 \newblock {Experimental Demonstration of Buildings Providing Frequency
   Regulation Services in the Swiss Market}.
 \newblock {\em Energy and Buildings}, 144:229--240, 2017.
 
-\bibitem{Goyal:2012aa}
+\bibitem{Goyal:2012modelreduction}
 Siddharth Goyal and Prabir Barooah.
 \newblock {A Method for Model-Reduction of Nonlinear Thermal Dynamics of
   Multi-Zone Buildings}.
-\newblock {\em Energy and Buildings}, (47):332--340, 2012.
+\newblock {\em Energy and Buildings}, 47:332--340, 2012.
 
-\bibitem{Goyal:2013aa}
+\bibitem{Goyal:2013occupancy}
 Siddharth Goyal, Herbert~A. Ingley, and Prabir Barooah.
 \newblock {Occupancy-Based Zone-Climate Control for Energy-Efficient Buildings:
   Complexity vs. Performance}.
-\newblock {\em Applied Energy}, (106):209--221, 2013.
+\newblock {\em Applied Energy}, 106:209--221, 2013.
+
+\bibitem{Gribonval11}
+R.~Gribonval and M.~Nielsen.
+\newblock Sparse representations in unions of bases.
+\newblock {\em IEEE Transactions on Information Theory}, 49(12):3320--3325,
+  2003.
+
+\bibitem{Walrand}
+Assane Gueye, Vladimir Marbukh, and Jean~C. Walrand.
+\newblock Towards a metric for communication network vulnerability to attacks:
+  A game theoretic approach.
+\newblock {\em 3rd International ICST Conference on Game Theory for Networks},
+  May 2012.
+
+\bibitem{Basar}
+Abhishek Gupta, Cedric Langbort, and Tamer Basar.
+\newblock Optimal control in the presence of an intelligent jammer with limited
+  actions.
+\newblock {\em 49th IEEE Conference on Decision and Control}, pages 1096 --
+  1101, December 2010.
 
 \bibitem{Hansen:2013aa}
 Shirley~J. Hansen and H.E. Burroughs.
@@ -104,7 +262,7 @@ Shirley~J. Hansen and H.E. Burroughs.
 H.~Hao, A.~Kowli, Y.~Lin, P.~Barroah, and S.~Meyn.
 \newblock {Ancillary Service for the Grid via Control of Commercial Building
   HVAC Systems}.
-\newblock {\em American Control Conference}, (467-472), June 2013.
+\newblock {\em American Control Conference}, June 2013.
 
 \bibitem{Hao:2014fan}
 He~Hao, Yashen Lin, Anupama~S. Kowli, Prabir Barooah, and Sean Meyn.
@@ -124,23 +282,83 @@ Wolfgang H{\"a}rdle, Hua Liang, and Jiti Gao.
 \newblock {\em {Partially Linear Models}}.
 \newblock Springer, 2000.
 
+\bibitem{David_Chang}
+David Hayden, Young~Hwan Chang, Jorge Goncalves, and Claire Tomlin.
+\newblock Sparse network identifiability via compressed sensing.
+\newblock {\em Automatica}, 68:9--17, 2016.
+
+\bibitem{ref_v1}
+Julien Hendrickx, Karl~H. Johansson, Raphawl Jungers, Henrik Sanberg, and
+  Kin~Cheong Sou.
+\newblock Efficient computations of a security index for false data attacks in
+  power networks.
+\newblock {\em IEEE Transactions on Automatic Control}, 59(12):3194--3208,
+  2014.
+
 \bibitem{Qie}
 Q.~Hu, F.~Oldewurtel, M.~Balandat, E.~Vrettos, D.~Zhou, and C.J. Tomlin.
 \newblock {Model Identification of Commercial Building HVAC Systems During
   Regular Operation - Empirical Results and Challenges}.
-\newblock {\em American Control Conference (Accepted)}, 2016.
+\newblock {\em American Control Conference}, 2016.
+
+\bibitem{Hu:2016uav}
+Qie Hu, Young~Hwan Chang, and Claire Tomlin.
+\newblock Secure estimation for unmanned aerial vehicles against adversarial
+  cyber attacks.
+\newblock {\em The 30th Congress of the International Council of the
+  Aeronautical Sciences}, 2016.
+
+\bibitem{ref_v16}
+Zhenyu Huang, Kevin Schneider, and Jarek Nieplocha.
+\newblock Feasibility studies of applying kalman filter techniques to power
+  system dynamic state estimation.
+\newblock {\em Proceedings of the 8th International Power Engineering
+  Conference}, 2007.
 
 \bibitem{Lofberg:2004yalmip}
 {Johan L\"ofberg}.
-\newblock {YALMIP: a Toolbox for Modeling and Optimization in MATLAB}.
+\newblock {YALMIP: a toolbox for modeling and optimization in MATLAB}.
 \newblock {\em IEEE International Symposium on Computer Aided Control Systems
   Design}, pages 284--289, 2004.
+
+\bibitem{kim2012cyber}
+Kyoung-Dae Kim and Panganamala~R Kumar.
+\newblock Cyber--physical systems: A perspective at the centennial.
+\newblock {\em Proceedings of the IEEE}, 100(Special Centennial
+  Issue):1287--1308, 2012.
 
 \bibitem{Koehler:2013aa}
 S.~Koehler and Francesco Borrelli.
 \newblock {Building Temperature Distributed Control via Explicit MPC and ``Trim
   and Respond'' Methods}.
 \newblock {\em European Control Conference}, 2013.
+
+\bibitem{Tong}
+Oliver Kosut, Liyan Jia, Robert Thomas, and Lang Tong.
+\newblock Malicious data attacks on the smart grid.
+\newblock {\em IEEE Transactions on Smart Grid}, 2(4):645--658, 2011.
+
+\bibitem{Kundur}
+Prabha Kundur.
+\newblock {\em Power System Stability and Control}.
+\newblock McGraw-Hill, 1994.
+
+\bibitem{KwonCDC}
+Cheolhyeon Kwon and Inseok Hwang.
+\newblock Hybrid robust controller design: Cyber attack attenuation for
+  cyber-physical systems.
+\newblock {\em 52nd IEEE Conference on Decision and Control}, 2013.
+
+\bibitem{KwonACC}
+Cheolhyeon Kwon, Weiyi Liu, and Inseok Hwang.
+\newblock Security analysis for cyber-physical systems against stealthy
+  deception attacks.
+\newblock {\em American Control Conference}, 2013.
+
+\bibitem{comm_net_4}
+Qinghua Li and Guohong Cao.
+\newblock Multicast authentication in the smart grid with onetime signature.
+\newblock {\em IEEE Transactions on Smart Grid}, 2(4):686--696, 2011.
 
 \bibitem{Lin:2013chiller}
 Yashen Lin, Prabir Barooah, and Sean Meyn.
@@ -153,6 +371,24 @@ Yashen Lin, Prabir Barooah, Sean Meyn, and Timothy Middelkoop.
 \newblock {Experimental Evaluation of Frequency Regulation From Commercial
   Building HVAC Systems}.
 \newblock {\em IEEE Transactions on Smart Grid}, 6(2), 2015.
+
+\bibitem{liu2014coordinated}
+Shan Liu, Bo~Chen, Takis Zourntos, Deepa Kundur, and Karen Butler-Purry.
+\newblock A coordinated multi-switch attack for cascading failures in smart
+  grid.
+\newblock {\em IEEE Transactions on Smart Grid}, 5(3):1183--1195, 2014.
+
+\bibitem{liu2011false}
+Yao Liu, Peng Ning, and Michael~K. Reiter.
+\newblock False data injection attacks against state estimation in electric
+  power grids.
+\newblock {\em ACM Transactions on Information and System Security}, 14(13),
+  May 2011.
+
+\bibitem{darksky}
+The Dark Sky~Company LLC.
+\newblock {The Dark Sky Database}.
+\newblock \url{www.darksky.net}, 2017.
 
 \bibitem{Ma:2011aa}
 Yudong Ma, Garrett Anderson, and Francesco Borrelli.
@@ -179,11 +415,46 @@ Jason MacDonald, Sila Kilicote, Jim Boch, Johathan Chen, and Robert Nawy.
 \newblock {Commercial Building Loads Providing Ancillary Services in PJM}.
 \newblock {\em ACEEE Summer Study on Energy Efficiency in Buildings}, 2014.
 
+\bibitem{Liu}
+Kebina Manandhar, Xiaojun Cao, Fei Hu, and Yao Liu.
+\newblock Combating false data injection attacks in smart grid using kalman
+  filter.
+\newblock {\em International Conference on Computing, Networking and
+  Communications}, pages 16--20, February 2014.
+
+\bibitem{Basar2}
+Mohammad~Hossein Manshaei, Quanyan Zhu, Tansu Alpcan, Tamer Basar, and
+  Jean-Pierre Hubaux.
+\newblock Game theory meets network security and privacy.
+\newblock {\em ACM Computing Surveys}, 45(3), June 2013.
+
+\bibitem{Willsky}
+Mohammad-Ali Massoumnia, George~C. Verghese, and Alan~S. Willsky.
+\newblock Failure detection and identification.
+\newblock {\em IEEE Transactions on Automatic Control}, 34(3):316--321, March
+  1989.
+
 \bibitem{Hvac_book}
 John~W. Mitchell and James~E. Braun.
 \newblock {\em {Principles of Heating, Ventilation and Air Conditioning in
   Buildings}}.
 \newblock Wiley, 2012.
+
+\bibitem{Mo}
+Yilin Mo and Bruno Sinopoli.
+\newblock False data injection attacks in control systems.
+\newblock {\em Preprints of the 1st Workshop on Secure Control Systems}, 2010.
+
+\bibitem{nerc}
+North American Electric Reliability~Corporation (NERC).
+\newblock {Critical Infrastructure Protection}.
+\newblock \url{http://www.nerc.com/pa/Stand/Pages/CIPStandards.aspx}, 2017.
+
+\bibitem{SolarRad}
+California~Department of~Water~Resources.
+\newblock {California Irrigation Management Information System (CIMIS) Station
+  Reports}.
+\newblock \url{http://www.cimis.water.ca.gov/}, 2015.
 
 \bibitem{Moderncontrol_book}
 Katsuhiko Ogata.
@@ -196,25 +467,46 @@ Forward~Market Operations.
   Operations}}.
 \newblock PJM, 83 edition, July 2016.
 
+\bibitem{Pajic:2014}
+Miroslav Pajic, James Weimer, Nicola Bezzo, Paulo Tabuada, Oleg Sokolsky, Insup
+  Lee, and George Pappas.
+\newblock Robustness of attack-resilient state estimators.
+\newblock {\em ACM/IEEE International Conference on Cyber-Physical Systems
+  (ICCPS)}, 2014.
+
+\bibitem{new_england2}
+Bikash Pal and Balarko Chaudhuri.
+\newblock {\em Robust Control in Power Systems}.
+\newblock Springer, 2006.
+
 \bibitem{Parisio:2014aa}
 Alessandra Parisio, Luca Fabietti, Marco Molinari, Damiano Varagnolo, and
   Karl~H. Johansson.
 \newblock {Control of HVAC Systems via Scenario-Based Explicit MPC}.
 \newblock {\em IEEE Conference on Decision and Control}, 2014.
 
+\bibitem{Bullo}
+Fabio Pasqualetti, Florian Dorfler, and Francesco Bullo.
+\newblock Cyber-physical attacks in power networks: models, fundamental
+  limitations and monitor design.
+\newblock {\em 50th IEEE conference on decision and control and european
+  control conference}, pages 2195 -- 2201, December 2011.
+
+\bibitem{cps1}
+Fabio Pasqualetti, Florian Dorfler, and Francesco Bullo.
+\newblock Control-theoretic methods for cyber-physical security: Geometric
+  principles for optimal cross-layer resilient control systems.
+\newblock {\em IEEE Control Systems}, 35(1):110--127, 2015.
+
 \bibitem{Perez-Lombard:2008aa}
 Luis P{\'e}rez-Lombard, Jos{\'e} Ortiz, and Christine Pout.
 \newblock {A Review on Buildings Energy Consumption Information}.
-\newblock {\em Energy and Buildings}, (40):394--398, 2008.
+\newblock {\em Energy and Buildings}, 40(3):394--398, 2008.
 
 \bibitem{PJM12}
 Chris Pilong.
 \newblock {\em PJM Manual 12: Balancing Operations}.
 \newblock PJM, 34 edition, April 2016.
-
-\bibitem{PJM_signal_price}
-{PJM Ancillary Services}.
-\newblock {Ancillary Services}.
 
 \bibitem{Radecki:2012aa}
 Peter Radecki and Brandon Hencey.
@@ -228,16 +520,57 @@ Peter Radecki and Brandon Hencey.
   Buildings}.
 \newblock {\em 52nd Conference on Decision and Control}, 2013.
 
+\bibitem{Wu}
+Sankardas Roy, Charles Ellis, Sajjan Shiva, Dipankar Dasgupta, Vive Shandilya,
+  and Qishi Wu.
+\newblock A survey of game theory as applied to network security.
+\newblock {\em 43rd Hawaii International Conference on System Sciences}, 2010.
+
 \bibitem{Ruppert:2003aa}
 David Ruppert, M.P. Wand, and R.J. Carroll.
 \newblock {\em {Semiparametric Regression}}.
 \newblock Cambridge University Press, 2003.
+
+\bibitem{PJM_signal_price}
+PJM~Ancillary Services.
+\newblock {Ancillary Services}.
+\newblock {\em http://www.pjm.com/markets-and-operations/}, 2017.
+
+\bibitem{shoukry2016smt}
+Yasser Shoukry, Michelle Chong, Masashi Wakaiki, Pierluigi Nuzzo, Alberto~L
+  Sangiovanni-Vincentelli, Sanjit~A Seshia, Jo{\~a}o~P Hespanha, and Paulo
+  Tabuada.
+\newblock {SMT}-based observer design for cyber-physical systems under sensor
+  attacks.
+\newblock {\em International Conference on Cyber-Physical Systems}, 2016.
+
+\bibitem{shoukry}
+Yasser Shoukry, Pierluigi Nuzzo, Nicola Bezzo, Alberto Sangiovanni-Vincentelli,
+  Sanjit Seshia, and Paulo Tabuada.
+\newblock Secure state reconstruction in differentially flat systems under
+  sensor attacks.
+\newblock {\em IEEE 54th Annual Conference on Decision and Control}, 2015.
+
+\bibitem{new2}
+Yasser Shoukry and Paulo Tabuada.
+\newblock Event-triggered state observers for sparse sensor noise/attacks.
+\newblock {\em IEEE Transactions on Automatic Control}, 61(8):2079--2091, 2015.
 
 \bibitem{Siroky:2011aa}
 Jan {\v S}iroky, Frauke Oldewurtel, Jir{\'\i} Cigler, and Samuel Pr{\'\i}vera.
 \newblock {Experimental Analysis of Model Predictive Control for an Energy
   Efficient Building Heating System}.
 \newblock {\em Applied Energy}, 88:3079--3087, 2011.
+
+\bibitem{security_0}
+Siddharth Sridhar, Adam Hahn, and Manimaran Govindarasu.
+\newblock Cyber-physical system security for the electric power grid.
+\newblock {\em Proceedings of the IEEE}, 100(1):210--224, 2012.
+
+\bibitem{pv_model}
+Joshua~S. Stein.
+\newblock {The Photovoltaic Performance Modeling Collaborative (PVPMC)}.
+\newblock {\em 38th IEEE Photovoltaic Specialists Conference (PVSC)}, 2012.
 
 \bibitem{David}
 D.~Sturzenegger, D.~Gyalistras, M.~Morari, and R.S. Smith.
@@ -252,10 +585,36 @@ B.~Sun, P.B. Luh, Q.S. Jia, Z.~Jiang, F.~Wang, and C.~Song.
 \newblock {\em {IEEE Transactions on Automation Science and Engineering}},
   2012.
 
-\bibitem{USenergy:2013}
+\bibitem{teixeira2010cyber}
+Andre Teixeira, Saurabh Amin, Henrik Sandberg, Karl~H. Johansson, and Shankar
+  Sastry.
+\newblock Cyber security analysis of state estimators in electric power
+  systems.
+\newblock {\em 49th IEEE Conference on Decision and Control}, pages 5991 --
+  5998, December 2010.
+
+\bibitem{comm_early_2}
+Chee-Wooi Ten, Junho Hong, and Chen-Ching Liu.
+\newblock Anomaly detection for cybersecurity of the substations.
+\newblock {\em IEEE Transactions on Smart Grid}, 2(4):865--873, 2011.
+
+\bibitem{Tropp2004}
+Joel Tropp.
+\newblock Greed is good: algorithmic results for sparse approximation.
+\newblock {\em IEEE Transactions on Information Theory}, 50(10):2231--2242,
+  2004.
+
+\bibitem{VAV}
+{U.E. Energy Information Administration}.
+\newblock {Commercial Buildings Energy Consumption Survey (CBECS)}.
+\newblock \url{http://www.eia.doe.gov/emeu/cbecs/cbecs2003/overview1.html},
+  2012.
+
+\bibitem{USenergy:2017}
 {US Energy Information Administration}.
-\newblock {The Annual Energy Outlook 2013}.
-\newblock Technical report, US Energy Information Administration, 2013.
+\newblock {The Annual Energy Outlook 2017}.
+\newblock Technical report, {US Energy Information Administration}, January
+  2017.
 
 \bibitem{Vrettos:2016flexlab2}
 Evangelos Vrettos, Emre~C. Kara, Jason MacDonald, Goran Andersson, and Duncan
@@ -278,6 +637,18 @@ Evangelos Vrettos, Frauke Oldewurtel, Fengtian Zhu, and Goran Andersson.
 \newblock {\em Proceedings of the 19th IFAC World Congress}, pages 12068 --
   12073, 2014.
 
+\bibitem{nonlin_est}
+Shaobu Wang, Wenzhong Gao, and A.P.~Sakis Meliopoulos.
+\newblock An alternative method for power system dynamic state estimation based
+  on unscented transform.
+\newblock {\em IEEE Transactions on Power Systems}, 27(2):942--950, 2012.
+
+\bibitem{wacs_ref8}
+Mohamed~Ramadan Younis and Reza Iravani.
+\newblock Wide-area damping control for inter-area oscillations: A
+  comprehensive review.
+\newblock {\em Electrical Power and Energy Conference (EPEC)}, 2013.
+
 \bibitem{Zhao2013EP}
 Jie Zhao, Khee~Poh Lam, and B.~Erik Ydstie.
 \newblock {EnergyPlus} model-based predictive control {(EPMPC)} by using
@@ -295,6 +666,11 @@ Peng Zhao, Gregor~P. Henze, Sandro Plamp, and Vincent~J. Cushing.
 Datong Zhou, Qie Hu, and Claire Tomlin.
 \newblock {Model Comparison of a Data-Driven and a Physical Model for
   Simulating HVAC Systems}.
-\newblock {\em The 2017 American Control Conference}, 2017.
+\newblock {\em American Control Conference}, 2017.
+
+\bibitem{Zhou_Doyle}
+Kemin Zhou and John~C. Doyle.
+\newblock {\em Essentials of Robust Control}.
+\newblock Prentice-Hall, Englewood, Cliffs, NJ, USA, 1998.
 
 \end{thebibliography}
