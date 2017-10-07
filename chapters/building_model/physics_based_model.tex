@@ -2,9 +2,13 @@
 
 \section{Physics-Based Model} \label{sec:Physics_Based_Model}
 
-In this section, we describe the physics-based modeling approach proposed in \cite{Qie}, which is a Resistance-Capacitance (RC) model obtained using the Building Resistance-Capacitance Modeling (BRCM) MATLAB toolbox \cite{David}. 
-%A main advantage of this approach is that the resulting model has a small number of parameters, even for a complex multi-zone building; furthermore, these parameters have strong physical meaning, which aids in their identification. 
-In this paper, we re-identify the building model using the same training dataset as used in Section \ref{sec:Data_Driven_Model}, and estimate distinct internal gains functions for different seasons.
+In this section, we identify a difference equation for the temperature evolution using the Resistance-Capacitance (RC)  modeling method, via the Building Resistance-Capacitance Modeling (BRCM) MATLAB toolbox \cite{David}. 
+To derive an RC building model, we first decompose the building into building elements (BE), such as the bulk volume of air in each room, walls, floors and ceilings. 
+An electric analogy can then be used to obtain an equivalent electrical circuit whose resistances and capacitances represent thermal resistances and thermal capacitances of the BEs, and voltages and currents represent temperatures of BEs and heat transfers between those. 
+With this equivalent electrical circuit in hand, the thermal dynamic model can be obtained by applying Ohm's law and Kirchhoff's circuit laws on this equivalent circuit.
+The resulting building model is bilinear in nature, due to the physics of the HVAC system.
+%The same dataset used to train the data-driven model in Section \ref{sec:Data_Driven_Model} is used to identify the physics-based model. 
+%In this paper, we re-identify the building model using the same training dataset as used in Section \ref{sec:Data_Driven_Model}, and estimate distinct internal gains functions for different seasons.
 
 %We derive a physics-based model using the Building Resistance-Capacitance Modeling (BRCM) MATLAB toolbox developed at ETH Zurich \cite{David}, which derives an RC model for a building using its geometry and construction data. 
 
@@ -14,6 +18,7 @@ In this paper, we re-identify the building model using the same training dataset
 %%%%%%%%%%%%%%%
 \subsection{Model Setup}\label{sec:physics_model}
 
+%Details of the derivation of the physics-based building model is described in \cite{Qie}. 
 The physics-based building model has the following form \cite{Qie}:
 \begin{subequations}\label{eq:physics_model}
 \begin{align}
@@ -35,7 +40,6 @@ f_\text{IG}(k) = f_\text{IG}^c + \begin{cases}
 where $f_\text{IG}^c$ is an unknown constant vector representing background heat gains due to idle appliances such as computers and printers. Functions $f_{\text{IG},\mathcal{F}}^v(\cdot)$, $f_{\text{IG},\mathcal{W}}^v(\cdot)$ and $f_{\text{IG},\mathcal{S}}^v(\cdot)$ are unknown nonparametric functions that capture the time-varying heat gain due to occupancy and equipments in fall, winter and spring, respectively.
 The system matrices $A$, $B_v$, $B_\text{IG}$, $B_{xu_i}$ and $B_{vu_i}$ are functions of tuning parameters: the window heat transmission coefficient ($U_\text{win}$), the convection coefficients of the interior wall ($\gamma_\text{IW}$), the exterior wall ($\gamma_\text{EW}$), the floor ($\gamma_\text{floor}$), and the ceiling ($\gamma_\text{ceil}$). 
 Define $\gamma := \begin{bmatrix} U_\text{win}, \gamma_\text{IW}, \gamma_\text{EW}, \gamma_\text{floor}, \gamma_\text{ceil}, f_\text{IG}^{c\top} \end{bmatrix}^\top \in \mathbb{R}^{11}$, then to identify the physics-based model, we need to estimate the parameter vector $\gamma$ as well as the functions $f_{\text{IG},\mathcal{X}}^v(\cdot),~\mathcal{X} \in \{\mathcal{F}, \mathcal{W}, \mathcal{S}\}$.
-
 Next, we describe our approach for identifying this model.
 
 %%%%%%%%%%%%%%%
@@ -167,7 +171,7 @@ Similar average internal gains are observed for all zones and seasons. The zones
 \begin{figure}
 	\centering
 	\vspace*{-0.3cm}
-	\includegraphics[scale=0.46]{chapters/building_model/figures/physics_qig.png}
+	\includegraphics[width=\textwidth]{chapters/building_model/figures/physics_qig.png}
 	\vspace*{-0.2cm}
 	\caption{Estimated Internal Gain $f_{\text{IG}}$ from the Physics-Based Model by Zone and Season}
 	\vspace*{-0.5cm}

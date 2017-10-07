@@ -12,7 +12,7 @@ Next, we first introduce the semiparametric method using a simple lumped zone mo
 \subsection{Lumped Zone}
 \label{sec:Lumped_Zone}
 \subsubsection{Model Setup}
-In order to facilitate analysis, the entire 4th floor of SDH is treated as a single zone, with the scalar temperature $x$ corresponding to the %area-averaged zone 
+In order to facilitate analysis, the entire fourth floor of SDH is treated as a single zone, with the scalar temperature $x$ corresponding to the %area-averaged zone 
 average temperature on the entire floor and the input $u$ as the sum of the inflow of all 21 VAV boxes. %This lumped model assumes a uniform temperature on the entire floor, $x$, and has been commonly used in literature \cite{Ma:2012aa, Oldewurtel:2010aa}. 
 Then, the temperature evolution is assumed to have the following form:
 \begin{equation}\label{eq:Temperature_evolution}
@@ -48,7 +48,7 @@ The conditional expectations $\hat{x}(\cdot), \hat{u}(\cdot)$ and $\hat{v}(\cdot
 %\psi_i = \left( 1- \left| \frac{z-z_i}{d(z)} \right|^3 \right)^3, 
 %\end{equation}
 %that belong to $z_i \in \mathcal{Z}$, which is a neighbor of the data point $z$ to be smoothed along the abscissa within the span $\mathcal{Z}$ (all data points around $z$ taken into account to smooth the time series at $z$), and $d(z)$ the distance from $z$ to the farthest predictor within $\mathcal{Z}$. The width $d(z)$ of the span $\mathcal{Z}$ is determined with $k$-fold cross-validation.
-The error measure used for in-sample estimates is the \textit{Root Mean Squared} (RMS) \textit{Error} between the measured temperatures $\bar{x}(k)$ and the model's predicted temperatures $x(k)$ over a time horizon of $N$ steps (e.g. we chose a 24 hour time horizon, $N = 96$):
+The error measure used for in-sample estimates is the Root Mean Squared (RMS) error between the measured temperatures $\bar{x}(k)$ and the model's predicted temperatures $x(k)$ over a time horizon of $N$ steps (e.g. we chose a 24 hour time horizon, $N = 96$):
 \begin{equation}\label{eq:RMS}
 \text{RMS error} = \left(\frac{1}{N}\textstyle\sum_{k=1}^N \left[\bar{x}(k) - x(k)\right]^2 \right)^{1/2}.
 \end{equation}
@@ -127,10 +127,10 @@ The estimated internal gains for each season are shown in Figure \ref{fig:qig_co
 \centering
 \vspace*{-0.0cm}
 \hspace*{-0.6cm}
-\includegraphics[scale=0.22]{chapters/building_model/figures/data_lump_qig.eps}
-\vspace*{-0.3cm}
+\includegraphics[scale=0.35]{chapters/building_model/figures/data_lump_qig.eps}
+%\vspace*{-0.3cm}
 \caption{Estimated Internal Gain $q_{\text{IG}}$ from the Data-Driven Model by Season, Lumped Case}
-\vspace*{-0.3cm}
+\vspace*{0.3cm}
 \label{fig:qig_comparison_plot}
 \end{figure}
 Observe that, for all three seasons, the internal gains exhibit a daily trend with local peaks around the late afternoon and local minima at night. Moreover, the amplitudes of the internal gains are considerably smaller during the weekends, suggesting a lighter occupancy. It can further be seen that the magnitude of the internal gains is smallest for the winter season, which is in accordance with our intuition since most building occupants are absent during that period.
@@ -146,7 +146,7 @@ x(k+1) & = 0.80\cdot x(k) - 0.18\cdot u(k) \\
  & ~~ + \left[0.0019, 0.028, \mathbf{0} \right] v(k) + q_{\text{IG},\mathcal{X}}(k) \\
  & =  0.80\cdot x(k) - 0.18\cdot u(k) \\
  & ~~ + 0.0019 \cdot v_{\text{Ta}}(k) + 0.028 \cdot v_{\text{Ts}}(k) + q_{\text{IG},\mathcal{X}}(k) \\
- & \text{for } \mathcal{X} \in \lbrace \mathcal{F}, \mathcal{W}, \mathcal{S} \rbrace\\
+ & \text{for } \mathcal{X} \in \lbrace \mathcal{F}, \mathcal{W}, \mathcal{S} \rbrace.\\
 \end{aligned}
 \end{equation}
 The estimated coefficients of $c$ corresponding to the solar radiation disturbances are very small ($< 10^{-6}$) compared to the other estimated coefficients. Since the temperatures are of the order $10^{\circ}$C, air inflow around 1 kg/s and solar radiation about 100 W/m$^2$, the effect of solar radiation on the room temperature is orders of magnitude less than that of other factors and hence can be neglected.
@@ -183,7 +183,7 @@ The average RMS prediction errors are 0.22$^{\circ}$C, 0.17$^{\circ}$C and 0.23$
 %It is important to note that the estimated autoregressive coefficient $\hat{a}$ and the control coefficient $\hat{b}$ have been forced to be identical (equation \eqref{eq:grid_search}), and that the estimated coefficients on the supply air temperature are similar for the three seasons. Further, the estimated coefficient for the outside air temperature has little effect on the temperature evolution. Thus, the only significant difference characterizing seasonal effects is the weekly internal gain, which is shown in Figure \ref{fig:qig_seasons}. The internal gains $q_{\text{IG}}~$ for the different seasons exhibit a daily trend with local peaks around the late afternoon and local minima at night. Moreover, for the fall and spring season, the amplitudes of the internal gain are considerably smaller during the weekend. It can further be seen that the magnitude of the internal gain is smallest for the winter season, which is in accordance with our intuition since most people are absent during that period.\\
 \subsection{Individual Zones}\label{sec:Indiv_Zones}
 \subsubsection{Model Setup}
-Rather than approximating the entire 4th floor of SDH as a single zone, in this section, we identify a multivariate model that describes the thermodynamic behavior of each of the six individual zones:
+Rather than approximating the entire fourth floor of SDH as a single zone, in this section, we identify a multivariate model that describes the thermodynamic behavior of each of the six individual zones:
 \begin{equation}
 \begin{aligned}\label{eq:temp_propagation_indiv}
 x(k+1) &= A x(k) + B u(k) + C v(k) + q_{\text{IG},\mathcal{X}}(k) \\
@@ -224,56 +224,35 @@ Figure \ref{fig:qig_seasons_indiv} shows the estimated internal gains for the th
 
 \begin{figure}[hbtp]
 \centering
-\vspace*{-0.2cm}
-\includegraphics[scale=0.46]{chapters/building_model/figures/data_indiv_qig.eps}
+%\vspace*{-0.2cm}
+\includegraphics[width=\textwidth]{chapters/building_model/figures/data_indiv_qig.eps}
 \vspace*{-0.5cm}
 \caption{Estimated Internal Gain $q_{\text{IG}}$ from the Data-Driven Model by Zone and Season, Individual Case}
 \label{fig:qig_seasons_indiv}
 \end{figure}
 
-\begin{table}[hbtp]
-\centering
-\begin{tabular}{*8c}
-\toprule
-\multicolumn{8}{c}{Data-Driven Model} \\
-\hline
-Season & NW & W & S & E & NE & C & Mean \\ \hline
-Fall & 0.98 & 0.61 & 0.28 & 0.42 & 0.28 & 0.36 & 0.488\\
-Winter & 1.41 & 0.34 & 0.29 & 0.26 & 0.25 & 0.21 & 0.460\\
-Spring & 0.56 & 0.25 & 0.31 & 0.71 & 0.17 & 0.34 & 0.390\\
-\midrule
-\midrule
-\multicolumn{8}{c}{Physics-Based Model} \\
-\hline
-Season & NW & W & S & E & NE & C & Mean \\ \hline
-Fall & 0.61 & 0.46 & 0.39 & 0.39 & 0.20 & 0.32 & 0.396\\
-Winter & 0.55 & 0.39 & 0.34 & 0.32 & 0.18 & 0.24 & 0.338\\
-Spring & 0.45 & 0.28 & 0.24 & 0.33 & 0.09 & 0.19 & 0.263\\
-\bottomrule
-\end{tabular}
-\caption{RMS by Zone and Season for Data-Driven and Physics-Based Models}
-\label{tab:data_RMS_zones}
-\end{table}
-
-
-%\begin{figure}[hbtp]
-%\centering
-%\vspace*{-0.2cm}
-%\includegraphics[scale=0.46]{Figures/data_indiv_qig.eps}
-%\vspace*{-0.7cm}
-%\caption{Estimated Internal Gains for the Seasons, Single Zones}
-%\vspace*{-0.5cm}
-%\label{fig:qig_seasons_indiv}
-%\end{figure}
-%
 %\begin{table}[hbtp]
 %\centering
-%\begin{tabular}{c | c | c | c | c | c | c | c}
-%Season & NW & W & S & E & NE & C & mean \\ \hline
+%\begin{tabular}{*8c}
+%\toprule
+%\multicolumn{8}{c}{Data-Driven Model} \\
+%\hline
+%Season & NW & W & S & E & NE & C & Mean \\ \hline
 %Fall & 0.98 & 0.61 & 0.28 & 0.42 & 0.28 & 0.36 & 0.488\\
 %Winter & 1.41 & 0.34 & 0.29 & 0.26 & 0.25 & 0.21 & 0.460\\
-%Spring & 0.56 & 0.25 & 0.31 & 0.71 & 0.17 & 0.34 & 0.390
+%Spring & 0.56 & 0.25 & 0.31 & 0.71 & 0.17 & 0.34 & 0.390\\
+%\midrule
+%\midrule
+%\multicolumn{8}{c}{Physics-Based Model} \\
+%\hline
+%Season & NW & W & S & E & NE & C & Mean \\ \hline
+%Fall & 0.61 & 0.46 & 0.39 & 0.39 & 0.20 & 0.32 & 0.396\\
+%Winter & 0.55 & 0.39 & 0.34 & 0.32 & 0.18 & 0.24 & 0.338\\
+%Spring & 0.45 & 0.28 & 0.24 & 0.33 & 0.09 & 0.19 & 0.263\\
+%\bottomrule
 %\end{tabular}
-%\caption{RMS by zone and season}
+%\caption{RMS by Zone and Season for Data-Driven and Physics-Based Models}
 %\label{tab:data_RMS_zones}
 %\end{table}
+
+

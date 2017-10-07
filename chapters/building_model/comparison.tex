@@ -11,10 +11,36 @@ This provides new insight into the existing knowledge as we provide a quantitati
 
 Next, we explore the extent to which this slightly lower prediction accuracy of Model A affects its resulting controller's closed-loop performance in a building energy efficiency example.
 
+\begin{table}[hbtp]
+\centering
+\begin{tabular}{*8c}
+\toprule
+\multicolumn{8}{c}{Data-Driven Model} \\
+\hline
+Season & NW & W & S & E & NE & C & Mean \\ \hline
+Fall & 0.98 & 0.61 & 0.28 & 0.42 & 0.28 & 0.36 & 0.488\\
+Winter & 1.41 & 0.34 & 0.29 & 0.26 & 0.25 & 0.21 & 0.460\\
+Spring & 0.56 & 0.25 & 0.31 & 0.71 & 0.17 & 0.34 & 0.390\\
+\midrule
+\midrule
+\multicolumn{8}{c}{Physics-Based Model} \\
+\hline
+Season & NW & W & S & E & NE & C & Mean \\ \hline
+Fall & 0.61 & 0.46 & 0.39 & 0.39 & 0.20 & 0.32 & 0.396\\
+Winter & 0.55 & 0.39 & 0.34 & 0.32 & 0.18 & 0.24 & 0.338\\
+Spring & 0.45 & 0.28 & 0.24 & 0.33 & 0.09 & 0.19 & 0.263\\
+\bottomrule
+\end{tabular}
+\caption{RMS by Zone and Season for Data-Driven and Physics-Based Models}
+\label{tab:data_RMS_zones}
+\end{table}
+
+
+
 \begin{figure}
 \centering
 \vspace*{-0.1cm}
-\includegraphics[scale=0.46]{chapters/building_model/figures/open_loop_traj.eps}
+\includegraphics[width=\textwidth]{chapters/building_model/figures/open_loop_traj.eps}
 \vspace*{-0.5cm}
 \caption{Simulated Temperatures from the Data-Driven Model (blue), Physics-Based Model (orange) and Actual Temperatures (green) }
 \vspace*{-0.5cm}
@@ -43,16 +69,28 @@ The temperature is initialized with the measured temperature $\bar{x}(0)$ at the
 %The function $f(x(\cdot), u(\cdot), v(\cdot), q_{\text{IG}}(\cdot))$ is chosen to be either \eqref{eq:temp_propagation_indiv} for Model A or\eqref{eq:physics_model} for Model B.
 To find the optimal control strategy, we make use of receding horizon control with a prediction horizon of three 15-minute time steps.
 
-Figure \ref{fig:MPC_comparison_temp} shows the temperature trajectory computed by the energy efficient controller \eqref{eq:ee_controller} computed with both models A and B, together with the measured temperature as a reference. 
+
 \begin{figure}
 \centering
 \vspace*{-0.4cm}
-\includegraphics[scale=0.46]{chapters/building_model/figures/Comparison_Temp.png}
+\includegraphics[width=\textwidth]{chapters/building_model/figures/Comparison_Temp.png}
 \vspace*{-0.5cm}
 \caption{Optimal Temperature for MPC with Data-Driven Model (blue), MPC with Physics-Based Model (orange) and Actual Temperature (green)}
 \vspace*{-0.2cm}
 \label{fig:MPC_comparison_temp}
 \end{figure}
+
+\begin{figure}
+\centering
+%\vspace*{-0.4cm}
+\includegraphics[width=\textwidth]{chapters/building_model/figures/Comparison_Flow.png}
+\vspace*{-0.5cm}
+\caption{Optimal Control Strategy for MPC with Data-Driven Model (blue), MPC with Physics-Based Model (orange) and Actual Input (green)}
+%\vspace*{-0.2cm}
+\label{fig:MPC_comparison_flow}
+\end{figure}
+
+Figure \ref{fig:MPC_comparison_temp} shows the temperature trajectory computed by the energy efficient controller \eqref{eq:ee_controller} computed with both models A and B, together with the measured temperature as a reference. 
 It can be seen that both control schemes are capable of maintaining the temperature within $[20^\circ \text{C}, 22^\circ \text{C}]$, with a control strategy that is of comparable cost (1,006 and 1,731 for Model A and Model B, respectively, where $\rho=100$), shown in Figure \ref{fig:MPC_comparison_flow}. An interesting observation is that the largest difference in the control strategies is detected in zones ``East'' and ``Center'', which show a larger increase in RMS error from Model B to Model A.
 %The dips of the computed control trajectory $u$ below the black dashed lines represent violations of the physical limits needed to maintain the temperature in the narrow range $[20^\circ, 22^\circ]$. 
 Furthermore, it is interesting to observe that variations in the control input do not impact the periodicity of the temperature qualitatively, which can be explained by the regularity of the identified internal gains.
@@ -63,15 +101,7 @@ Observing that Model A only suffers a negligible loss of accuracy compared to Mo
 
 %\textcolor{red}{While our findings suggest that Model A is suitable for tasks that can tolerate minor inaccuracies, such as energy efficient control, we note that for temperature-critical zones or applications in which precise temperature estimates are needed, e.g. long-term planning of reserve provision for frequency regulation, one might still want to choose the fine-level Model B for analysis.}
 
-\begin{figure}[t]
-\centering
-\vspace*{-0.4cm}
-\includegraphics[scale=0.46]{chapters/building_model/figures/Comparison_Flow.png}
-\vspace*{-0.5cm}
-\caption{Optimal Control Strategy for MPC with Data-Driven Model (blue), MPC with Physics-Based Model (orange) and Actual Input (green)}
-\vspace*{-0.2cm}
-\label{fig:MPC_comparison_flow}
-\end{figure}
+
 
 %%%%%%%%%%%%%%%%%%
 %\subsection{Qualitative Comparison}
