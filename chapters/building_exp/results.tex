@@ -9,30 +9,13 @@
 
 \section{Experimental Results}\label{sec:results}
 
-%Two sets of experiments were conducted, namely certification experiments and tracking experiments. 
-%Any resource that intends to participate in PJM's regulation market, must first pass the certification test which is used to verify the resource's regulating capability.
-%The tracking experiments use archived RegD signal from the Pennsylvania, Jersey, and Maryland Power Market (PJM) and demonstrates that our building is able to track multiple hours of the signal without violating its comfort constraints.
-
-%A resource must meet PJM's quality standards to be permitted to provide regulation services. There are two phases to this qualification: certifying the resource and verifying regulating capability. An Area Regulation (AR) test is used for both certifying and verifying regulating capability for a resource.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Communication Architecture}\label{sec:comm}
 
-\begin{figure}[t]
-\centering
-%\vspace*{-0.4cm}
-\includegraphics[scale=0.35]{chapters/building_exp/figures/comm_architecture.pdf}
-%\vspace*{-0.5cm}
-\caption{Communication architecture. See Table \ref{tab:notation} for description of symbols.}
-\label{fig:comm_architecture}
-%\vspace*{-0.45cm}
-\end{figure}
-%\textcolor{red}{include schematic?}
 The communication architecture is shown in Figure \ref{fig:comm_architecture}.
-%The HLC is implemented in Matlab on a standard laptop and solved every one hour, whereas the LLC is implemented in Python on a server located in SDH and solved every 4 seconds.
 The HLC is implemented in Matlab on a standard laptop and the LLC is implemented in Python on a server located in SDH.
 The Matlab and Python scripts communicate asynchronously via local port forwarding and TCP/IP.
 All requests are initiated from the Matlab script and forwarded to the connected port on the laptop, while the Python script continuously listens to the corresponding port on the server and responds to any received requests.
@@ -41,6 +24,15 @@ The HLC queries the publicly available database of forecast.io to obtain weather
 At the same time, the HLC computes the regulation capacities, baseline and optimal airflow rate setpoints and sends them as write requests to the Python script. The script then updates the values of its local copy of the regulation capacities and baseline, and adjust actuator setpoints via BACnet.
 Finally, the LLC reads preloaded PJM regulation signal, then determines and adjusts the fan speed setpoint using read and write requests via the BACnet.  
 
+\begin{figure}[t]
+\centering
+%\vspace*{-0.4cm}
+\includegraphics[width = \textwidth]{chapters/building_exp/figures/comm_architecture.pdf}
+%\vspace*{-0.5cm}
+\caption{Communication architecture. See Table \ref{tab:notation} for description of symbols.}
+\label{fig:comm_architecture}
+\vspace*{-0.45cm}
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -102,7 +94,7 @@ Nov 28 & 16 hours & 0.93 & 0.92 & 0.89 & 0.91 \\
 \begin{figure}[t]
 \centering
 %\vspace*{-0.4cm}
-\includegraphics[scale=0.45]{chapters/building_exp/figures/Cert_power.png}
+\includegraphics[scale=0.7]{chapters/building_exp/figures/Cert_power.png}
 %\vspace*{-0.5cm}
 \caption{Certification experiment results: power and tracking error.}
 \label{fig:cert_power}
@@ -154,8 +146,8 @@ This is likely due to disturbance prediction errors.
 
 \begin{figure}[t]
 \centering
-%\vspace*{-0.4cm}
-\includegraphics[scale=0.40]{chapters/building_exp/figures/Track_power.png}
+\vspace*{1cm}
+\includegraphics[width=\textwidth]{chapters/building_exp/figures/Track_power.png}
 %\vspace*{-0.4cm}
 \caption{Tracking experiment results: power, tracking error, regulation capacities and duct pressure.}
 \label{fig:track_power}
@@ -165,7 +157,7 @@ This is likely due to disturbance prediction errors.
 \begin{figure}[t]
 \centering
 %\vspace*{-0.5cm}
-\includegraphics[scale=0.42]{chapters/building_exp/figures/Track_temp_flow.png}
+\includegraphics[width=\textwidth]{chapters/building_exp/figures/Track_temp_flow.png}
 %\vspace*{-0.9cm}
 \caption{Tracking experiment results: room temperatures and airflow rates. Solid lines are actual values, dashed lines are maximum and minimum limits.}
 \label{fig:track_temp_flow}

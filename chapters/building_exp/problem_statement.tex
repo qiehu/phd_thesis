@@ -7,12 +7,12 @@
 
 %!TEX root = ../../thesis.tex
 
-\subsection{Problem Statement}
+\section{Problem Statement}
 \label{sec:problem_statement}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{PJM Regulation Market Operation \normalfont{\cite{PJM11}}}
+\subsection{PJM Regulation Market Operation \normalfont{\cite{PJM11}}}
 
 %PJM's reserve scheduling includes the day-ahead market and the hourly scheduling process.
 In this section, we briefly describe the operation of the PJM regulation market relevant to this work, which involves the day-ahead market and the hourly scheduling process.
@@ -32,33 +32,30 @@ During real time operation, a frequency regulation signal is sent from PJM to ea
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{Building Description}\label{sec:building_description}
-The field experiments are conducted on the fourth floor of Sutardja Dai Hall (SDH), a seven-floor-building equipped with a VAV HVAC system on the University of California, Berkeley campus. 
-%The building is equipped with a variable air volume (VAV) HVAC system that is common to 30\% of all U.S. commercial buildings %\cite{VAV}. 
-%The building is equipped with a VAV HVAC system, and a schematic of a typical such system is shown in Figure \ref{fig:hvac}. 
-Inside the air handling unit (AHU), large supply fans drive air through heat exchangers, cooling it down to a desired supply air temperature (SAT). The cooled air is then distributed to VAV boxes located throughout the building. The flow rate and the final temperature of the supply air delivered to each room is then controlled by adjusting the damper position and the amount of reheating performed at the VAV boxes. 
+%\subsubsection{Building Description}\label{sec:building_description}
+%The field experiments are conducted on the fourth floor of Sutardja Dai Hall (SDH), a seven-floor-building equipped with a VAV HVAC system on the University of California, Berkeley campus. 
 
-The fourth floor has a total area of 1300 square-meters and contains a variety of spaces such as individual offices, open workspaces, staircases and electrical rooms. 
-%Some of the spaces have windows, some of them don't. 
-We divide the floor into six zones for modeling and control purposes (Figure \ref{fig:floor_plan}).
-%The fourth floor has an area of 1300 square-meters and contains offices for research staff and open workspaces for students, and is divided into six zones for modeling and control purposes (Figure \ref{fig:floor_plan}).
+%Inside the air handling unit (AHU), large supply fans drive air through heat exchangers, cooling it down to a desired supply air temperature (SAT). The cooled air is then distributed to VAV boxes located throughout the building. The flow rate and the final temperature of the supply air delivered to each room is then controlled by adjusting the damper position and the amount of reheating performed at the VAV boxes. 
+%
+%The fourth floor has a total area of 1300 square-meters and contains a variety of spaces such as individual offices, open workspaces, staircases and electrical rooms. 
+%We divide the floor into six zones for modeling and control purposes (Figure \ref{fig:floor_plan}).
 
-\begin{figure}[h]
-\centering
-\vspace*{-0.4cm}
-\includegraphics[scale=0.30]{chapters/building_exp/figures/FloorPlan.png}
-\vspace*{-0.05cm}
-\caption{Zones for the fourth floor of Sutardja Dai Hall.}
-\label{fig:floor_plan}
-\vspace*{-0.45cm}
-\end{figure}
+%\begin{figure}[h]
+%\centering
+%\vspace*{-0.4cm}
+%\includegraphics[scale=0.30]{chapters/building_exp/figures/FloorPlan.png}
+%\vspace*{-0.05cm}
+%\caption{Zones for the fourth floor of Sutardja Dai Hall.}
+%\label{fig:floor_plan}
+%\vspace*{-0.45cm}
+%\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsubsection{Control Scheme}\label{sec:control_scheme}
-%\textcolor{red}{schematic of 2 level control.}
-SDH is equipped with the Siemens' APOGEE system -- a BAS that controls the building's HVAC system and lighting based on existing control loops. %and allows operators to modify setpoints of various controllers of the HVAC system and monitor its performance via a user interface. 
+\subsection{Control Scheme}\label{sec:control_scheme}
+The field experiments are conducted on the fourth floor of SDH, i.e., the same building used for model identification in Chapter \ref{chapter:building_model}, which is a seven-floor-building equipped with a VAV HVAC system.
+On the control system side, SDH is equipped with the Siemens' APOGEE system -- a BAS that controls the building's HVAC system and lighting based on existing control loops. %and 
 The communication between the building automation devices is enabled by a building automation and control network (BACnet). 
 We develop an external frequency regulation controller to read measurements from and send control commands to the HVAC equipment via the BACnet. 
 
@@ -67,13 +64,7 @@ We propose to control the supply fans' power consumption by adjusting their spee
 The airflow rates to the rooms are chosen not to depend on the frequency regulation signal because they have very different reaction times: the regulation signal is updated every 2 seconds, however the dampers in the VAV boxes have a  time constant in the order of minutes.
 Consequently, our controller overrides the BAS' supply fans' speed control loops and the airflow rate control loops at the VAV boxes situated on the fourth floor. 
 All other BAS' control loops are left intact.
-%In the proposed control architecture, a regulation reference signal,
-%denoted by ?Pr, will be transmitted to each participating building.
-%We take the ACE (Area Control Error), which indicates
-%the imbalance in the grid [9], scale it down by a scaling factor
-%and feed it through a bandpass filter to define ?Pr.
 Our proposed control architecture consists of a High Level Controller and a Low Level Controller as depicted in Figure \ref{fig:control_scheme}:
-%briefly describe below (details can be found in Section \ref{sec:control}).
 
 \begin{itemize}
 	\item{High Level Controller (HLC) - Reserve Scheduling and Room Temperature Control}\label{sec:high_level}
@@ -85,8 +76,9 @@ Both the capacity and the baseline are chosen to minimize electricity cost and m
 
 A switched controller that modulates the speed of the supply fan every 4 seconds so that its power consumption deviations from its baseline tracks the frequency regulation signal.
 It consists of a model-based feedforward controller and a Proportional Integral (PI) feedback controller.
-As explained in Section \ref{sec:llc}, our switched controller has a different switching condition from \cite{Vrettos:2016flexlab1}, which makes our controller suitable for scenarios where the building is subject to larger disturbances.  
-
+As explained in Section \ref{sec:llc}, our switched controller has a different switching condition from \cite{Vrettos:2016flexlab1}, which makes our controller suitable for scenarios where the building is subject to larger disturbances.
+\\
+\\
 Note that although PJM's regulation signal is updated every 2 seconds, power consumption measurements of the supply fans in SDH are only available every 10-20 seconds, therefore the LLC was chosen to run at an intermediate rate of 4 seconds. This is a restriction of our particular building. Using another building whose supply fans' power measurements are updated more frequently would only improve our controller's tracking performance.
 \end{itemize}
 
@@ -94,11 +86,11 @@ Note that although PJM's regulation signal is updated every 2 seconds, power con
 \begin{figure}[t]
 \centering
 %\vspace*{-0.4cm}
-\includegraphics[scale=0.45]{chapters/building_exp/figures/control_scheme.pdf}
+\includegraphics[scale=0.7]{chapters/building_exp/figures/control_scheme.pdf}
 \vspace*{-0.05cm}
 \caption{Two level control scheme for frequency regulation. See Table \ref{tab:notation} for description of symbols.}
 \label{fig:control_scheme}
-\vspace*{-0.45cm}
+\vspace*{1cm}
 \end{figure}
 
 \begin{table}[b]

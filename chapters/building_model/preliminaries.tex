@@ -1,10 +1,47 @@
 %!TEX root = ../../thesis.tex
 
-\section{Experimental Data}
+\section{Preliminaries}
 \label{sec:Preliminaries}
 
+\subsection{Building Description}\label{sec:testbed}
+We model the temperature evolution of the fourth floor of Sutardja Dai Hall (SDH), a seven-floor-building on the University of California, Berkeley campus. 
+The fourth floor has a total area of 1300 square-meters and contains offices for research staff and open workspaces for students, and is divided into six zones for modeling purposes (Figure \ref{fig:floor_plan}).
 
-\subsection{Data Collection}\label{sec:exp_data}
+The building is equipped with a variable air volume (VAV) HVAC system that is common to 30\% of all U.S. commercial buildings \cite{VAV}. 
+The system contains air handling units (AHU), inside which large supply fans drive air through heat exchangers, cooling it down to a desired supply air temperature (SAT). The cooled air is then distributed to VAV boxes located throughout the building. The flow rate and the final temperature of the supply air delivered to each room is then controlled by adjusting the damper position and the amount of reheating performed at the VAV boxes. 
+
+%Table \ref{tab:Zone_VAV} provides information about the mapping of the 21 VAV boxes to the zones they serve.
+\begin{figure}[hbtp]
+\centering
+\vspace*{0.5cm}
+\includegraphics[width=\textwidth]{chapters/building_model/figures/FloorPlan.png}
+\vspace*{-0.05cm}
+\caption{Zones for the 4th Floor of Sutardja Dai Hall (SDH)}
+\label{fig:floor_plan}
+\vspace*{-0.45cm}
+\end{figure}
+
+%\begin{table}[hbtp]
+%\centering
+%\begin{tabular}{*2c}
+%\toprule
+%Zone & VAV Boxes \\ \hline
+%Northwest (NW) & 6, 8, 11 \\
+%West (W) & 1, 2, 3 \\
+%South (S) & 5, 9, 15, 16 \\
+%East (E) & 20, 21 \\
+%Northeast (NE) & 10, 14, 17, 19 \\
+%Center (C) & 4, 7, 12, 13, 18 \\
+%\bottomrule
+%\end{tabular}
+%\caption{VAV Boxes by Zone}
+%\vspace*{-0.5cm}
+%\label{tab:Zone_VAV}
+%\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Collection of Experimental Data}\label{sec:exp_data}
 We collected 51 weeks of one-minute resolution temperature data for the six zones along with the airflow rates of the 21 VAV boxes, SAT and the outside air temperature from the \textit{simple Measurement and Actuation Profile} (sMAP). sMAP is a protocol that collects, stores and publishes time-series data from a wide variety of sensors \cite{smap, Dawson-Haggerty:2012aa}. The hourly global horizontal solar radiation data was obtained from a nearby weather station \cite{SolarRad}, from which the incidence solar radiation of the four geographic directions was calculated with the \texttt{PV\_LIB} toolbox \cite{pv_model}. All collected data were down-sampled or interpolated, respectively, to 15 minute intervals. 
 These 51 weeks of data span periods when the building was under normal operation as well as periods with excitation experiments. 
 

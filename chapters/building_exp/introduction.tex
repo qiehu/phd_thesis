@@ -7,7 +7,7 @@
 % !TEX root = ../../thesis.tex
 
 
-\subsection{Introduction}\label{sec:introduction}
+\section{Introduction}\label{sec:introduction}
 
 %The operation of a reliable power grid depends on a balance of supply and demand at all times. 
 %%Any mismatch can cause the grid frequency to deviate from its nominal value (60 Hz in the U.S.).
@@ -18,23 +18,18 @@
 %Although these reserves have been traditionally provided by conventional power generators, loads on the demand side have also been considered. 
 %%, by increasing (and decreasing) their electricity consumption when the grid frequency increases (decreases).
 
-Commercial buildings are a tremendous untapped resource for frequency regulation provision. 
-First, they account for a large fraction of the total electricity consumption (up to 40\% in the U.S., up to 35\% of which is due to heating, ventilation and air conditioning (HVAC) systems \cite{USenergy:2017}). 
+Commercial buildings are a tremendous untapped resource for frequency regulation provision for various reasons.
+First, they account for a large fraction of the total electricity consumption (up to 40\% in the U.S., up to 35\% of which is due to HVAC systems \cite{USenergy:2017}). 
 Second, the building's large thermal capacity allows the power consumption of HVAC systems be partly shifted in time without compromising occupant comfort. 
 Third, many commercial buildings are equipped with a variable frequency drive which can be controlled to vary the power consumption of supply fans of the HVAC system quickly and continuously \cite{Hao:2012demandresponse}. This greatly simplifies tracking of the reference regulation signal, as opposed to resources with on-off control.
 %as opposed to on-off control of other equipments such as residential air conditioners and electric vehicles.
 Fourth, about one third of commercial buildings in the U.S. are equipped with a building automation system (BAS) \cite{Braun:2012} which facilitates the implementation of new controllers.
+On the other hand, commercial buildings are often subject to large disturbances and uncertainties, such as occupancy, which are difficult to capture and predict. %First, obtaining a building model that is amenable to control is not straightforward. 
+%In addition, buildings are often not sufficiently excited, as they must satisfy strict regulatory requirements during regular operation, which limit the type and duration of excitation experiments that can be conducted.
+In addition, about one third of commercial buildings in the U.S. are equipped with VAV HVAC systems \cite{Hao:2012demandresponse}, which are typically complex with many control variables and interdependent control loops.
 
 
-On the other hand, there are a number of challenges in using commercial buildings for frequency regulation. 
-First, obtaining a building model that is amenable to control is not straightforward. 
-Because commercial buildings are often subject to large disturbances such as occupancy, that are difficult to capture. 
-%In addition, they have many rooms and the rooms may be affected by different types of disturbances. 
-In addition, buildings are often not sufficiently excited, as they must satisfy strict regulatory requirements during regular operation, which limit the type and duration of excitation experiments that can be conducted.
-Second, about one third of commercial buildings in the U.S. are equipped with variable air volume (VAV) HVAC systems \cite{Hao:2012demandresponse}, which are typically complex with many control variables and interdependent control loops.
-
-
-Most of the existing literature on using commercial buildings for frequency regulation is based on simulation and theory. 
+Consequently, most of the existing literature on using commercial buildings for frequency regulation is based on simulation and theory. 
 \textit{Zhao et al.} demonstrated, through simulations, that commercial building's HVAC system can provide frequency regulation by adjusting the setpoint of the duct static pressure \cite{Zhao:2013hvac}.
 %\cite{Hao:2012demandresponse} and 
 In \cite{Hao:2014fan}, the authors showed that %in commercial buildings with VAV HVAC systems, 
@@ -59,26 +54,24 @@ Electric heaters have the advantage of being simpler to model compared to VAV HV
 However, since many commercial buildings in the U.S. are equipped with the latter, experimental demonstration using VAV HVAC systems is essential for their wide implementation in the U.S..
 
 
-In this paper, we experimentally demonstrate that VAV HVAC systems can be controlled to provide frequency regulation using a commercial building in regular operation.
-Our contributions are three-fold:
+In this chapter, we experimentally demonstrate that VAV HVAC systems can be controlled to provide frequency regulation using a commercial building in regular operation.
+Our contributions are two-fold:
 
-First, we propose a procedure to identify a linear data-driven model of the HVAC system, that is easy to implement with the building in regular operation. 
-Our model describes the temperature evolution of multiple building zones and is amenable to control design.
-In addition, the model explicitly captures internal gains such as occupancy without the need for additional instrumentation such as carbon dioxide sensors.
+%First, we propose a procedure to identify a linear data-driven model of the HVAC system, that is easy to implement with the building in regular operation. 
+%Our model describes the temperature evolution of multiple building zones and is amenable to control design.
+%In addition, the model explicitly captures internal gains such as occupancy without the need for additional instrumentation such as carbon dioxide sensors.
 
-Second, we aim to improve existing frequency regulation control algorithms.
-%proposed in \cite{Vrettos:2016flexlab1}.
+First, we aim to improve existing frequency regulation control algorithms.
 Unlike the frequency tracking controller in \cite{Vrettos:2016flexlab1}, which relies on an accurate supply fan model, we propose a controller that is suitable when the building is subject to larger disturbances and/or modeling uncertainties. 
-%Our method also differs from \cite{Lin:2015exp} by computing the regulation capacities and baseline consumption at the beginning of each regulation period.
 
-Finally, on the experimental side, as far as we know, this is the first report where an occupied commercial building equipped with a VAV HVAC system successfully provides frequency regulation.
+Second, on the experimental side, as far as we know, this is the first report where an occupied commercial building equipped with a VAV HVAC system successfully provides frequency regulation.
 Experiments are conducted in accordance with Pennsylvania, New Jersey, Maryland's (PJM) certification test (40 minute duration) and tracking requirements (over multiple hours), using historical PJM regulation signals.  
 Good tracking performance was achieved despite large disturbances such as occupancy and the use of a simple building model, which demonstrates the robustness of our method to uncertainties.
 
-This paper is organized as follows. We first briefly describe the building where experiments are conducted and our control scheme in Section \ref{sec:problem_statement}. Then, Section \ref{sec:model_id} presents the data-driven identification method for the building and fan models, followed by Section \ref{sec:control}, which describes the controller design in detail. Section \ref{sec:results} then demonstrates the performance our controller through extensive field experiment results.
+This chapter is organized as follows. We first briefly describe our control scheme in Section \ref{sec:problem_statement}. 
+Then, Section \ref{sec:model_id} presents the fan model, followed by Section \ref{sec:control}, which describes the controller design in detail. Section \ref{sec:results} then demonstrates the performance our controller through extensive field experiment results.
 Finally, Section \ref{sec:conclusions} concludes.
-%The paper concludes with the experimental results %and a discussion on the economic potential of utilizing commercial buildings for frequency regulation 
-%and conclusions in Sections \ref{sec:results} and \ref{sec:conclusions}.
+
 
 
 
