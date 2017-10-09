@@ -11,6 +11,31 @@
 %\textcolor{black}{We focus on securely estimating the state of a nonlinear dynamical system from a set of corrupted measurements for two classes of nonlinear systems, and propose a technique which enables us to perform secure state estimation for those systems. We then illustrate how the proposed nonlinear secure state estimation technique \textcolor{black}{can be used to perform estimation} in the cyber layer of interconnected power systems under cyber-physical attacks and communication failures. In particular, we focus on an interconnected power system comprising several synchronous generators, transmission lines, loads, and energy storage units, and propose a secure estimator that allows us to securely estimate the dynamic states of the power network. Finally, we numerically demonstrate the effectiveness of the proposed secure estimation algorithm, and show that the algorithm enables the cyber layer to accurately reconstruct the attack signals.}
 %\end{abstract}
 
+Many approaches in the literature that address the secure state estimation problem are based on linear dynamical systems. Hence, the existing secure estimators can be applied to nonlinear dynamical systems if we linearize these systems. It is well known that the linearization of nonlinear dynamical systems can result in the following drawbacks:
+\begin{enumerate}
+\item Linearization is reliable if the higher order terms in the Taylor series expansion can be eliminated; otherwise, the linearized model may perform poorly. %Therefore, the linearized model is only valid under small perturbation.
+\item Linearization can be applied when all the eigenvalues of the Jacobian matrix have nonzero real part. However, this is not always the case.
+\end{enumerate}
+For example, linearized power system models are only valid under small perturbations in the system at hand. Under a severe disturbance, such as a single or multi-phase short-circuit or a generator loss, the linearized model does not remain valid \cite{Kundur}-\!\!\cite{nonlin_est}. Therefore, the existing techniques lack performance guarantees when the system undergoes large perturbations which are typical of highly loaded practical systems. To overcome the above drawbacks, we develop a secure state estimation method without linearization or calculation of Jacobian matrices. Note that feedback linearization techniques transform the nonlinear system into an equivalent linear system through a change of variables and a suitable control input. Even with such techniques, the secure estimation problem for nonlinear dynamical systems is a nonlinear problem.
+
+
+In this chapter, we investigate the secure estimation of the state of a nonlinear dynamical system from a set of corrupted measurements for two classes of nonlinear systems, and propose a technique which enables us to perform secure state estimation for those systems. 
+We then illustrate how the proposed nonlinear secure state estimation technique can be used to perform estimation in the cyber layer of interconnected power systems under cyber-physical attacks and communication failures. 
+In particular, we focus on an interconnected power system comprising several synchronous generators, transmission lines, loads, and energy storage units, and propose a secure estimator that allows us to securely estimate the dynamic states of the power network. 
+Finally, we numerically demonstrate the effectiveness of the proposed secure estimation algorithm, and show that the algorithm enables the cyber layer to accurately reconstruct the attack signals.
+%In this chapter, we investigate the secure estimation of the state of a nonlinear dynamical system from a set of corrupted measurements. As in Chapter \ref{chapter:se_linear}, we do not make any assumptions on the sensor attacks or corruptions (i.e., corruptions can follow any particular model). Our only assumption concerning the corrupted sensors is about the number of sensors that are corrupted due to attacks or failures. We consider two classes of nonlinear systems, and design secure state estimators for these assuming that the set of attacked sensors can change with time. 
+%A practical example of such a cyber attack is described in \cite{liu2014coordinated}, where a multi-switch attack, in which different switches in a power network are attacked at different times, is designed to lead to stealthy and wide-scale cascading failures in the power system.
+%We then propose a technique which enables us to transform the nonlinear dynamics into a set of linear equations, and apply the classical error correction method to the equivalent linear system.
+%The proposed secure state estimators are computationally efficient and can be solved exactly without iteration. In addition, our estimator relies on the observability of the transformed linear system, which is much simpler to check than verifying the observability of nonlinear systems.
+%
+%The work closest to ours is \cite{shoukry} in which Shoukry \textit{et al.} studied differentially flat nonlinear systems under sensor attack and assumed that the set of attacked sensors do not change with time. Using $s$-sparse observability for nonlinear systems, the authors proposed a combinatorial estimator, and an iterative satisfiability modulo theory-based algorithm to solve the resulting combinatorial estimation problem. However, it may be hard to check the observability of nonlinear systems, and the assumption of fixed attacked nodes may be restrictive.
+%
+%Finally, we illustrate how the proposed secure state estimation approach can be applied to nonlinear power systems and demonstrate its effectiveness through numerical simulations.
+\\
+\\
+\noindent
+\textit{This chapter is an adaptation of the paper in \cite{Hu:2017powerjournal}.}
+
 \input{chapters/se_nonlinear/introduction.tex}
 \input{chapters/se_nonlinear/nonlinear_estimation.tex}
 \input{chapters/se_nonlinear/application.tex}
@@ -18,6 +43,8 @@
 
 \section{Conclusion}
 We propose a secure state estimator for two classes of nonlinear dynamical systems. We then focus on the wide area control of power systems, and develop an estimator for dynamic states in power systems under cyber-physical attacks and communication failures. Finally, we numerically show that the performance of the cyber layer in power systems can be significantly improved by using our estimator. One possible direction for future research is reducing the computational complexity of the secure state estimators. Note that the computational complexity increases with the time index. Therefore, computing an exact solution to the $l_1$-minimization problem in a recursive way can significantly reduce the time required to obtain a new estimate.
+
+
 
 
 \end{document}
