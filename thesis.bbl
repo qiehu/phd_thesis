@@ -30,6 +30,12 @@ Maximilian Balandat, Frauke Oldewurtel, Mo~Chen, and Claire Tomlin.
 \newblock {\em 52nd Annual Allerton Conference on Communication, Control, and
   Computing}, 2014.
 
+\bibitem{ref_v12}
+H.M. Beides and G.T. Heydt.
+\newblock Dynamic state estimation of power system harmonics using kalman
+  filter methodology.
+\newblock {\em IEEE Transactions on Power Delivery}, 6(4):1663--1670, 1991.
+
 \bibitem{Blanke}
 Mogens Blanke, Michel Kinnaert, Jan Lunze, and Marcel Staroswiecki.
 \newblock {\em Diagnosis and fault-tolerant control}.
@@ -48,12 +54,6 @@ James Braun, Donghun Kim, Miroslav Baric, Pengfei Li, Satish Narayanan, Shui
 \newblock {Whole building control system design and evaluation:
   simulation-based assessment}.
 \newblock Technical report, {GPIC Energy Efficient Buildings Hub}, 2012.
-
-\bibitem{Candes_Tao}
-Emmanuel Candes, Justin Romberg, and Terence Tao.
-\newblock Stable signal recovery from incomplete and inaccurate measurements.
-\newblock {\em Communications on Pure and Applied Mathematics},
-  59(8):1207--1223, 2006.
 
 \bibitem{tao11}
 Emmanuel Candes and Terence Tao.
@@ -303,6 +303,11 @@ Zhenyu Huang, Kevin Schneider, and Jarek Nieplocha.
 \newblock {\em Proceedings of the 8th International Power Engineering
   Conference}, 2007.
 
+\bibitem{ref_v15}
+Amit Jain and N.R. Shivakumar.
+\newblock Impact of pmu in dynamic state estimation of power systems.
+\newblock {\em Proceedings of the 40th North American Power Symposium}, 2008.
+
 \bibitem{Lofberg:2004yalmip}
 {Johan L\"ofberg}.
 \newblock {YALMIP: a toolbox for modeling and optimization in MATLAB}.
@@ -368,6 +373,11 @@ Yao Liu, Peng Ning, and Michael~K. Reiter.
 \newblock {\em ACM Transactions on Information and System Security}, 14(13),
   May 2011.
 
+\bibitem{pmu_w_1}
+Yilu Liu.
+\newblock A us-wide power systems frequency monitoring network.
+\newblock {\em IEEE Power Engineering Society General Meeting}, 2006.
+
 \bibitem{darksky}
 The Dark Sky~Company LLC.
 \newblock {The Dark Sky Database}.
@@ -416,6 +426,12 @@ Mohammad-Ali Massoumnia, George~C. Verghese, and Alan~S. Willsky.
 \newblock Failure detection and identification.
 \newblock {\em IEEE Transactions on Automatic Control}, 34(3):316--321, March
   1989.
+
+\bibitem{pmu_w_3}
+A.R. Messina, Vijay Vittal, Daniel Ruiz-Vega, and Gilberto Enrique-Harper.
+\newblock Interpretation and visualization of wide-area pmu measurements using
+  hilbert analysis.
+\newblock {\em IEEE Transactions on Power Systems}, 21(4):1760--1771, 2006.
 
 \bibitem{Hvac_book}
 John~W. Mitchell and James~E. Braun.
@@ -484,6 +500,12 @@ Luis P{\'e}rez-Lombard, Jos{\'e} Ortiz, and Christine Pout.
 Chris Pilong.
 \newblock {\em PJM Manual 12: Balancing Operations}.
 \newblock PJM, 34 edition, April 2016.
+
+\bibitem{ref_v14}
+Kuang rong Shih and Shyh-Jier Huang.
+\newblock Application of a robust algorithm for dynamic state estimation of a
+  power system.
+\newblock {\em IEEE Transactions on Power Systems}, 17(1):141--147, 2002.
 
 \bibitem{Wu}
 Sankardas Roy, Charles Ellis, Sajjan Shiva, Dipankar Dasgupta, Vive Shandilya,
@@ -605,6 +627,11 @@ Jie Zhao, Khee~Poh Lam, and B.~Erik Ydstie.
   {MATLAB/SIMULINK} and {MLE+}.
 \newblock {\em Proceedings of 13th Conference of International Building
   Performance Simulation Association}, 2013.
+
+\bibitem{ref_v13}
+Liang Zhao and Ali Abur.
+\newblock Multi area state estimation using synchronized phasor measurement.
+\newblock {\em IEEE Transactions on Power Systems}, 20(2):611--617, 2005.
 
 \bibitem{Zhao:2013hvac}
 Peng Zhao, Gregor~P. Henze, Sandro Plamp, and Vincent~J. Cushing.

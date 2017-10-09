@@ -1,12 +1,12 @@
 % !TEX root = ../../thesis.tex
 
 \section{Power System State Estimation}\label{sec:application}
-We first introduce the physical layer model of an interconnected power system comprising several synchronous generators and buses, and then introduce a graph-theoretic model to describe the communication network which interconnects the wide-area and local controllers of the power system. Fig.~\ref{ps} illustrates the interactions between the physical and cyber layers in the system. Note that the components of the system and the notation used
+We first introduce the physical layer model of an interconnected power system comprising several synchronous generators and buses, and then introduce a graph-theoretic model to describe the communication network which interconnects the wide-area and local controllers of the power system. Figure~\ref{ps} illustrates the interactions between the physical and cyber layers in the system. Note that the components of the system and the notation used
 in this figure will be introduced throughout this section. Finally, we introduce two categories of cyber attacks that can potentially corrupt measurements and degrade the system's performance.
 
 \begin{figure*}[t]
 \begin{center}
-\includegraphics[width=6.5in]{chapters/se_nonlinear/figures/ps}\caption{A graphical depiction of the power system including both the physical and cyber layers.}\label{ps}
+\includegraphics[width=\textwidth]{chapters/se_nonlinear/figures/ps}\caption{A graphical depiction of the power system including both the physical and cyber layers.}\label{ps}
 \end{center}
 \end{figure*}
 
@@ -38,24 +38,25 @@ where $H_i$ is the machine inertia constant, $d_i$ is the damping coefficient of
 measurements of its neighbors \cite{facts_storage2}, \cite{facts_storage21}.}
 
 The energy storage receives a measurement-based control signal computed from PMU measurements, and injects $U_i$ per unit values of power into bus $i$ if $U_i\ge0$; otherwise, it absorbs $U_i$ per unit values of power from bus $i$. Similar to the study in \cite{facts_storage2}, we develop a feedback linearization controller, and assume that the local controller at bus $i\in\mathcal{G}$ implements the following feedback linearization control law
-\textcolor{black}{\begin{align}\label{Eq:Ui}
+\begin{align}\label{Eq:Ui}
 U_i = & - P^m_{i} + P_{i,\text{meas}}^e - F_i \left(\frac{\omega_i}{\omega_0} - 1 \right)
-\end{align}}
+\end{align}
 where $P_{i,\text{meas}}^e$ is computed locally by the controller at bus $i$, and $F_i \geq 0$ is a design parameter. For more information on the impact of the parameter $F_i$ on the transient behavior of the system, we refer the reader to \cite{facts_storage2}, \cite{facts_storage21}.
 
 
 \begin{figure}
-\includegraphics[width=0.42\textwidth]{chapters/se_nonlinear/figures/Comm_Net} \caption{A graphical depiction of the cyber network model: For simplicity, we focus on a system with only four generators in this figure. The graph in green (sold lines) shows the secured information flow (i.e., the set of information flows from the WACS to local controllers) while the graph in red (dotted lines) represents the set of non-secured information flows.}
+\centering
+\includegraphics[scale=0.6]{chapters/se_nonlinear/figures/Comm_Net} \caption{A graphical depiction of the cyber network model: For simplicity, we focus on a system with only four generators in this figure. The graph in green (sold lines) shows the secured information flow (i.e., the set of information flows from the WACS to local controllers) while the graph in red (dotted lines) represents the set of non-secured information flows.}
 \label{wacs}
 \end{figure}
 
 \subsection{Cyber Layer Model}
 To maintain the system's stability, the system operator has equipped each generator with a local controller, PMU, and transceiver through which information can be exchanged with the local controllers of other generators as well as the WACS. These transceivers are connected through a communication network which sends PMU measurements, including rotors' speeds and generators' phase angles, to different transceivers. The communication network, PMUs, and transceivers are not secured, and hence they are subject to cyber attacks and communication failures.
 
-In this study, we assume that the communication paths from the WACS to the local controllers are secured while other communication paths are not secured. Hence, the communication network interconnecting the transceivers can be described by two directed graphs, one for secured information flow and one for non-secured information flow, as shown in Fig.~\ref{wacs}.
+In this study, we assume that the communication paths from the WACS to the local controllers are secured while other communication paths are not secured. Hence, the communication network interconnecting the transceivers can be described by two directed graphs, one for secured information flow and one for non-secured information flow, as shown in Figure~\ref{wacs}.
 
 
-\textcolor{blue}{Typically, the WACS is strongly protected against cyber attacks, and the local transceivers are more vulnerable to cyber attacks and communication failures than the WACS. For more information, we refer the reader to the North American Electric Reliability Corp. (NERC)s Critical Infrastructure Protection (CIP) standards \cite{nerc}. In particular, we refer the reader to 1) CIP-002 BES Cyber System Categorization that identifies control centers as a ``High Impact Rating", and 2) CIP-005 Electronic security Perimeter(s) and CIP-006 Physical Security of BES Cyber Systems to see what requirements are needed for high impact systems. The CIP Standards explain why we assume that the communication paths from the WACS to the local controllers is secured.}
+Typically, the WACS is strongly protected against cyber attacks, and the local transceivers are more vulnerable to cyber attacks and communication failures than the WACS. For more information, we refer the reader to the North American Electric Reliability Corp. (NERC)s Critical Infrastructure Protection (CIP) standards \cite{nerc}. In particular, we refer the reader to 1) CIP-002 BES Cyber System Categorization that identifies control centers as a ``High Impact Rating", and 2) CIP-005 Electronic security Perimeter(s) and CIP-006 Physical Security of BES Cyber Systems to see what requirements are needed for high impact systems. The CIP Standards explain why we assume that the communication paths from the WACS to the local controllers is secured.
 
 %As mentioned earlier, in real power systems, measurements are telemetered from generating units to a wide area control system that performs secure state estimation and adjusts the set-point of each generator.
 \textcolor{black}{To maintain the system's stability in the presence of attacks and failures, the WACS needs to perform secure state estimation before using the received data (e.g., $\omega_i$'s and $\theta_i$'s) for computing wide area control signals and for monitoring local controllers. To do so, we distinguish two types of attacks:
@@ -63,15 +64,18 @@ In this study, we assume that the communication paths from the WACS to the local
 \item \textbf{c-attack:} an attack that corrupts communication channels between local controllers.
 \item \textbf{m-attack:} an attack that affects communication channels between a local controller and the WACS. %\textcolor{magenta}{ Is there any explanation/application such that we can justify $m$-attack? For example, any reviewers wonder why WACS $\rightarrow$ local controller is secured but local controller $\rightarrow$ WACS is non-secured.}
 \end{itemize}
-We assume that at any time instant, the cyber layer is subject to either a c-attack or an m-attack, but not both. This is discussed in detail in Section \ref{V_B}. However, both of these types of attacks and the set of attacked measurements can change at each time instant. These types of attacks are illustrated in Fig.~\ref{wacs} for a power system comprising four generators.}
+We assume that at any time instant, the cyber layer is subject to either a c-attack or an m-attack, but not both. This is discussed in detail in Section \ref{V_B}. However, both of these types of attacks and the set of attacked measurements can change at each time instant. These types of attacks are illustrated in Figure~\ref{wacs} for a power system comprising four generators.}
 
 
 
 \textcolor{black}{Next, by using the proposed secure state estimation technique, we develop a secure state estimator for estimating the dynamic states (i.e., generator' phase angles and rotors' speeds) of the power network.}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Secure State Estimator for Wide Area \\Control Systems}\label{sec:application1}
-The system dynamics and power flows can be described by the algebraic-differential equations in (\ref{load_bus})-(\ref{swing2k}). However, in order to use the proposed secure state estimation technique, we need to describe the system by a set of purely differential equations. To do so, we reduce the power network into a network of electro-mechanical oscillators, comprising the $G$ generators, by using the Kron reduction technique\footnote{\textcolor{black}{Kron reduction is a graph-based technique  used in power systems to eliminate algebraic load equations and to reduce the order of the interconnections between the synchronous generators \cite{kron}. This technique transforms an interconnected power system into an equivalent grid between the synchronous generators of the power system.}}. Let $\mathcal{V}^\prime$ denote the set of transmission lines between the $G$ generators after performing the Kron reduction technique, and let $\mathcal{K}(\mathcal{G},\mathcal{V}^\prime)$ denote the corresponding graph. This graph is connected and has $|\mathcal{V}^\prime|$ edges where $|\mathcal{V}^\prime| \le G (G-1)/2$.
+\section{Secure State Estimator for Wide Area Control Systems}\label{sec:application1}
+The system dynamics and power flows can be described by the algebraic differential equations in (\ref{load_bus})-(\ref{swing2k}). However, in order to use the proposed secure state estimation technique, we need to describe the system by a set of purely differential equations. To do so, we reduce the power network into a network of electro-mechanical oscillators, comprising the $G$ generators, by using the Kron reduction technique\footnote{\textcolor{black}{Kron reduction is a graph-based technique  used in power systems to eliminate algebraic load equations and to reduce the order of the interconnections between the synchronous generators \cite{kron}. This technique transforms an interconnected power system into an equivalent grid between the synchronous generators of the power system.}}. Let $\mathcal{V}^\prime$ denote the set of transmission lines between the $G$ generators after performing the Kron reduction technique, and let $\mathcal{K}(\mathcal{G},\mathcal{V}^\prime)$ denote the corresponding graph. This graph is connected and has $|\mathcal{V}^\prime|$ edges where $|\mathcal{V}^\prime| \le G (G-1)/2$.
 
 
 
@@ -108,7 +112,7 @@ where $y^c_{ij}$ is the measured rotor angle of generator $j$ (i.e., $\theta_j$)
 y^c_{ij}(t) & = \theta_j(t) + e^c_{ij} (t),~ i \in \mathcal{G},~j \in \mathcal{N}_i \cup \{i\}, \,
 \end{aligned}
 \end{equation}
-where $e^c_{ij}$ represents the attack signal. As mentioned earlier, we refer to this as a c-attack (see Fig.~\ref{wacs}).
+where $e^c_{ij}$ represents the attack signal. As mentioned earlier, we refer to this as a c-attack (see Figure~\ref{wacs}).
 %Note that $e^c_{ji}$ represents the corruption in the measurement of $\theta_i$ received at generator $j$, thus $e^c_{ij}$ and $e^c_{ji}$ represent two distinct variables.
 In addition, we assume $e^c_{ii}(t) = 0$ for all $t$. Note that $\theta_i$ is measured locally, and therefore it is not subject to cyber attack, i.e., $y^c_{ii}(t) = \theta_i(t)$ for all $t$.
 %Finally, $P^m_i$ represents the input mechanical power to generator $i$, thus is known to generator $i$.
@@ -120,7 +124,7 @@ To performs secure estimation, the WACS receives measurements $y^m_{ij}$ from al
 y^m_{ij}(t) &= y^c_{ij}(t) + e^m_{ij}(t),~i \in \mathcal{G},~j \in \mathcal{N}_i \cup \{i\} \,
 \end{aligned}
 \end{equation}
-where $e^m_{ij}$ represents the corruption in $y^c_{ij}$. We refer to these attacks as m-attacks (see Fig.~\ref{wacs}).
+where $e^m_{ij}$ represents the corruption in $y^c_{ij}$. We refer to these attacks as m-attacks (see Figure~\ref{wacs}).
 
 We now apply the forward Euler discretization scheme to this continuous-time system and obtain the following discrete-time approximation, assuming a constant discretization step $T_s$ for all $k$:
 \begin{equation}
