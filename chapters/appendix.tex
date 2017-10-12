@@ -1,47 +1,56 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% appendix.tex (part of thesis.tex)
+% author: Qie Hu
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %!TEX root = ../thesis.tex
 
-\appendix
-\vspace{-0.4cm}
-\section{APPENDIX}
-\vspace{-0.5cm}
-\rev{
-\subsection*{(Proof of Lemma \ref{lem:equivalent})}
-\vspace{-0.4cm}
-\begin{pf} 
- (By \cite{Candes_Tao}) Observe that on one hand, since $Y = \Phi x^{(0)} + E_{q,T}$ and we may decompose $x = x^{(0)} + v$, hence 
-\begin{equation}
-	(\ref{eq:direct_l1}) \Leftrightarrow \min_v \norm{  E_{q,T} - \Phi v }_{l_1} \nonumber 
-\end{equation}
-On the other hand, the constraint $Q_2^\top E = \tilde Y = Q_2^\top E_{q,T}$ means that $E = E_{q,T} - \Phi v $ for some $v \in \mathbb{R}^n$ \rev{since $\tilde Y = Q_2^T E = Q_2^T (E_{q,T} - \Phi v) = Q_2^T E_{q,T} - Q_2^T \Phi v = Q_2^T E_{q,T}$} and therefore,
-\vspace{-0.4cm}
-\begin{eqnarray}
-	(\ref{eq:solve_E}) &\Leftrightarrow& \min_v \norm{ E }_{l_1}, ~~~~ E = E_{q,T}-\Phi v  \nonumber \\
-				 & \Leftrightarrow& \min_v  \norm{E_{q,T}-\Phi v}_{l_1} \nonumber 
-\end{eqnarray}
-Thus, (\ref{eq:solve_E}) and (\ref{eq:direct_l1}) are equivalent programs \cite{Candes_Tao}.
-\end{pf}
-}
-\vspace{-0.65cm}
-\subsection*{(Proof of Theorem 1)}
-\vspace{-0.4cm}
+\documentclass[../thesis.tex]{subfiles}
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\section{Proof of Lemma \ref{lem:equivalent}}
+%
+%\textit{Proof}: 
+% (By \cite{Candes_Tao}) Observe that on one hand, since $Y = \Phi x(0) + E_{q,T}$ and we may decompose $x = x(0) + v$, hence 
+%\begin{equation}
+%	(\ref{eq:direct_l1}) \Leftrightarrow \min_v \norm{  E_{q,T} - \Phi v }_{l_1} \nonumber 
+%\end{equation}
+%On the other hand, the constraint $Q_2^\top E = \tilde Y = Q_2^\top E_{q,T}$ means that $E = E_{q,T} - \Phi v $ for some $v \in \mathbb{R}^n$ since $\tilde Y = Q_2^T E = Q_2^T (E_{q,T} - \Phi v) = Q_2^T E_{q,T} - Q_2^T \Phi v = Q_2^T E_{q,T}$ and therefore,
+%\begin{eqnarray}
+%	(\ref{eq:solve_E}) &\Leftrightarrow& \min_v \norm{ E }_{l_1}, ~~~~ E = E_{q,T}-\Phi v  \nonumber \\
+%				 & \Leftrightarrow& \min_v  \norm{E_{q,T}-\Phi v}_{l_1} \nonumber 
+%\end{eqnarray}
+%Thus, (\ref{eq:solve_E}) and (\ref{eq:direct_l1}) are equivalent programs \cite{Candes_Tao}.
+%\hfill$\blacksquare$
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\section{Proof of Theorem 1}
+
 In the following lemmas and proposition, we assume the following:
-\vspace{-0.4cm}
+
 \begin{enumerate}
 \item $A \in \mathbb{R}^{n\times n}$ has $n$ distinct positive eigenvalues such that $0 < \lambda_1 < \lambda_2 < \cdots < \lambda_n$.% \st{and each row of $C$ is not identically zero and is not redundant}.
 \item $C \in \mathbb{R}^{p \times n}$ is full rank. 
 \item The pair $(A,C)$ is observable.
 \item $\forall v_i \in \mathbb{R}^n$ where  $ Av_i = \lambda_i v_i $ (i.e., $v_i$ is an eigenvector of $A$), $ \lvert \textsf{supp}(Cv_i) \rvert > 2q$.
 \end{enumerate}
-\vspace{-0.4cm}                                
+                              
 Recall that we want to show that given $\lvert \textsf{supp} (\Phi v_i) \rvert > 2q\cdot T $ for all eigenvectors $v_i$ of $A$, then $\lvert \textsf{supp} (\Phi z) \rvert > 2q\cdot T $ for all $z \in \mathbb{R}^n \backslash \{0\}$. Now, $A$ has $n$ distinct eigenvalues, hence the eigenvectors of $A$ form a basis for $\mathbb{R}^n$, and any $z \in \mathbb{R}^n$ can be expressed in the eigenbasis of $A$, i.e., $ z = \sum_{i=1}^n \alpha_i v_i$. Therefore, $\Phi z = \sum_{i=1}^n \alpha_i \Phi v_i$, and thus, the only way that the number of nonzero terms in $\Phi z$ may be less than $2q\cdot T$ is if too many nonzero terms in $\Phi v_i$ are cancelled during this summation. 
 In other words, there are rows that are nonzero in the vectors $\Phi v_i$, however after the scaling by $\alpha_i$'s and summation, these rows become zero in $\Phi z$. Therefore our goal is to prove upper bounds on the number of such cancellations, and use these upper bounds to derive a value of $T$ such that even in the worst case (i.e., with most number of cancellations), the number of nonzero terms in $\Phi z$ is greater than $2q\cdot T$ for all $z \in \mathbb{R}^n \backslash \{0\}$.
-\\
+
 Before we present the proof, we define the following notations: $c_i^\top$ is the $i$-th row of $C$, ${\bf v} \triangleq \begin{bmatrix} v_1 & v_2 & \cdots & v_n \end{bmatrix} \in \mathbb{R}^{n \times n}$, $\Lambda \triangleq \text{diag}\{ \lambda_1, \cdots , \lambda_n \} \in \mathbb{R}^{n \times n}$. %and $\psi_i \triangleq \Phi v_i = \begin{bmatrix} Cv_i ; \lambda_i C v_i; \lambda_i^2 C v_i; \cdots; \lambda_i^{T-1} C v_i \end{bmatrix}$. 
 For all $z \in \mathbb{R}^n$, $ z = {\bf v} \cdot \alpha$ where $\alpha = \begin{bmatrix} \alpha_1, \alpha_2, \cdots, \alpha_n \end{bmatrix}^\top $.
 In addition, with these notations, $\Phi z = \begin{bmatrix} C {\bf v} \alpha; C {\bf v} \Lambda \alpha; \cdots; C {\bf v} \Lambda^{T-1} \alpha \end{bmatrix}$.
-\\
+
 We will first consider two simple cases where $z$ is spanned by two and three eigenvectors ($m = 2$ and $m =3 $) respectively, and then generalize the results to $3 < m \leq n$. The proofs use the following result.
-\vspace{-0.35cm}
+
 \begin{lem} \label{lem:gv}
 For $m$ real numbers $0< \lambda_1 < \lambda_2 < \cdots < \lambda_m$, and $m$ positive integers $0< x_1 < x_2 < \cdots < x_m$, the Generalized Vandermonde matrix $GV(\lambda_1, \cdots, \lambda_m; x_1, \cdots x_m)$ defined as
 \begin{equation}
@@ -54,8 +63,8 @@ GV(\lambda_1, \cdots, \lambda_m; x_1, \cdots x_m) =
 	\end{equation}\nonumber
 is nonsingular.
 \end{lem}
- \vspace{-0.4cm}
-\begin{pf}
+
+\textit{Proof}:
 $GV(\lambda_1, \cdots, \lambda_m; x_1, \cdots x_m)$ is a submatrix of a Vandermonde matrix $V(\lambda_1, \cdots, \lambda_{T-1})$ defined as
 \begin{equation}
 V(\lambda_1, \cdots, \lambda_{T-1}) = 
@@ -69,11 +78,11 @@ V(\lambda_1, \cdots, \lambda_{T-1}) =
 where $T$ is a positive integer, $0< \lambda_1 < \lambda_2 < \cdots < \lambda_{T-1}$, $\{x_1, x_2, \cdots, x_m\} \subseteq \{0, 1, \cdots, T-1\}$ and $\{ \lambda_1,\cdots, \lambda_m\} \subseteq \{ \lambda_1,\cdots, \lambda_{T-1}\} $.
 
 $V(\lambda_1, \cdots, \lambda_{T-1})$ is a Totally Positive (TP) matrix \cite{fallat2011tnm}, and by definition of TP matrices, all minors of $V(\lambda_1, \cdots, \lambda_{T-1})$, i.e., the determinant of all submatrices of $V(\lambda_1, \cdots, \lambda_{T-1})$, are positive. Therefore $GV(\lambda_1, \cdots, \lambda_m; x_1, \cdots x_m) $ is nonsingular.
-\end{pf}
-\vspace{-0.4cm}
+\hfill$\blacksquare$\\
+
 %\textcolor{blue}{(Maybe we don't need Lemma 6 and Lemma 7, can go directly to this Proposition for the general $m$ eigenvector case.)}
 
-\rev{
+
 \begin{lem}\label{lem:two_vec}
 ($m=2$)  Consider $z = \sum_{i=1}^2 \alpha_i v_i $ (i.e.,  $\alpha_1 \neq 0$, $\alpha_2 \neq 0$, $\alpha_j = 0, \forall j\ge 3$):
 \begin{enumerate}
@@ -93,8 +102,9 @@ If we choose $T > \frac { p + \min \{ s_1, s_2, s_3 \}} { \max \{s_1, s_2, s_3 \
 \end{enumerate}
 \end{lem}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{pf}
+\textit{Proof}:
 (1) %Assume there exists $l \in \{1, \cdots , T-1\}$ such that both $i$-th row of $\lambda_1 C v_1$ and $\lambda_2 C v_2$ are not zero but the $i$-th row of $C {\bf v} \Lambda^l \alpha$ is zero. In other words, if the support of the $i$-th row of $C{\bf v} \Lambda^l \alpha$ is cancelled out, i.e, $c_i ^\top {\bf v} \Lambda^l \alpha = 0$, then for all $k \in \{1, \cdots , T-1\}$ and $k \neq l$, the $i$-th row of $C {\bf v} \Lambda^k \alpha \neq 0$. 
  (Suppose not) %$ c_i^\top {\bf v} \Lambda^k \alpha=0$ where $C = \begin{bmatrix} c_1^\top \\ c_2^\top \\ \vdots \\ c_p^\top \end{bmatrix}$. 
 There exist $l \neq k$ and $l \in \{ 0, \cdots, T-1 \}$ such that $c_i^\top {\bf v} \Lambda^l \alpha = c_i^\top {\bf v} \Lambda^k \alpha= 0$:
@@ -110,7 +120,7 @@ Without loss of generality, assume $l<k$. We can reformulate above equation as f
 	\begin{bmatrix} v_1^\top \\ v_2^\top \end{bmatrix} c_i = \begin{bmatrix} 0 \\ 0 \end{bmatrix}. \nonumber 
 \end{equation}
 %where $\gamma = \frac{\lambda_2 } {\lambda_1}$.  Since $A$ has $n$ non-zero and distinct magnitude eigenvalues, $| \gamma | \neq 1$ and 
-Now, the first matrix on the left hand side (LHS) is a Generalized Vandermonde matrix $GV(\lambda_1,\lambda_2;l, k)$ with $0<\lambda_1< \lambda_2$ and $0< l<k$, thus by Lemma \ref{lem:gv} it is nonsingular. The second matrix on the LHS is also nonsingular as $\alpha_1 \neq 0$ and $\alpha_2 \neq 0$. Therefore we must have $v_1^\top c_i = v_2^\top c_i = 0$ (contradiction, since $c_i^\top v_1 \neq 0$ and $c_i^\top v_2 \neq 0$ by assumption).
+Now, the first matrix on the left hand side (LHS) is a Generalized Vandermonde matrix $GV(\lambda_1,\lambda_2;l, k)$ with $0<\lambda_1< \lambda_2$ and $0< l<k$, thus by Lemma \ref{lem:gv} it is nonsingular. The second matrix on the LHS is also nonsingular as $\alpha_1 \neq 0$ and $\alpha_2 \neq 0$. Therefore we must have $v_1^\top c_i = v_2^\top c_i = 0$ (contradiction, since $c_i^\top v_1 \neq 0$ and $c_i^\top v_2 \neq 0$ by assumption).\\
 
 (2) Let $L_1, L_2, L_{12}$ be three disjoint subsets of $\{1,\cdots, p\}$ such that $L_1 = \textsf{supp} (C v_1) \cap \textsf{supp}(C v_2)^c $, $L_2 = \textsf{supp} (Cv_2) \cap \textsf{supp} (C v_1)^c $, and $L_{12} = \textsf{supp} (C v_1) \cap \textsf{supp} (C v_2)$ where the superscript $^c$ represents the set complement. Then, $\textsf{supp} (C v_1)  = L_1 \oplus L_{12}$, $\textsf{supp} (C v_2)  = L_2 \oplus L_{12}$, $ s_1 \triangleq \lvert \textsf{supp} (C v_1) \rvert = \lvert  L_1 \oplus L_{12} \rvert > 2q$,  $s_2 \triangleq \lvert \textsf{supp} ( C v_2) \rvert =  \lvert L_2 \oplus L_{12} \rvert > 2q $ and $s_{12} \triangleq \lvert  L_{12} \rvert \le \min \{s_1, s_2\}$. 
 Also, possible cancellations only occur in the subset $L_{12}$ by definition. 
@@ -140,7 +150,6 @@ Thus, $\sum_{k=0}^{T-1}  s_{r,12}^k \le \lvert L_{12} \vert \le \min \{s_1, s_2 
 \end{aligned}
 \end{equation}
 %Note that $T > \frac { \min \{ s_1, s_2 \} } { \max \{ s_1, s_2 \} - 2q }$.
-\end{pf}
 
 
 %
@@ -194,11 +203,13 @@ Thus, $\sum_{k=0}^{T-1}  s_{r,12}^k \le \lvert L_{12} \vert \le \min \{s_1, s_2 
 %\end{equation}
 %where $  \frac  {\gamma_{13}^f  - \gamma_{13}^d} {\gamma_{12}^f - \gamma_{12}^d} - \frac {\gamma_{13}^e  - \gamma_{13}^d} {\gamma_{12}^e - \gamma_{12}^d}  \neq 0$)\\
 %%\qie{I tried to use proof by induction, and tried for $k=3$ and $k=4$. I emailed you photos of what I did, and noted problems that I encountered.}
-Again, the first matrix on the LHS is a Generalized Vandermonde matrix satisfying the conditions of Lemma \ref{lem:gv}, hence it is nonsingular. The second matrix on the LHS is also nonsingular as $\alpha_1 \neq 0$, $\alpha_2 \neq 0$ and $\alpha_3 \neq 0$. Therefore we must have ${\bf v} ^\top c_i =0 $ (contradiction). A similar derivation as in Lemma \ref{lem:two_vec} then shows $\sum_{k=0}^{T-1} s_{r,123}^k \le 2 \cdot s_{123}$. 
+Again, the first matrix on the LHS is a Generalized Vandermonde matrix satisfying the conditions of Lemma \ref{lem:gv}, hence it is nonsingular. The second matrix on the LHS is also nonsingular as $\alpha_1 \neq 0$, $\alpha_2 \neq 0$ and $\alpha_3 \neq 0$. Therefore we must have ${\bf v} ^\top c_i =0 $ (contradiction). A similar derivation as in Lemma \ref{lem:two_vec} then shows $\sum_{k=0}^{T-1} s_{r,123}^k \le 2 \cdot s_{123}$. \\
 
 (4) Consider $Cv_1, Cv_2, Cv_3$ and $\Phi z$:\\
 
-\begin{tabular}[!b]{ccc} 
+\begin{table}[h]
+\centering
+\begin{tabular}{ccc} 
   \hline
   $\textsf{supp}(Cv_1)$ &   $\textsf{supp}(Cv_2)$ &   $\textsf{supp}(Cv_3)$\\
   \hline
@@ -210,7 +221,8 @@ Again, the first matrix on the LHS is a Generalized Vandermonde matrix satisfyin
  $ L_{13}$ & {\bf 0} &   $ L_{13}$  \\
 $L_{123}$ &   $L_{123}$ &  $L_{123}$\\
   \hline
-\end{tabular}%\\
+\end{tabular}
+\end{table}%\\
 % {\centering
 %\begin{tabular}[!b]{ccc} 
 %  \hline
@@ -225,8 +237,10 @@ $L_{123}$ &   $L_{123}$ &  $L_{123}$\\
 %  \cellcolor{gray!25}$L_{123}$ &   \cellcolor{gray!25}$L_{123}$ &  \cellcolor{gray!25}$L_{123}$\\
 %  \hline
 %\end{tabular}\\}
-\bigskip\\
-\noindent Without loss of generality, assume $s_3\ge s_2 \ge s_1$ (recall $s_1 = \vert L_1 \oplus L_{12} \oplus L_{13} \oplus L_{123} \vert = \lvert L_1 \rvert + s_{12} + s_{13} + s_{123}$):
+%\bigskip\\
+\noindent 
+Without loss of generality, assume $s_3\ge s_2 \ge s_1$ (recall $s_1 = \vert L_1 \oplus L_{12} \oplus L_{13} \oplus L_{123} \vert = \lvert L_1 \rvert + s_{12} + s_{13} + s_{123}$):
+
 \begin{equation}
 \begin{aligned}
 	\lvert \textsf{supp}(\Phi z) \rvert  &=  T \cdot(s_1 - s_{12} - s_{13} - s_{123}) \\&~ + T \cdot(s_2 - s_{12} - s_{23} - s_{123}) \\&~ + T \cdot(s_3 - s_{23} - s_{13} - s_{123}) \\ 
@@ -238,12 +252,17 @@ $L_{123}$ &   $L_{123}$ &  $L_{123}$\\
 \end{aligned}
 \end{equation}
 where
-$\sum_{k=0}^{T-1} (s_{r,12}^k + s_{r,23}^k + s_{r,13}^k   )$ $\le s_{12} + s_{23} + s_{13} $$ \le p - s_{123}$, $\sum_{k=0}^{T-1} s_{r,123}^k \le 2 \cdot s_{123}$ and $ s_{123} \le \min \{ s_1, s_2, s_3 \}$ and note that $T > \frac { p + \min \{ s_1, s_2, s_3 \}} { \max \{s_1, s_2, s_3 \} - 2q }$.
-}
-\begin{prop} \label{prop:m_vec}
+$\sum_{k=0}^{T-1} (s_{r,12}^k + s_{r,23}^k + s_{r,13}^k   )$ $\le s_{12} + s_{23} + s_{13} $$ \le p - s_{123}$, $\sum_{k=0}^{T-1} s_{r,123}^k \le 2 \cdot s_{123}$ and $ s_{123} \le \min \{ s_1, s_2, s_3 \}$ and note that $T > \frac { p + \min \{ s_1, s_2, s_3 \}} { \max \{s_1, s_2, s_3 \} - 2q }$.\hfill$\blacksquare$\\
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{proposition} \label{prop:m_vec}
 Consider $m$ eigenvector combinations $(n\ge m \ge 2)$. Then, the total number of cancellations over $T$ time steps satisfies $\sum_{k=0}^{T-1} s_{r,12 \cdots m}^k \le (m-1)\cdot s_{12 \cdots m}$ where $s_{12\cdots m} = \lvert \textsf{supp} (Cv_1) \cap \cdots \cap \textsf{supp} (Cv_m) \rvert$.
-\end{prop}
-\begin{pf}
+\end{proposition}
+
+\textit{Proof}:
 Claim: the $i$-th row of $C{\bf v}\Lambda^k \alpha$ is cancelled at most ($m-1$) times over $T$ time steps, i.e., for at most ($m-1$) distinct values of $k \in \{0, 1, \cdots, T-1\}$
 (Suppose not)
 \begin{equation}
@@ -270,4 +289,12 @@ Claim: the $i$-th row of $C{\bf v}\Lambda^k \alpha$ is cancelled at most ($m-1$)
 \end{aligned}
 \end{equation}
 Again, the first matrix on the LHS is a Generalized Vandermonde matrix satisfying the conditions of Lemma \ref{lem:gv}, hence it is nonsingular. The second matrix on the LHS is also nonsingular as $\alpha_i \neq 0$ for all $i \in \{1, 2, \cdots, m\}$. Therefore we must have ${\bf v}^\top c_i = 0$ (contradiction). A similar derivation as in Lemma \ref{lem:two_vec} then shows $\sum_{k=0}^{T-1} s_{r,12\cdots m}^ k \le (m-1) \cdot s_{12\cdots m}$.
-\end{pf}
+\hfill$\blacksquare$
+
+
+\end{document}
+
+
+
+
+

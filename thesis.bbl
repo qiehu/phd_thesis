@@ -142,6 +142,11 @@ Luca Fabietti, Tomasz~T. Gorecki, Faran~A. Qureshi, Altug Bitlislioglu, Ioannis
   Commercial Buildings}.
 \newblock {\em IEEE Transactions on Smart Grid}, 2016.
 
+\bibitem{fallat2011tnm}
+Shaun~M. Fallat and Charles~R. Johnson.
+\newblock {\em Totally nonnegative matrices}.
+\newblock Princeton University Press, 2011.
+
 \bibitem{facts_storage2}
 Abdallah Farraj, Eman Hammad, and Deepa Kundur.
 \newblock A cyber-enabled stabilizing control scheme for resilient smart grid

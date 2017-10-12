@@ -251,17 +251,18 @@ solving the following $l_1$-minimization problem \cite{tao11}:
  $x(0)$ is the unique solution of (\ref{eq:direct_l1}) if and only if ${\hat E}_{q,T}$ is the unique solution of (\ref{eq:solve_E}).
 \end{lem}
 
-\textit{Proof}: (see Appendix) \hfill$\blacksquare$
-% (By \cite{tao11}) Observe that on one hand, since $Y = \Phi x(0) + E_{q,T}$ and we may decompose $x = x(0) + v$, hence 
-%\begin{equation}
-%	(\ref{eq:direct_l1}) \Leftrightarrow \min_v \norm{  E_{q,T} - \Phi v }_{l_1} \nonumber 
-%\end{equation}
-%On the other hand, the constraint $Q_2^\top E = \tilde Y = Q_2^\top E_{q,T}$ means that $E = E_{q,T} - \Phi v $ for some $v \in \mathbb{R}^n$ \rev{since $\tilde Y = Q_2^T E = Q_2^T (E_{q,T} - \Phi v) = Q_2^T E_{q,T} - Q_2^T \Phi v = Q_2^T E_{q,T}$} and therefore,
-%\begin{eqnarray}
-%	(\ref{eq:solve_E}) &\Leftrightarrow& \min_v \norm{ E }_{l_1}, ~~~~ E = E_{q,T}-\Phi v  \nonumber \\
-%				 & \Leftrightarrow& \min_v  \norm{E_{q,T}-\Phi v}_{l_1} \nonumber 
-%\end{eqnarray}
-%Thus, (\ref{eq:solve_E}) and (\ref{eq:direct_l1}) are equivalent programs \cite{tao11}.
+\textit{Proof}:
+ (By \cite{tao11}) Observe that on one hand, since $Y = \Phi x(0) + E_{q,T}$ and we may decompose $x = x(0) + v$, hence 
+\begin{equation}
+	(\ref{eq:direct_l1}) \Leftrightarrow \min_v \norm{  E_{q,T} - \Phi v }_{l_1} \nonumber 
+\end{equation}
+On the other hand, the constraint $Q_2^\top E = \tilde Y = Q_2^\top E_{q,T}$ means that $E = E_{q,T} - \Phi v $ for some $v \in \mathbb{R}^n$ since $\tilde Y = Q_2^T E = Q_2^T (E_{q,T} - \Phi v) = Q_2^T E_{q,T} - Q_2^T \Phi v = Q_2^T E_{q,T}$ and therefore,
+\begin{eqnarray}
+	(\ref{eq:solve_E}) &\Leftrightarrow& \min_v \norm{ E }_{l_1}, ~~~~ E = E_{q,T}-\Phi v  \nonumber \\
+				 & \Leftrightarrow& \min_v  \norm{E_{q,T}-\Phi v}_{l_1} \nonumber 
+\end{eqnarray}
+Thus, (\ref{eq:solve_E}) and (\ref{eq:direct_l1}) are equivalent programs \cite{tao11}.
+\hfill$\blacksquare$\\
 
 
 Even though we are interested in the state $x(0)$ and not necessarily the error vectors $E_{q,T}$, Lemma \ref{lem:equivalent} states that if the attack vectors cannot be uniquely determined from (\ref{eq:solve_E}), then we cannot estimate $x(0)$ uniquely from (\ref{eq:direct_l1}). \cite{Fawzi:2014} also mentioned this notion: the existence of an estimator that can correct $q$ attacks is equivalent to saying that the map, $\begin{bmatrix} \Phi & {\bf I}_{q\cdot T} \end{bmatrix}: \mathbb{R}^n \times E_{q,T} \rightarrow (\mathbb{R}^p)^T$ has an inverse for the first $n$ components of its domain where $Y = \begin{bmatrix} \Phi & {\bf I}_{q\cdot T} \end{bmatrix} \begin{bmatrix} x(0) \\ E_{q,T} \end{bmatrix} $ since the attack vectors are uniquely determined by $x(0)$ and the $y(k)$'s, i.e., $e(k) = y(k) - CA ^k x(0)$. 
