@@ -9,16 +9,32 @@
 \documentclass[../thesis.tex]{subfiles}
 \begin{document}
 
-The operation of a reliable power grid depends on a balance of supply and demand at all times. 
-%Any mismatch can cause the grid frequency to deviate from its nominal value (60 Hz in the U.S.).
-Reserves known as ancillary services (AS) are used to correct any mismatch.
-Amongst them, frequency regulation is the highest quality AS over which the grid operator has almost real-time control and is active continuously during normal operation of the grid, to maintain the grid frequency at its nominal value (60 Hz in the U.S.).
-The recent rapid increase in the penetration of renewable energy sources has increased the volatility and uncertainty of electricity supply, which leads to a greater demand for frequency regulation reserves.
+The electric power grid is a complex system whose reliable operation depends on many conditions, amongst these are the balance between electricity generation and consumption, and protection against cyber attacks.
+%subject to natural disasters, cyber attacks, in addition to the rapid system dynamics and demand swings inherent in providing electric power across large areas.
+%A large mismatch between generation and consumption, as well as cyber attacks 
+When these conditions are not met, the grid can experience power outages leading to economic losses, physical damage, or even bodily harm.
+This thesis presents progress in the path of tackling these two problems, and consists of two main parts.
+Chapters 2 and 3 describe first attempts at using commercial buildings to provide frequency regulation -- a type of service used to balance electricity generation and demand. 
+Chapters 4 and 5 focus on developing methods that estimate the true state of a power system when it is under cyber attack.
 
-Although these reserves have been traditionally provided by conventional power generators, loads on the demand side have also been considered. 
-%, by increasing (and decreasing) their electricity consumption when the grid frequency increases (decreases).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Frequency Regulation from Commercial Buildings}
+
+A balance of supply and demand must be maintained at all times to achieve the reliable operation of the power system.
+Any mismatch between them is reflected through the power system's frequency: if generation exactly meets demand, then the system's frequency is at its nominal value of 60 Hz; if generation exceeds demand, then the frequency increases, and vice versa.
+%Too much deviation of the grid frequency from the nominal value can lead to a power outage.
+Therefore, to maintain normal operation of the power grid, the grid operator uses reserves known as ancillary services (AS) to correct any mismatch between electricity generation and demand.
+Amongst these reserves, frequency regulation is the highest quality AS over which the grid operator has almost real-time control and is active continuously during normal operation of the grid.
+Recent rapid increase in the penetration of renewable energy sources has increased the volatility and uncertainty of electricity generation, which lead to a greater demand for frequency regulation reserves.
+These reserves have been traditionally provided by fast ramping power generators.
+An alternative is to explore flexibility on the demand side, which may have less economic and environmental cost in the long run. 
+More specifically, loads can provide regulation by increasing (decreasing) their electricity consumption when the grid frequency increases (decreases).
+
 In particular, commercial buildings are a tremendous untapped resource for this application. 
-First, they account for a large fraction of the total electricity consumption (more than 35\% in the U.S., 39\% of which is due to heating, ventilation and air conditioning (HVAC) systems \cite{USenergy:2013}). 
+First, they account for a large fraction of the total electricity consumption (more than 35\% in the U.S., 39\% of which is due to heating, ventilation and air conditioning (HVAC) systems \cite{USenergy:2017}). 
 Second, the building's large thermal capacity allows the power consumption of HVAC systems be partly shifted in time without compromising occupant comfort. 
 Third, many commercial buildings are equipped with a variable frequency drive which can be controlled to vary the power consumption of supply fans of the HVAC system quickly and continuously \cite{Hao:2012demandresponse}. This greatly simplifies tracking of the reference regulation signal, as opposed to resources with on-off control.
 %as opposed to on-off control of other equipments such as residential air conditioners and electric vehicles.
@@ -31,36 +47,74 @@ Because commercial buildings are often subject to large disturbances such as occ
 In addition, buildings are often not sufficiently excited, as they must satisfy strict regulatory requirements during regular operation, which limit the type and duration of excitation experiments that can be conducted.
 Second, about one third of commercial buildings in the U.S. are equipped with variable air volume (VAV) HVAC systems \cite{Hao:2012demandresponse}, which are typically complex with many control variables and interdependent control loops.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+This thesis proposes procedures to develop both data-driven and physics-based models for the thermodynamic behavior of commercial buildings, and provides a quantitative comparison between them using both open- and closed-loop metrics. 
+In addition, this thesis experimentally demonstrates the feasibility of using a VAV HVAC system for frequency regulation. 
+Experiments are conducted in accordance with Pennsylvania, New Jersey, Maryland's (PJM) requirements using historical PJM regulation signals.
+To the best of our knowledge, this is the first report where an occupied commercial building equipped with a VAV HVAC system can successfully provide frequency regulation.
 
-\section{Related Work}
-Most of the existing literature on using commercial buildings for frequency regulation is based on simulation and theory. 
-\textit{Zhao et al.} demonstrated, through simulations, that commercial building's HVAC system can provide frequency regulation by adjusting the setpoint of the duct static pressure \cite{Zhao:2013hvac}.
-%\cite{Hao:2012demandresponse} and 
-In \cite{Hao:2014fan}, the authors showed that %in commercial buildings with VAV HVAC systems, 
-up to 15\% of the rated supply fans' power can be used to provide regulation reserves in the frequency range $f \in [1/(3 \text{~min}), 1/(8 \text{~sec})]$. 
-In addition, this frequency range can be extended down to $1/(1 \text{~hr})$ if chillers are incorporated \cite{Lin:2013chiller}.
-Researchers have also investigated the feasibility of using an aggregation of buildings to provide reserves: \cite{Balandat:2014contractdesign} studied the problem of contract design and \cite{Vrettos:2014aggregation} proposed a hierarchical control scheme for this scenario.
 
-On the experimental side, there has been only a few field tests, and most of them were conducted in controlled laboratory environments with minimal uncertainties.
-%\textit{Maasoumy et al.} showed that by adjusting the setpoint of the duct static pressure, the power consumption of the supply fans can be varied quickly without significant changes in the building temperature \cite{Maasoumy:2014exp}.
-\textit{Maasoumy et al.} showed that variations in the setpoint of the duct static pressure can indirectly control the supply fans' power \cite{Maasoumy:2014exp}. %, but the authors did not attempt to track any regulation signal \cite{Maasoumy:2014exp}.
-In \cite{Lin:2015exp}, experiments were conducted in an unoccupied auditorium where filtered versions of the frequency regulation signal were tracked over 40 minute time durations using two distinct control inputs: the supply fans' speed and the setpoint of the supply air flow rate. 
-In their work, the baseline consumption was determined \textit{a posteriori} using a high pass filter, which is not in accordance with the current AS market rules.
-Later, \textit{Vrettos et al.} presented a method that computes the reserve capacity and baseline at the beginning of the regulation period \cite{Vrettos:2016flexlab1}, and carried out extensive experiments in single-zone unoccupied test cells \cite{Vrettos:2016flexlab2}.
 
-In another interesting contribution, the power consumption of electric heaters was %varied in a controlled environment 
-controlled to provide frequency regulation \cite{Fabietti:2016exp}. 
-To minimize uncertainties, experiments were conducted in unoccupied rooms at nighttime.
-The same group of researchers then extended these results with a formulation to readjust the baseline in the intraday market to account for prediction errors, and carried out experiments during the day in occupied offices, where indoor climate is controlled using electric heaters \cite{Gorecki:2017exp}.
-%a formal method to compute optimal regulation capacities to account for uncertainties and demonstrated their method through a similar set of experiments, but carried out during the day in occupied offices.
-Electric heaters have the advantage of being simpler to model compared to VAV HVAC systems and are found in many European buildings.
-%therefore they are often chosen by researchers to demonstrate the feasibility of proposed frequency tracking strategies. 
-However, since many commercial buildings in the U.S. are equipped with the latter, experimental demonstration using VAV HVAC systems is essential for their wide implementation in the U.S..
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Secure State Estimation against Cyber Attacks}
+
+The power system is an example of a cyber physical system, 
+
+
+
+
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Cyber-physical systems (CPS) are found in many applications such as power networks, manufacturing processes, air and ground transportation systems. They consist of physical components such as actuators, sensors and controllers that communicate with each other over a network \cite{kim2012cyber}. 
+For example, unmanned aerial vehicles (UAV) may obtain position measurements from a Global Positioning System (GPS) or communicate with a remote control center (RCC). Although communication networks are often protected by security measures, cyber attacks can still take place when a malicious attacker obtains unauthorized access, launching jamming attacks \cite{Gligor}, or spoofing sensor readings and sending erroneous control signals to actuators \cite{Mo}. For CPS, cyber attacks not only compromise information but can also cause damage in the physical process, ranging from power systems \cite{teixeira2010cyber, liu2011false} to UAVs \cite{Hu:2016uav}. This presents new challenges and thus demands new strategies and algorithms \cite{Sastry}.
+
+Maintaining security of these systems under cyber attacks is an important and challenging task, since these attacks can be erratic and thus difficult to model. Secure estimation problems study how to estimate the true system states when  measurements are corrupted and/or control inputs are compromised by attackers. \cite{Fawzi:2014} proposed a novel secure estimation method assuming that attack signals can be arbitrary and unbounded. However, one limitation of their proposed estimator is that the set of attacked sensors (sensors, controllers) is assumed to be fixed. 
+In this chapter, we extend these results to scenarios in which the set of attacked sensors can change over time. We formulate this secure estimation problem into the classical error correction problem \cite{tao11} and we show that accurate estimation can be guaranteed. Furthermore, we propose a combined secure estimation method with our proposed secure estimator and the Kalman Filter (KF) for improved practical performance. Finally,  we demonstrate the performance of our method through simulations of two scenarios where a UAV is under cyber attack.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+Cyber-physical systems (CPS) that consist of several actuators, sensors, controllers, and communication networks, are becoming increasingly prevalent in many infrastructures. Securing these systems against malicious attacks and communication failures is an important problem \cite{cps1}. Recently, several aspects of the problem of securing complex CPS have been investigated, e.g., the networking security among cyber devices \cite{security_0}-\!\!\cite{comm_net_4} and the early detection of attacks \cite{comm_early_1}-\!\!\cite{comm_early_2}. Researchers have also tried to understand how we can securely estimate the state of a dynamical system from a set of corrupted sensor measurements by leveraging the system dynamics \cite{Fawzi:2014}.
+
+
+
+Several researchers have focused on linear dynamical systems \cite{Fawzi:2014}-\!\!\cite{new4}, and have tried to provide security guarantees. The existing literature related to secure state estimation in linear dynamical systems can be broadly categorized into two classes depending on the noise model for sensor measurements: 1) noiseless measurements, and 2) noisy measurements. For the noiseless framework, the studies in \cite{cps1}, \cite{Fawzi:2014}, \cite{new2} show that, sensor attacks can be detected and corrected under certain conditions, and hence the state of the system can be accurately reconstructed. Fawzi \textit{et al.} \cite{Fawzi:2014} focus on secure estimation and control of linear time-invariant systems, and assume that the set of attacked nodes does not change over time. The authors then formulate the system under attack as an estimation problem without any limiting assumption on attack signals, and propose a novel method for error estimation and correction. The main drawback of the study is that the set of attacked nodes is assumed to be fixed.
+
+Hu \textit{et al.} \cite{Hu:2016uav} extends the results in \cite{Fawzi:2014} to scenarios in which the set of attacked nodes can change over time, and show that under a certain condition, the secure estimation problem with time-varying attacked nodes is equivalent to the classical error correction problem. The authors provide a novel method to guarantee accurate decoding, and then propose a secure estimation method which is a combination of the proposed secure estimator and the Kalman Filter (KF). Finally, they demonstrate the performance of their algorithm through numerous simulations. The problem of distinguishing between measurement noise and attack signals arises when the sensor measurements are affected by both noise and attack signals. This problem is studied in \cite{new4}-\!\!\cite{new10}. The authors provide sufficient conditions under which the
+sparse attack vectors can be distinguished from measurement noise.
+
+
+Although many approaches in the literature are addressing the secure state estimation problem, they are based
+on linear dynamical systems. Hence, the existing secure estimators can be applied to nonlinear dynamical systems if we linearize these systems. It is well known that the linearization of nonlinear dynamical systems can result in the following drawbacks:
+\begin{enumerate}
+\item Linearization is reliable if the higher order terms in the Taylor series expansion can be eliminated; otherwise, the linearized model may perform poorly. %Therefore, the linearized model is only valid under small perturbation.
+\item Linearization can be applied when all the eigenvalues of the Jacobian matrix have nonzero real part. However, this is not always the case.
+\end{enumerate}
+For example, linearized power system models are only valid under small perturbations in the system at hand. Under a severe disturbance, such as a single or multi-phase short-circuit or a generator loss, the linearized model does not remain valid \cite{Kundur}-\!\!\cite{nonlin_est}. Therefore, the existing techniques lack performance guarantees when the system undergoes large perturbations which are typical of highly loaded practical systems. To overcome the above drawbacks, we develop a secure state estimation method without linearization or calculation of Jacobian matrices. Note that feedback linearization techniques transform the nonlinear system into an equivalent linear system through a change of variables and a suitable control input. Even with such techniques, the secure estimation problem for nonlinear dynamical systems is a nonlinear problem.
+
+
+
+To overcome the limitations of applying linear system based secure state estimation methods on nonlinear systems, we investigate the secure estimation of the state of a nonlinear dynamical system from a set of corrupted measurements. 
+As in Chapter \ref{chapter:se_linear}, we do not make any assumption on the sensor attacks or corruptions (i.e., corruptions can follow any particular model). Our only assumption concerning the corrupted sensors is about the number of sensors that are corrupted due to attacks or failures. We consider two classes of nonlinear systems, and design secure state estimators for these assuming that the set of attacked sensors can change with time. A practical example of such a cyber attack is described in \cite{liu2014coordinated}, where a multi-switch attack, in which different switches in a power network are attacked at different times, is designed to lead to stealthy and wide-scale cascading failures in the power system.
+%\textcolor{black}{This is possible in practice. For example,} in power systems, the set of attacked sensors can change with time \cite{liu2014coordinated}.}
+We then propose a technique which enables us to transform the nonlinear dynamics into a set of linear equations, and apply the classical error correction method to the equivalent linear system. The proposed secure state estimators are computationally efficient and can be solved exactly without iteration. In addition, our estimator relies on the observability of the transformed linear system, which is much simpler to check than verifying the observability of nonlinear systems.
+
+
+The work closest to ours is \cite{shoukry} in which Shoukry \textit{et al.} studied differentially flat nonlinear systems under sensor attack and assumed that the set of attacked sensors do not change with time. Using $s$-sparse observability for nonlinear systems, the authors proposed a combinatorial estimator, and an iterative satisfiability modulo theory-based algorithm to solve the resulting combinatorial estimation problem. However, it may be hard to check the observability of nonlinear systems, and the assumption of fixed attacked nodes may be restrictive.
+
+
+To illustrate how our proposed secure state estimator approach can be applied to practical systems, we focus on an interconnected power system comprising several synchronous generators, transmission lines, buses, and energy storage units. We assume that all the physical devices are controlled via a wide area control system (WACS) as well as local controllers, and that these control systems use the synchrophasor technology, phasor measurement units (PMU), to maintain the system's stability\footnote{The secondary generation control in power systems is an example of such cyber-physical structures. In this system, measurements and control signals are telemetered to and from the generating units and that control center adjusts the set-point of each generator based upon the integral of the frequency error.}. The WACS and local controllers employ advanced data acquisition, communications, and control to enable increased efficiency and reliability of power delivery \cite{pmu_w_0}, \cite{pmu_w_1}, \cite{pmu_w_3}, \cite{wacs_ref8}. Several methods for power system state estimation have been proposed \cite{ref_v11}, \cite{ref_v12}, \cite{ref_v13}, \cite{ref_v14}, \cite{ref_v15}, \cite{ref_v16}. %Linearization and Jacobian matrix calculation are indispensable in these methods.
+All these methods rely on the linearization. To overcome the drawbacks of linearization, Wang \textit{et al.} \cite{nonlin_est} develop a dynamic state estimation method that requires neither linearization nor calculation of Jacobian matrices. However, the authors only consider Gaussian noise. Extensive work has been done on monitoring and autonomous feedback control for WACS \cite{wacs_ref8}, and on secure state estimation of static states \cite{ref_v1}, \cite{Tong}. However, these works have not studied how to identify cyber-physical attacks or communication failures when dynamic states such as generator' phase angles are estimated, and how to perform secure state estimation (dynamic state estimation) for the WACS.
+
+We focus on secure estimation for the wide area control system of the power network assuming that the installed PMUs at different generator buses are connected through a communication network which sends PMU measurements to the WACS as well as the local controllers in the power network. We assume that the communication channels from the WACS to the generators are secured while other channels and PMUs are not secured and are subject to cyber attacks and failures. Therefore, the WACS needs to perform secure state estimation to reconstruct the system's states before using the received data for computing wide area control signals, and to monitor the operation of local controllers. By using the developed secure estimation technique, we propose a secure state estimator for the wide area control of the power system, and numerically show that the proposed algorithm significantly improves the performance of the cyber layer in power systems.
+
+The chapter is organized as follows: In Section \ref{sec:nonlinear_estimation}, we formulate the nonlinear state estimation problem and propose a solution technique for two classes of nonlinear systems. We then illustrate how the proposed secure state estimation approach can be applied to power systems in Section \ref{sec:application} and \ref{sec:application1}. Finally, in Section \ref{sec:example}, we numerically demonstrate the effectiveness of the proposed secure estimation algorithm.
 
 
 

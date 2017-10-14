@@ -1,5 +1,11 @@
 \begin{thebibliography}{100}
 
+\bibitem{comm_early_1}
+Cristina Alcaraz, Carmen Fernandez-Gago, and Javier Lopez.
+\newblock An early warning system based on reputation for energy control
+  systems.
+\newblock {\em IEEE Transactions on Smart Grid}, 2(4):827--834, 2011.
+
 \bibitem{Amazon}
 Amazon.
 \newblock {A}mazon {P}rime {A}ir.
@@ -71,6 +77,11 @@ Alvaro~A Cardenas, Saurabh Amin, and Shankar Sastry.
 Aranya Chakrabortty and Pramod Khargonekar.
 \newblock Introduction to wide-area control of power systems.
 \newblock {\em Proceedings of American Control Conference}, 2013.
+
+\bibitem{new4}
+Michelle Chong, Masashi Wakaiki, and Joao Hespanha.
+\newblock Observability of linear systems under adversarial attack.
+\newblock {\em American Control Conference}, 2015.
 
 \bibitem{chong2016characterising}
 Michelle~S Chong and Margreta Kuijper.
@@ -146,6 +157,13 @@ Luca Fabietti, Tomasz~T. Gorecki, Faran~A. Qureshi, Altug Bitlislioglu, Ioannis
 Shaun~M. Fallat and Charles~R. Johnson.
 \newblock {\em Totally nonnegative matrices}.
 \newblock Princeton University Press, 2011.
+
+\bibitem{new10}
+Shahrokh Farahmand, Georgios Giannakis, and Daniele Angelosante.
+\newblock Doubly robust smoothing of dynamical processes via outlier sparsity
+  constraints.
+\newblock {\em IEEE Transactions on Signal Processing}, 59(10):4529--4543,
+  2011.
 
 \bibitem{facts_storage2}
 Abdallah Farraj, Eman Hammad, and Deepa Kundur.
@@ -353,6 +371,11 @@ Cheolhyeon Kwon, Weiyi Liu, and Inseok Hwang.
   deception attacks.
 \newblock {\em American Control Conference}, 2013.
 
+\bibitem{comm_net_4}
+Qinghua Li and Guohong Cao.
+\newblock Multicast authentication in the smart grid with onetime signature.
+\newblock {\em IEEE Transactions on Smart Grid}, 2(4):686--696, 2011.
+
 \bibitem{Lin:2013chiller}
 Yashen Lin, Prabir Barooah, and Sean Meyn.
 \newblock {Low Frequency Power Grid Ancillary Services from Commercial Building
@@ -496,6 +519,12 @@ Fabio Pasqualetti, Florian Dorfler, and Francesco Bullo.
 \newblock {\em 50th IEEE conference on decision and control and european
   control conference}, pages 2195 -- 2201, December 2011.
 
+\bibitem{cps1}
+Fabio Pasqualetti, Florian Dorfler, and Francesco Bullo.
+\newblock Control-theoretic methods for cyber-physical security: Geometric
+  principles for optimal cross-layer resilient control systems.
+\newblock {\em IEEE Control Systems}, 35(1):110--127, 2015.
+
 \bibitem{Perez-Lombard:2008aa}
 Luis P{\'e}rez-Lombard, Jos{\'e} Ortiz, and Christine Pout.
 \newblock {A Review on Buildings Energy Consumption Information}.
@@ -543,11 +572,21 @@ Yasser Shoukry, Pierluigi Nuzzo, Nicola Bezzo, Alberto Sangiovanni-Vincentelli,
   sensor attacks.
 \newblock {\em IEEE 54th Annual Conference on Decision and Control}, 2015.
 
+\bibitem{new2}
+Yasser Shoukry and Paulo Tabuada.
+\newblock Event-triggered state observers for sparse sensor noise/attacks.
+\newblock {\em IEEE Transactions on Automatic Control}, 61(8):2079--2091, 2015.
+
 \bibitem{Siroky:2011aa}
 Jan {\v S}iroky, Frauke Oldewurtel, Jir{\'\i} Cigler, and Samuel Pr{\'\i}vera.
 \newblock {Experimental Analysis of Model Predictive Control for an Energy
   Efficient Building Heating System}.
 \newblock {\em Applied Energy}, 88:3079--3087, 2011.
+
+\bibitem{security_0}
+Siddharth Sridhar, Adam Hahn, and Manimaran Govindarasu.
+\newblock Cyber-physical system security for the electric power grid.
+\newblock {\em Proceedings of the IEEE}, 100(1):210--224, 2012.
 
 \bibitem{pv_model}
 Joshua~S. Stein.
@@ -574,6 +613,11 @@ Andre Teixeira, Saurabh Amin, Henrik Sandberg, Karl~H. Johansson, and Shankar
   systems.
 \newblock {\em 49th IEEE Conference on Decision and Control}, pages 5991 --
   5998, December 2010.
+
+\bibitem{comm_early_2}
+Chee-Wooi Ten, Junho Hong, and Chen-Ching Liu.
+\newblock Anomaly detection for cybersecurity of the substations.
+\newblock {\em IEEE Transactions on Smart Grid}, 2(4):865--873, 2011.
 
 \bibitem{Tropp2004}
 Joel Tropp.
@@ -646,8 +690,8 @@ Peng Zhao, Gregor~P. Henze, Sandro Plamp, and Vincent~J. Cushing.
 
 \bibitem{Zhou:2017modelcomp}
 Datong Zhou, Qie Hu, and Claire Tomlin.
-\newblock {Model Comparison of a Data-Driven and a Physical Model for
-  Simulating HVAC Systems}.
+\newblock {Quantitative Comparison of Data-Driven and Physics-Based Models for
+  Commercial Building HVAC Systems}.
 \newblock {\em American Control Conference}, 2017.
 
 \bibitem{Zhou_Doyle}
