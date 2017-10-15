@@ -1,11 +1,5 @@
 \begin{thebibliography}{100}
 
-\bibitem{comm_early_1}
-Cristina Alcaraz, Carmen Fernandez-Gago, and Javier Lopez.
-\newblock An early warning system based on reputation for energy control
-  systems.
-\newblock {\em IEEE Transactions on Smart Grid}, 2(4):827--834, 2011.
-
 \bibitem{Amazon}
 Amazon.
 \newblock {A}mazon {P}rime {A}ir.
@@ -42,11 +36,6 @@ H.M. Beides and G.T. Heydt.
   filter methodology.
 \newblock {\em IEEE Transactions on Power Delivery}, 6(4):1663--1670, 1991.
 
-\bibitem{Blanke}
-Mogens Blanke, Michel Kinnaert, Jan Lunze, and Marcel Staroswiecki.
-\newblock {\em Diagnosis and fault-tolerant control}.
-\newblock Springer, Berlin, Germany, 2nd edition, 2006.
-
 \bibitem{Bouffard}
 Patrick Bouffard.
 \newblock On-board model predictive control of a quadrotor helicopter: Design,
@@ -60,6 +49,12 @@ James Braun, Donghun Kim, Miroslav Baric, Pengfei Li, Satish Narayanan, Shui
 \newblock {Whole building control system design and evaluation:
   simulation-based assessment}.
 \newblock Technical report, {GPIC Energy Efficient Buildings Hub}, 2012.
+
+\bibitem{Candes_Tao}
+Emmanuel Candes, Justin Romberg, and Terence Tao.
+\newblock Stable signal recovery from incomplete and inaccurate measurements.
+\newblock {\em Communications on Pure and Applied Mathematics},
+  59(8):1207--1223, 2006.
 
 \bibitem{tao11}
 Emmanuel Candes and Terence Tao.
@@ -77,18 +72,6 @@ Alvaro~A Cardenas, Saurabh Amin, and Shankar Sastry.
 Aranya Chakrabortty and Pramod Khargonekar.
 \newblock Introduction to wide-area control of power systems.
 \newblock {\em Proceedings of American Control Conference}, 2013.
-
-\bibitem{new4}
-Michelle Chong, Masashi Wakaiki, and Joao Hespanha.
-\newblock Observability of linear systems under adversarial attack.
-\newblock {\em American Control Conference}, 2015.
-
-\bibitem{chong2016characterising}
-Michelle~S Chong and Margreta Kuijper.
-\newblock Characterising the vulnerability of linear control systems under
-  sensor attacks using a system's security index.
-\newblock In {\em Decision and Control (CDC), 2016 IEEE 55th Conference on},
-  pages 5906--5911. IEEE, 2016.
 
 \bibitem{Cole:2013aa}
 Wesley~J. Cole, Elaine~T. Hale, and Thomas~F. Edgar.
@@ -157,13 +140,6 @@ Luca Fabietti, Tomasz~T. Gorecki, Faran~A. Qureshi, Altug Bitlislioglu, Ioannis
 Shaun~M. Fallat and Charles~R. Johnson.
 \newblock {\em Totally nonnegative matrices}.
 \newblock Princeton University Press, 2011.
-
-\bibitem{new10}
-Shahrokh Farahmand, Georgios Giannakis, and Daniele Angelosante.
-\newblock Doubly robust smoothing of dynamical processes via outlier sparsity
-  constraints.
-\newblock {\em IEEE Transactions on Signal Processing}, 59(10):4529--4543,
-  2011.
 
 \bibitem{facts_storage2}
 Abdallah Farraj, Eman Hammad, and Deepa Kundur.
@@ -371,11 +347,6 @@ Cheolhyeon Kwon, Weiyi Liu, and Inseok Hwang.
   deception attacks.
 \newblock {\em American Control Conference}, 2013.
 
-\bibitem{comm_net_4}
-Qinghua Li and Guohong Cao.
-\newblock Multicast authentication in the smart grid with onetime signature.
-\newblock {\em IEEE Transactions on Smart Grid}, 2(4):686--696, 2011.
-
 \bibitem{Lin:2013chiller}
 Yashen Lin, Prabir Barooah, and Sean Meyn.
 \newblock {Low Frequency Power Grid Ancillary Services from Commercial Building
@@ -449,12 +420,6 @@ Mohammad~Hossein Manshaei, Quanyan Zhu, Tansu Alpcan, Tamer Basar, and
 \newblock Game theory meets network security and privacy.
 \newblock {\em ACM Computing Surveys}, 45(3), June 2013.
 
-\bibitem{Willsky}
-Mohammad-Ali Massoumnia, George~C. Verghese, and Alan~S. Willsky.
-\newblock Failure detection and identification.
-\newblock {\em IEEE Transactions on Automatic Control}, 34(3):316--321, March
-  1989.
-
 \bibitem{pmu_w_3}
 A.R. Messina, Vijay Vittal, Daniel Ruiz-Vega, and Gilberto Enrique-Harper.
 \newblock Interpretation and visualization of wide-area pmu measurements using
@@ -519,12 +484,6 @@ Fabio Pasqualetti, Florian Dorfler, and Francesco Bullo.
 \newblock {\em 50th IEEE conference on decision and control and european
   control conference}, pages 2195 -- 2201, December 2011.
 
-\bibitem{cps1}
-Fabio Pasqualetti, Florian Dorfler, and Francesco Bullo.
-\newblock Control-theoretic methods for cyber-physical security: Geometric
-  principles for optimal cross-layer resilient control systems.
-\newblock {\em IEEE Control Systems}, 35(1):110--127, 2015.
-
 \bibitem{Perez-Lombard:2008aa}
 Luis P{\'e}rez-Lombard, Jos{\'e} Ortiz, and Christine Pout.
 \newblock {A Review on Buildings Energy Consumption Information}.
@@ -572,21 +531,11 @@ Yasser Shoukry, Pierluigi Nuzzo, Nicola Bezzo, Alberto Sangiovanni-Vincentelli,
   sensor attacks.
 \newblock {\em IEEE 54th Annual Conference on Decision and Control}, 2015.
 
-\bibitem{new2}
-Yasser Shoukry and Paulo Tabuada.
-\newblock Event-triggered state observers for sparse sensor noise/attacks.
-\newblock {\em IEEE Transactions on Automatic Control}, 61(8):2079--2091, 2015.
-
 \bibitem{Siroky:2011aa}
 Jan {\v S}iroky, Frauke Oldewurtel, Jir{\'\i} Cigler, and Samuel Pr{\'\i}vera.
 \newblock {Experimental Analysis of Model Predictive Control for an Energy
   Efficient Building Heating System}.
 \newblock {\em Applied Energy}, 88:3079--3087, 2011.
-
-\bibitem{security_0}
-Siddharth Sridhar, Adam Hahn, and Manimaran Govindarasu.
-\newblock Cyber-physical system security for the electric power grid.
-\newblock {\em Proceedings of the IEEE}, 100(1):210--224, 2012.
 
 \bibitem{pv_model}
 Joshua~S. Stein.
@@ -613,11 +562,6 @@ Andre Teixeira, Saurabh Amin, Henrik Sandberg, Karl~H. Johansson, and Shankar
   systems.
 \newblock {\em 49th IEEE Conference on Decision and Control}, pages 5991 --
   5998, December 2010.
-
-\bibitem{comm_early_2}
-Chee-Wooi Ten, Junho Hong, and Chen-Ching Liu.
-\newblock Anomaly detection for cybersecurity of the substations.
-\newblock {\em IEEE Transactions on Smart Grid}, 2(4):865--873, 2011.
 
 \bibitem{Tropp2004}
 Joel Tropp.
@@ -693,10 +637,5 @@ Datong Zhou, Qie Hu, and Claire Tomlin.
 \newblock {Quantitative Comparison of Data-Driven and Physics-Based Models for
   Commercial Building HVAC Systems}.
 \newblock {\em American Control Conference}, 2017.
-
-\bibitem{Zhou_Doyle}
-Kemin Zhou and John~C. Doyle.
-\newblock {\em Essentials of Robust Control}.
-\newblock Prentice-Hall, Englewood, Cliffs, NJ, USA, 1998.
 
 \end{thebibliography}

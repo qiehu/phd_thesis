@@ -13,7 +13,9 @@
 Cyber-physical systems (CPS) are found in many applications such as power networks, manufacturing processes, air and ground transportation systems. They consist of physical components such as actuators, sensors and controllers that communicate with each other over a network \cite{kim2012cyber}. 
 For example, unmanned aerial vehicles (UAV) may obtain position measurements from a Global Positioning System (GPS) or communicate with a remote control center (RCC). Although communication networks are often protected by security measures, cyber attacks can still take place when a malicious attacker obtains unauthorized access, launching jamming attacks \cite{Gligor}, or spoofing sensor readings and sending erroneous control signals to actuators \cite{Mo}. For CPS, cyber attacks not only compromise information but can also cause damage in the physical process, ranging from power systems \cite{teixeira2010cyber, liu2011false} to UAVs \cite{Hu:2016uav}. This presents new challenges and thus demands new strategies and algorithms \cite{Sastry}.
 
-Maintaining security of these systems under cyber attacks is an important and challenging task, since these attacks can be erratic and thus difficult to model. Secure estimation problems study how to estimate the true system states when  measurements are corrupted and/or control inputs are compromised by attackers. \cite{Fawzi:2014} proposed a novel secure estimation method assuming that attack signals can be arbitrary and unbounded. However, one limitation of their proposed estimator is that the set of attacked sensors (sensors, controllers) is assumed to be fixed. 
+Maintaining security of these systems under cyber attacks is an important and challenging task, since these attacks can be erratic and thus difficult to model. Secure estimation problems study how to estimate the true system states when  measurements are corrupted and/or control inputs are compromised by attackers. 
+In designing such estimators, it is desirable to make as few assumptions about the attackers as possible. This is because it is very difficult, if not impossible, to predict the behavior of attackers, and when an attack signal violates the assumptions of a secure estimator, then this estimator would fail to detect the attack.
+\cite{Fawzi:2014} proposed a novel secure estimation method assuming that attack signals can be arbitrary and unbounded. However, one limitation of their proposed estimator is that the set of attacked sensors (sensors, controllers) is assumed to be fixed. 
 In this chapter, we extend these results to scenarios in which the set of attacked sensors can change over time. We formulate this secure estimation problem into the classical error correction problem \cite{tao11} and we show that accurate estimation can be guaranteed. Furthermore, we propose a combined secure estimation method with our proposed secure estimator and the Kalman Filter (KF) for improved practical performance. Finally,  we demonstrate the performance of our method through simulations of two scenarios where a UAV is under cyber attack.
 \\
 \\
@@ -23,252 +25,222 @@ In this chapter, we extend these results to scenarios in which the set of attack
 \section{Introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-There has been an increase in the number of research and applications on the security of CPS. Each of them relies on specific assumptions about attackers' strategies and it is rarely the case, if not impossible, that one estimator/detector can protect against all possible attacks. 
-\cite{Tong}\cite{KwonACC}\cite{liu2011false}\cite{teixeira2010cyber} studied optimal attack strategies for different control systems and applications. From the controller's point of view, researchers have studied how to detect attacks \cite{Blanke}\cite{Willsky} and how to accurately estimate the states and control the system when it is under attack. One approach for the latter, which is adopted in robust control and filtering methods, is to model the attack signal as process or measurement noise, and assume that they are bounded \cite{Zhou_Doyle} or follow a certain probabilistic distribution \cite{Bullo}\cite{Liu}.
-An alternative approach uses game theory, where the controller and attacker are players with competing goals in a game \cite{Wu}\cite{Basar}\cite{Basar2}\cite{Walrand}\cite{Pappas}. Finally, the authors of \cite{KwonCDC} proposed a hybrid controller, where each constituent controller protects against a specific type of attack.
+Researchers have studied various approaches to securing CPS. Each of them relies on specific assumptions about attackers' strategies and it is rarely the case, if not impossible, that one estimator/detector can protect against all possible attacks. 
+For example, \cite{Tong}\cite{KwonACC}\cite{liu2011false}\cite{teixeira2010cyber} studied optimal attack strategies for different control systems and applications. 
+From the controller's point of view, \cite{Bullo, Liu} assumed that the attack signal would follow certain probabilistic distributions and then designed filters to detect these attacks.
+In \cite{Wu, Basar, Basar2, Walrand, Pappas}, the authors used the game theory framework, where the controller and attacker are players with competing goals in a game. 
+Attackers are assumed to adopt specific strategies that maximize a certain cost and the controller or estimator is designed to minimize such a cost.
+Finally, the authors of \cite{KwonCDC} proposed a hybrid controller, where each constituent controller protects the system against a specific type of attack.
 
-Recently, \cite{Fawzi:2014} studied secure estimation of a linear time invariant (LTI) system where attack signals can be arbitrary and unbounded, thus protecting the system against more general cyber-attacks; \cite{chong2016characterising} proposed the security index of a discrete time LTI system under sensor attacks as a quantitative measure on the security of an observable system.
-Later, \cite{Pajic:2014} and \cite{shoukry2016smt} extended this work by relaxing the assumption of having an exact system model and proposing an Satisfiability Modulo Theory (SMT)-based observer that handles large systems with thousands of sensors. One limiting assumption of \cite{Fawzi:2014}, \cite{Pajic:2014} and \cite{shoukry2016smt} is that the set of attacked sensors/sensors is fixed and can not change over time. If a malicious attacker is aware of this, then he or she can exploit this weakness and attack different sensors at different time steps so that such an estimator would fail.
+More recently, Fawzi textit{et al.} studied secure estimation of a discrete time LTI system and proposed in \cite{Fawzi2014} a secure estimation method for arbitrary attacks. 
+%\cite{chong2016characterising} proposed the security index of a discrete time LTI system under sensor attacks as a quantitative measure on the security of an observable system.
+Later, \cite{Pajic:2014} and \cite{shoukry2016smt} extended this work by relaxing the assumption of having an exact system model and proposed an Satisfiability Modulo Theory (SMT)-based observer that handles large systems with thousands of sensors. 
+One limiting assumption of \cite{Fawzi:2014}, \cite{Pajic:2014} and \cite{shoukry2016smt} is that the set of attacked sensors is fixed and can not change over time. 
+Therefore, if a malicious attacker is aware of this assumption, then she can exploit this weakness and attack different sensors at different time steps so that such an estimator would fail to detect the presence of the attack.
 
-In this chapter, we are interested in the case in which the set of attacked sensors can change over time. By doing so, our proposed estimator can protect the system against more general attack scenarios than that presented in \cite{Fawzi:2014}. We believe this is a significant contribution, because it is difficult, if not impossible, to anticipate cyber attackers' strategies and behavior, thus an estimator that is able to handle more general attacks is an improvement. 
+In this chapter, we focus on sensor attacks on CPS and attempt to design a secure estimator for LTI systems based on as few assumptions about the attacker as possible. 
+First, we do not assume that the attack signals follow any stochastic distributions, and thus our proposed estimator works for arbitrary and unbounded attacks.
+Second, we allow the set of attacked sensors to change over time.
+The only assumption we make is that the number of attacked sensors is sparse.
+%are interested in the case in which the set of attacked sensors can change over time. 
+%By doing so, our proposed estimator can protect the system against more general attack scenarios than that presented in \cite{Fawzi:2014}. 
+%We believe this is a significant contribution, because it is difficult, if not impossible, to anticipate cyber attackers' strategies and behavior, thus an estimator that is able to handle more general attacks is an improvement. 
 Such attacks are found in many practical situations, and can be launched in both the cyber and the physical domain.
-For example, security studies on the current traffic infrastructure \cite{ghena2014traffic} demonstrated that once a cyber attacker gains access to the traffic network at a single point, the attacker can send commands to any traffic intersection in the network. In other words, the attacker can freely attack a different set of traffic signals (sensors) at any time. Indeed, an attacker who desires to travel through a set of roads as fast as possible would attack different traffic lights to always give herself green lights as she moves through the road network. 
+For example, security studies on the current traffic infrastructure \cite{ghena2014traffic} demonstrated that once a cyber attacker gains access to the traffic network at a single point, the attacker can send commands to any traffic intersection in the network. 
+In other words, the attacker can freely attack a different set of traffic signals (sensors) at any time. Indeed, an attacker who desires to travel through a set of roads as fast as possible would attack different traffic lights to always give herself green lights as she moves through the road network. 
 %Also, even with physical attacks, there are practical examples where time-varying attacks are desirable. 
-\cite{liu2014coordinated} describes a practical situation where a physical attack on a power system with a changing set of attack sensors is desirable: the authors designed a multi-switch attack, in which different switches in a power network are attacked at different times, in order to lead to stealthy and wide-scale cascading failures in the power system.
-%In this chapter, we focus on estimation of states under sensor attacks, hence the terms `sensor' and `sensor' are used interchangeably.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-There are four main contributions in this chapter:
-First, we propose a secure estimator for an LTI system under sensor attacks, where the attacked sensors can change over time, and attack signals can be unbounded and arbitrary.
-The proposed estimator is based on $l_1$ optimization and is computationally efficient.
-Second, we prove the maximum number of sensor attacks that can be corrected with our estimator, which turns out to be the same as that of the estimator proposed in \cite{Fawzi:2014} with the mere requirement of a longer time window. In other words, compared to \cite{Fawzi:2014}, our estimator can protect the system against more general attacks, and at the same time, it does not compromise the number of attacks that can be corrected.
-Third, we propose to use pole placement techniques to design a feedback controller such that the resulting secure estimator can guarantee accurate estimation.
-Finally, we propose to combine our estimator with a KF to improve its practical performance, where the KF serves to filter out both occasional estimation attacks by the secure estimator and noisy measurements.
+\cite{liu2014coordinated} describes a physical attack on a power system where a changing set of attacked sensors is desirable: in particular, the authors designed a multi-switch attack, in which different switches in a power network are attacked at different times, in order to lead to stealthy and wide-scale cascading failures in the power system.
 
 
-This chapter is organized as follows. Section \ref{sec:overview} gives an overview of secure estimation for CPS when attacked sensors are fixed, as well as compressive sensing and error correction. Section \ref{sec:main} formulates the problem of secure estimation when attacked sensors can change over time and compares it with the case when attacked sensors are fixed. In Section \ref{sec:design}, we describe our estimator design method and assess the estimator's practical performance through extensive simulations. In addition, we describe how to combine it with a KF to improve its performance in practice. Finally we present two more realistic numerical examples of UAVs subject to adversarial attacks in Section \ref{sec:examples}. 
+We formulate this secure estimation problem into the classical error correction problem, from which we propose an $l_1$-optimization based estimator that is computationally efficient.
+In addition, we prove the maximum number of sensor attacks that can be corrected with our estimator and propose to use pole placement techniques to design a feedback controller such that the resulting secure estimator can guarantee accurate estimation.
+Finally, to improve the estimator's practical performance, we propose to combine our secure estimator with a KF, where the KF serves to filter out both occasional estimation attacks by the secure estimator and noisy measurements, and we demonstrate the effectiveness of the combined estimator using two examples of UAVs under adversarial cyber attacks.
 
-\subsection{Notation}
-\begin{itemize}
-\item 
-$\lvert \textsf{supp} (x) \rvert $  denotes the support of vector $x$, i.e., the number of nonzero components in $x$\footnote{If $f$ is any real-valued or vector-valued function on a topological space $X$, the support of $f$, denoted by $\textsf{supp}(f)$, is the closure of the set points where $f$ is nonzero: $\textsf{supp}(f)  = \{ x \in X \,|\, f(x) \neq 0 \}$.}. 
+
+%There are four main contributions in this chapter:
+%First, we propose a secure estimator for an LTI system under sensor attacks, where the attacked sensors can change over time, and attack signals can be unbounded and arbitrary.
+%The proposed estimator is based on $l_1$ optimization and is computationally efficient.
+%Second, we prove the maximum number of sensor attacks that can be corrected with our estimator, which turns out to be the same as that of the estimator proposed in \cite{Fawzi:2014} with the mere requirement of a longer time window. In other words, compared to \cite{Fawzi:2014}, our estimator can protect the system against more general attacks, and at the same time, it does not compromise the number of attacks that can be corrected.
+%Third, we propose to use pole placement techniques to design a feedback controller such that the resulting secure estimator can guarantee accurate estimation.
+%Finally, we propose to combine our estimator with a KF to improve its practical performance, where the KF serves to filter out both occasional estimation attacks by the secure estimator and noisy measurements.
+
+
+
+This chapter is organized as follows. A review of compressed sensing and error correction in given in Section \ref{sec:overview}, followed by Section \ref{sec:SE} which proposed a secure state estimator for an LTI system under sensor attack where the attacked sensors can change over time. 
+Then, Section \ref{sec:design} describes how pole-placement can be used to design a good secure estimator and how it can be combined with a KF to improve its practical performance. 
+Finally we demonstrate the performance of the combined secure estimator through two numerical examples of UAVs subject to adversarial attacks in Section \ref{sec:examples}. 
+
+
+%\subsection{Notation}
+%\begin{itemize}
 %\item 
-%$\norm{ x}_{l_1}:= \sum_{i=1} ^n \lvert x_i \rvert $ where $x \in \mathbb{R}^n$. Note that this is not the same as $\lvert \textsf{rowsupp} ( \cdot )  \rvert $ defined in \cite{Fawzi:2014}. 
-\item  
-For a matrix $M \in \mathbb{R}^{m \times n}$, $\mathcal{N} (M) = \{ x \in \mathbb{R}^n \lvert M x = 0 \}$ represents the null space of $M$. $\mathcal{R}(M)$ denotes the range space of $M$, and is defined as the set of all possible linear combinations of its column vectors.
-\end{itemize}
+%$\lvert \textsf{supp} (x) \rvert $  denotes the support of vector $x$, i.e., the number of nonzero components in $x$\footnote{If $f$ is any real-valued or vector-valued function on a topological space $X$, the support of $f$, denoted by $\textsf{supp}(f)$, is the closure of the set points where $f$ is nonzero: $\textsf{supp}(f)  = \{ x \in X \,|\, f(x) \neq 0 \}$.}. 
+%%\item 
+%%$\norm{ x}_{l_1}:= \sum_{i=1} ^n \lvert x_i \rvert $ where $x \in \mathbb{R}^n$. Note that this is not the same as $\lvert \textsf{rowsupp} ( \cdot )  \rvert $ defined in \cite{Fawzi:2014}. 
+%\item  
+%For a matrix $M \in \mathbb{R}^{m \times n}$, $\mathcal{N} (M) = \{ x \in \mathbb{R}^n \lvert M x = 0 \}$ represents the null space of $M$. $\mathcal{R}(M)$ denotes the range space of $M$, and is defined as the set of all possible linear combinations of its column vectors.
+%\end{itemize}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Background}\label{sec:overview} 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Secure Estimation for Fixed Attacked Nodes \cite{Fawzi:2014} }
-
-Consider a linear dynamical system in the presence of attacks:
-\begin{eqnarray}
-		x(k+1) &= A x(k), ~y(k) = C x (k) + e(k)
-		\label{eq:system_model}
-\end{eqnarray}
-where $x(k)\in \mathbb{R}^n$ represents the state of the system at time $k\in \mathbb{N}$, $y(k) \in \mathbb{R}^p$ is the output of the sensors at time $k$ and $e(k) \in \mathbb{R}^p $ represents possibly unbounded and arbitrary attack signals injected by malicious agents at the sensors. In \cite{Fawzi:2014}, the authors proposed an elegant state estimation algorithm against adversarial attacks but they assumed that the set of attacked sensors $K$ does not change over time. More precisely, if $K \subset \{1, ..., p\}$ is the set of sensors that were attacked, then we have for all $k$, $\textsf{supp}(e(k))\subset K$. The problem of reconstructing the initial state $x(0)$ of the plant from the corrupted observations $( y(k))$ was formulated as follows\footnote{Followed by \cite{Fawzi:2014}, the problem that we consider is to reconstruct the initial state $x(0)$ of the plant from the corrupted observations ($y(t)$) where $k=0,...,T-1$. Note that since the matrix $A$ is known, therefore once we know $x(t-T+1)$ (the state of the system at $T-1$ time steps ago), then we can compute the current state $x(t)$ using the system dynamics. Without loss of generality, we let $k=T-1$ in our chapter. In other words, the problem of reconstructing the current state $x(t)$ or the initial state $x(0)$ are (at least theoretically) equivalent.}:
-
-\begin{definition} \emph{(\hspace{1sp}\cite{Fawzi:2014})} 
-$q$ attacks are correctable after $T$ steps by the estimator $\mathcal{D}: {(\mathbb{R} ^p) } ^T  \rightarrow \mathbb{R}^n$ if for any $x(0) \in \mathbb{R}^n$, any $K \subset \{1,.., p\} $ with $\lvert K \rvert \le q$, and any sequence of vectors $e(0),...,e(T-1)$ in $\mathbb{R}^p$ such that $\textsf{supp}(e(k)) \subset K$, we have $\mathcal{D} (y(0),...,y(T-1)) = x(0)$ where $y(k) = CA^k x(0) + e(k)$ for $k=0,...,T-1$.
-\end{definition}
-
-\begin{proposition}  \emph{(\hspace{1sp}\cite{Fawzi:2014})}  \label{prop:Fawzi} 
-Let $T \in \mathbb{N}  \backslash \{ 0\}$. The following are equivalent:\\
-(i) There is an estimator that can correct $q$ attacks after $T$ steps;\\
-(ii) For all $z\in \mathbb{R}^n \backslash \{0\}$, $\lvert \textsf{supp}(Cz) \cup \textsf{supp}(CAz) \cup \cdots \cup \textsf{supp}(CA^{T-1} z) \rvert > 2q$.
-\end{proposition}
-\noindent The authors then proposed the estimator:
-\begin{equation}
-x(0) = \text{arg} \min_{x} \norm { Y^{(T)} - \Phi ^{(T)} (x) }_{l_0} 
-\label{eq:opt_decoder}
-\end{equation}
-where the $l_0$ ``norm" of matrix $M$ is the number of nonzero rows in $M$\footnote{$\norm{M} _{l_0} \triangleq \lvert \textsf{rowsupp} (M) \rvert = \lvert \{ i \in \{ 1, ... , p\} | M_i \neq 0 \}  \rvert$, where $M_i$ represents the $i$-th row of $M$.}. 
-$Y^{(T)}$ is a $p \times T$ matrix, i.e., $Y^{(T)} = \begin{bmatrix} y(0) & \lvert & y(1) & \lvert  & ... & \lvert & y(T-1) \end{bmatrix} \in \mathbb{R}^{p\times T}$ and $\Phi^{(T)}$ is a linear map such that $\Phi ^{(T)} (x) = \begin{bmatrix} Cx  & \lvert & CAx  & \lvert &  ... &  \lvert & CA^{T-1} x \end{bmatrix} \in \mathbb{R}^{p\times T}$. Therefore
-%\begin{equation}\nonumber
-$Y^{(T)} - \Phi ^{(T)} (x) =  \begin{bmatrix} e(0)  & \lvert & e(1) & \lvert &  ... &  \lvert & e(T-1) \end{bmatrix},$
-%\end{equation}
-which we refer to as the attack matrix in the sequel, and consists of horizontally stacked attack vectors from time $k=0$ to $k=T-1$.
-In other words, the estimator finds the $x(0)$ that minimizes the number of nonzero rows in the resulting attack matrix. The foundation for this estimator to work is the assumption of fixed attacked sensors.
-As an illustration, consider a system with a single attacked sensor and construct the attack matrix
-\begin{equation*}
-	\begin{bmatrix} e(0)  & \lvert & e(1) & \lvert &  ... &  \lvert & e(T-1) \end{bmatrix} = \begin{bmatrix} 0 & 0 & \cdots & 0 \\
-					       * & * & \cdots & * \\
-					       0 & 0 & \cdots & 0 \\
-					       0 & 0 & \cdots & 0 
-			\end{bmatrix},
-\end{equation*} 
-where $*$ denotes a nonzero component (i.e., attack or corruption). 
-Observe that the set of nonzero rows corresponds to the set of attacked sensors, and furthermore, if a small number of sensors are attacked, then necessarily only a small number of rows are not identically zero and the attack matrix has a small row support. 
-%and the estimator in \cite{Fawzi:2014} works by leveraging this property of fixed attacked sensors.
-
-What happens if the attacked sensors can change over time? Consider the system which has a single attacked sensor but the attacked sensor is cycled through all sensors:
-%To answer this, let's look at another example where the system has a single attacked sensor again, however the attacked sensor is cycled through all sensors such that the attack matrix is as follows
-\begin{equation*}
-	\begin{bmatrix} e(0)  & \lvert & e(1) & \lvert &  ... &  \lvert & e(T-1) \end{bmatrix} = \begin{bmatrix} * & 0 & \cdots & 0 \\
-					       0 & * & \cdots & 0 \\
-					       0 & 0 & \cdots & 0 \\
-					       0 & 0 & \cdots & * 
-			\end{bmatrix}.
-\end{equation*}
-Observe that although a single sensor is attacked at any time $k$, since the attacked sensor is changing over time, the attack matrix has full row support. Therefore the estimator proposed in \cite{Fawzi:2014}, which attempts to find the optimal $x(0)$ by minimizing the row support of the attack matrix, does not work here and cannot be easily extended to the case where the attacked sensors can change over time, therefore a new estimator is required.
-%One may argue that this estimator can be used with $T=1$, to solve a secure estimation problem where the attacked sensors change over time. However, when $T=1$, the number of correctable attacks cannot be large. From Proposition 1 (i.e. Proposition 2 in \cite{Fawzi:2014}), ``the estimator can correct $q$ attacks after $T=1$ step if and only if for all $z \in \mathbb{R}^n \backslash \{0\}$, $\lvert \textsf{supp} (Cz) \rvert > 2q$''. As an example, for any $C \in \mathbb{R}^{p \times n}$ where $p<n$, $C$ has a nontrivial null space, hence there exists $z \in \mathbb{R}^n \backslash \{ 0 \}$ such that $ \lvert \textsf{supp} (Cz) \rvert = 0$; in other words, zero attacks are correctable. Therefore, the estimator for fixed attacked sensors cannot be easily extended to the case where the attacked sensors can change over time, and a new estimator is required for the latter. \\
-In this chapter, we propose such a new estimator, one that is suitable for when the set of attacked sensors can change over time. Our estimator is inspired by the error correction problem \cite{tao11}, described in the following section. % and by observing that if we construct the attack matrix by stacking the error vectors $e(0), \cdots, e(T-1)$ vertically, instead of horizontally, then even when the attacked sensors can change over time, as long as the number of attacked sensors at each time $k$ is small, \rev{the error vector} is sparse. Before we dive into details of this method and its properties, we first give a brief overview about compressive sensing and error correction in the following section.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Overview: Compressive Sensing and the Error Correction Problem \cite{tao11}} \label{sec:error_correction}
-%\subsubsection{Compressive Sensing}
-In compressive sensing \cite{tao11}, sparse solutions $x\in \mathbb{R}^n$, are sought to the following problem:
+
+\section{Review of Classical Error Correction}\label{sec:overview}
+\subsection{Compressed Sensing}
+Sparse solutions $x\in \mathbb{R}^n$, are sought to the following problem:
 \begin{equation}
 	\min_x \norm{x}_0 \text{ subject to } b= Ax
 	\label{eq:CS}
 \end{equation}
-where $b \in \mathbb{R}^m$ are the measurements, $A \in \mathbb{R}^{m\times n}~ (m \ll n)$ is a sensing matrix and $\norm{x}_0$ denotes the number of nonzero elements of $x$. The following lemma provides a sufficient condition for a unique solution to (\ref{eq:CS}) \cite{tao11}:
+where $b \in \mathbb{R}^m$ are the measurements, and $A \in \mathbb{R}^{m\times n}~ (m \ll n)$ is a sensing matrix. $\norm{x}_0$ denotes the number of nonzero elements of $x$. The following lemma provides a sufficient condition for a unique solution to (\ref{eq:CS}).
 
-\begin{lem} \emph{(\hspace{1sp}\cite{David_Chang})} \label{lem:CS}
-If the sparsest solution to (\ref{eq:CS}) has $\norm{x}_0 = q$, $m\ge 2q$ and all subsets of $2q$ columns of $A$ are full rank, then the solution is unique. 
+\begin{lem} (\hspace{1sp}\cite{David_Chang}) \label{lem:CS}
+If the sparsest solution to (\ref{eq:CS}) has $\norm{x}_0 = q$ and $m\ge 2q$ and all subsets of $2q$ columns of $A$ are full rank, then the solution is unique.
 \end{lem}
 
-%\textit{Proof}:
-%Suppose the solution is not unique, hence there exists $x_a \neq  x_b$ such that $Ax _1 = b$ and $Ax_2 = b$ where $\norm{x_1}_0 = \norm{x_2}_0 = q$. Then $A(x_1 - x_2) = 0$ and $x_1 - x_2 \neq 0$. Since $\norm{x_1-x_2}_0 \leq 2q$ and all $2q$ columns of $A$ are full rank (i.e. linearly independent), it is impossible to have $x_1-x_2\neq 0$ that satisfies $A(x_1-x_2) = 0$ (contradiction). \hfill$\blacksquare$
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsubsection{The Error Correction Problem  \cite{tao11}} \label{sec:error_correction}
-Consider the classical error correction problem: $y=Cx + e$ where $C\in \mathbb{R}^{p\times n}$ is a coding matrix $(p > n)$ and assumed to be full rank. We wish to recover the input vector $x \in \mathbb{R}^n$ from corrupted measurements $y$. Here, $e$ is an arbitrary and unknown sparse error vector. To reconstruct $x$, note that it is obviously sufficient to reconstruct the vector $e$ since knowledge of $Cx + e$ together with $e$ gives $Cx$, and consequently $x$ since $C$ has full rank. In \cite{tao11}, the authors construct a matrix $F$ which annihilates $C$ on the left, i.e.,  $FCx = 0$ for all $x$. Then, they apply $F$ to the output $y$ and obtain
+\textit{Proof}:
+Suppose the solution is not unique. Therefore, there exists $x_1 \neq  x_2$ such that $Ax _1 = b$ and $Ax_2 = b$ where $\norm{x_1}_0 = \norm{x_2}_0 = q$. Then, $A(x_1 - x_2) = 0$ and $x_1 - x_2 \neq 0$. Since $\norm{x_1-x_2}_0 \leq 2q$ and all $2q$ columns of $A$ are full rank (i.e., linearly independent), it is impossible to have $x_1-x_2\neq 0$ that satisfies $A(x_1-x_2) = 0$. This contradicts the assumption.
+\hfill$\blacksquare$
+
+
+\begin{remark}
+(Measurement Noise) In practice, the measurements are noisy so one cannot assume that the $Ax$ term in (\ref{eq:CS}) is known with arbitrary precision. More appropriately, we need to assume that one is given noisy measurement, i.e., $b = Ax + \epsilon$, where $\epsilon$ represents measurement noise. In \cite{Candes_Tao}, the authors prove that one can recover approximately sparse signals with an error at most proportional to the noise level. 
+An alternative is to combine secure estimation with a KF to improve the secure estimator's performance for noisy measurements as we propose later in this chapter: the KF filters out both occasional estimation errors by the secure estimator and noisy measurements.
+\end{remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{The Error Correction Problem \cite{tao11}}
+Consider the classical error correction problem: $y=Cx + e$ where $C\in \mathbb{R}^{l\times n}$ is a coding matrix $(l > n)$ and assumed to be full rank. We wish to recover the input vector $x \in \mathbb{R}^n$ from corrupted measurements $y$. Here, $e$ is an arbitrary and unknown sparse error vector. To reconstruct $x$, note that it is obviously sufficient to reconstruct the vector $e$ since knowledge of $Cx + e$ together with $e$ gives $Cx$, and consequently $x$ since $C$ has full rank \cite{tao11}. In \cite{tao11}, the authors construct a matrix $F$ which annihilates $C$ on the left, i.e.,  $FCx = 0$ for all $x$. Then, they apply $F$ to the output $y$ and obtain
 \begin{equation}
-	\tilde y = F (Cx + e) = Fe 
+	\tilde y = F (Cx + e) = Fe.
 \end{equation}
-Thus, the estimation problem can be reduced to that of reconstructing a sparse vector $e$ from the observations $\tilde y = Fe$. Therefore, by Lemma \ref{lem:CS}, if all subsets of $2q$ columns of $F$ are full rank, then we can reconstruct any $e$ whose  $\lvert \textsf{supp}(e) \rvert \le q$. We refer to an estimator that can correct $q$ attacks as a $q$-attack-correcting estimator.
-
-In \cite{tao11}, the authors mentioned that the computational intractability of the $l_0$-program led researchers to develop alternatives, and a frequently discussed approach considers a similar program in the $l_1$ norm which goes by the name of Basis Pursuit. Motivated by the problem of finding sparse decompositions of special signals in the field of mathematical signal processing, a series of beautiful and ground breaking works \cite{Donoho2003, Elad2002, Gribonval11, Tropp2004} showed exact equivalence between the two programs $l_0$ and $l_1$ when the RIP conditions are satisfied. Therefore, the $l_0$ norm in (\ref{eq:CS}) can be approximated by an $l_1$ norm to give a convex estimator and is therefore computationally feasible. 
-We will discuss in more detail the conditions required to ensure accurate estimation using an $l_1$-optimization based estimator in Section \ref{sec:design}. 
+Thus, the decoding problem can be reduced to that of reconstructing a sparse vector $e$ from the observations $\tilde y = Fe$. Therefore, by Lemma \ref{lem:CS}, if all subsets of $2q$ columns of $F$ are full rank, then we can reconstruct any $e$ such that $\| e \|_0 \leq q$.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Secure Estimation for Attacked Sensors that Change over Time}\label{sec:main}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\subsection{Problem Formulation}
 
-Consider the following LTI system:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\section{Secure Estimation}\label{sec:SE}
+
+\subsection{Problem Formulation}
+Consider the LTI system as follows:
 \begin{equation}
-%\begin{aligned}
-x(k+1) = A_o x(k) + B u(k), ~~ y(k) = C x (k) + e(k)
-%\end{aligned} 
+\begin{aligned}
+x(k+1) &= A_o x(k) + B u(k) \\
+y(k) &= C x(k) + e(k),
+\end{aligned} 
 \label{eq:system_model_se}
 \end{equation} 
-where $x(k) \in \mathbb{R}^n$, $y(k)  \in \mathbb{R}^p$ and $u(k) \in \mathbb{R}^m$ are the states, measurements and control inputs at time $k$. $e(k) \in \mathbb{R}^p$ is the attack signal, and we assume that the attacked sensors can change over time. 
-In addition, assume that a local control loop implements secure state feedback and is not subject to attacks: $u(k) = Gx(k)$. 
-The resulting closed loop system matrix is $A$ $(=A_o+BG)$. 
+where $x(k) \in \mathbb{R}^n$, $y(k) \in \mathbb{R}^p$ and $u(k) \in \mathbb{R}^m$ are the states, measurements and control inputs at time step $k$. $e(k) \in \mathbb{R}^p$ represents the attack signal at time $k$. Our goal is to reconstruct the initial state $x(0)$ of the plant from the corrupted observations $y(k)$'s where $k=0,...,T-1$.
+
+The attack vector $e(k)$ is such that if the $i$th sensor is attacked at time $k$, then $e_i(k)$, the $i$th element of $e(k)$ is nonzero, otherwise $e_i(k) = 0$. We assume that the attack signal can be arbitrary and unbounded. In addition, we assume that the set of attacked sensors can change over time. As illustrated by the following example, if 2 sensors are attacked at each time step, we can have sensors 1 and 3 attacked at time step 0, sensors 2 and 3 attacked at time 1, and so on:
+\begin{equation}
+	\begin{bmatrix} e(0)  & \lvert & e(1) & \lvert &  ...  & \end{bmatrix} 
+	= \begin{bmatrix} * & 0 & * & \cdots \\
+					       0 & * & 0 & \cdots \\
+					       * & * & 0 & \cdots \\
+					       0 & 0 & * &\cdots 
+			\end{bmatrix}, \nonumber \\
+\end{equation}
+where $*$ denotes a nonzero component (i.e., an attack or corruption). 
+
+Furthermore, assume that a local control loop implements secure state feedback and is not subject to attack: $u(k) = Gx(k)$. 
 This represents the following practical scenario: a physical system possesses a local control loop that has direct access to the state of the plant and can control the evolution of the physical system. 
 This is reasonable if the sensors are connected to the local controller through a wired link that is not subject to external attacks. 
 Also, as part of the overall plant, a higher-level supervisory and monitoring system receives measurements from the sensors through wireless and vulnerable communication links that are subject to attacks \cite{Fawzi:2014}. 
-A concrete example is a UAV that uses measurements from onboard, hardwired sensors such as an Inertial Measurement Unit (IMU) for its autopilot and trajectory following (i.e., secure local control loop), and communicates wirelessly with a remote control center (i.e., vulnerable link subject to attacks).%We define the number of correctable attacks as follows, when the set of attacked sensors can change over time, $q$ attacks are correctable after $T$ steps by the estimator $\mathcal{E}: {(\mathbb{R} ^p) } ^T  \rightarrow \mathbb{R}^n$ if for any $x(0) \in \mathbb{R}^n$ and any sequence of vectors $e(0),...,e(T-1)$ in $\mathbb{R}^p$ such that $\lvert \textsf{supp}(e(k)) \rvert \leq q$, we have $\mathcal{E} (y(0),...,y(T-1)) = x(0)$ where $y(k) = CA^k x(0) + e(k)$ for $k=0,...,T-1$.\\
-
-
-\subsection{Reformulation into an Error Correction Problem} \label{sec:err_corr}
-
-The problem that we want to solve is how to reconstruct the initial state $x(0)$ of the system from the corrupted observations ($y(k)$) where $k=0,...,T-1$.
-Let $E_{q,T}$ denote the large vector with error vectors from time $k=0$ to $k=T-1$ stacked vertically: $\begin{bmatrix} e(0); ~ ...~  ;  e(T-1) \end{bmatrix}   \in  \mathbb{R}^{p\cdot T} $, where each $e(k)$ satisfies $\lvert \textsf{supp}(e(k)) \rvert \le q \le p $.% as in Definition \ref{def:num_err_change}. 
-\begin{eqnarray} \label{eq:sys_err_corr}
-\begin{aligned}
-	Y &\triangleq \begin{bmatrix} y(0) \\ y(1) \\ \vdots \\ y(T-1) \end{bmatrix} 
-		= \begin{bmatrix} Cx(0) + e(0) \\ CA x(0) + e(1) \\ \vdots \\ CA^{T-1} x(0) + e(T-1) \end{bmatrix} =
-		\begin{bmatrix} C \\ CA \\ \vdots \\ CA^{T-1} \end{bmatrix} x(0) + E_{q,T}\\& \triangleq \Phi x(0) + E_{q,T} 
-\end{aligned} 
-		\label{eq:decoder_Phi}
-\end{eqnarray}
-where $Y \in \mathbb{R}^{p\cdot T}$ is the set of vertically stacked corrupted measurements and $\Phi \in \mathbb{R}^{p\cdot T \times n}$ represents the observability matrix of the closed loop system. Assume $\text{rank}(\Phi) \\= n$, which is reasonable because otherwise, the system is unobservable and thus $x(0)$ cannot be determined even if there is no attack ($E_{q,T} = 0$).%\begin{itemize}
-%\item Open-loop case $(B=0)$:  A full column rank condition represents the pair $(A_o,C)$ being observable. In other words, if not, one cannot reconstruct $x(0)$ even if there are no attacks in the measurements.
-%\item State-feedback case: Since state-feedback may affect the observability of a system (even though the pair $(A_o,C)$ is observable), we have to satisfy $\text{rank}(\Phi) = n$ for the closed-loop system with state-feedback. 
-%\end{itemize}
-%We need to satisfy $\text{rank}(\Phi) = n$ for the closed-loop system with state-feedback since state-feedback may affect the observability of a system (even though the pair $(A_o,C)$ is observable). 
-\footnote{Note that the closed-loop system with state-feedback is controllable if and only if the open-loop system is controllable. However, state-feedback may affect the observability of a system even though the pair $(A_o,C)$ is observable.}
-Proposition \ref{prop:equivalent} below, gives two equivalent sufficient conditions for the existence of a unique solution $x(0)$ to (\ref{eq:decoder_Phi}).
-
-\begin{proposition} \label{prop:equivalent}
-	Given $Y=\Phi x + E$, $\Phi \in \mathbb{R}^{p\cdot T \times n}$ is full rank and $2s = 2q\cdot T \leq  p\cdot T-n$, then the following are equivalent: \\
-$(i)$ all subsets of $2s$ columns of $Q_2 ^\top$ are linearly independent, where  $\Phi = \begin{bmatrix} Q_1 & Q_2 \end{bmatrix} \begin{bmatrix} R_1 \\ 0 \end{bmatrix}$ is the QR decomposition of $\Phi$ and $Q_2 ^\top \in \mathbb{R}^{(p\cdot T-n)\times p\cdot T}$;\\
-$(ii)$ $\lvert \textsf{supp}( \Phi z) \rvert > 2 s$ for all $z \in \mathbb{R}^n \backslash \{ 0 \}$.
-\end{proposition}
-
-\textit{Proof}:
-$(ii) \implies (i)~:$ Suppose there exist $2s$ columns of $Q_2^\top$ that are linearly dependent. Then, there exists $E_0 \neq 0$ such that $Q_2^\top E_0 = 0$ where $\lvert \textsf{supp}(E_0) \rvert \le 2s$. Observe that $\mathcal{N}(Q_2^\top) = \mathcal{R}(\Phi)$, therefore there exists $z$ such that $E_0 = \Phi z$ (i.e., $E_0 \in \mathcal{R}(\Phi)$). Then, $ \lvert  \textsf{supp}(\Phi z) \rvert = \lvert \textsf {supp} (E_0) \rvert \le 2s $ (contradiction).\\
-$(i) \implies (ii)$: We again resort to contradiction. Suppose that there exists $z\neq 0$ such that $\lvert \textsf{supp}(\Phi z)\rvert \le 2s$. Let $L_1$ and $L_2$ be two disjoint subsets of $\{1,..., p\cdot T \}$ with $\lvert L_1 \rvert \le s$ and $\lvert L_2 \rvert \le s$ such that $L_1 \oplus L_2 = \textsf{supp}(\Phi z)$ (such $L_1$ and $L_2$ exist since $\lvert \textsf{supp}(\Phi z) \rvert \le 2s < p\cdot T$). Let $E_1 = \Phi z \lvert _{L_1}$ be the vector obtained from $\Phi z$ by setting all the components outside of $L_1$ to 0, and similarly let $E_2= - \Phi z \lvert _{L_2}$ (i.e., $E_1 \neq E_2$). Then we have $\Phi z = E_1 - E_2$ with $\textsf{supp}(E_1) \subset L_1$ and $\textsf{supp}(E_2) \subset L_2$ with $\lvert L_1 \rvert \le s$ and $\lvert L_2 \rvert \le s$. Now, consider $Y=\Phi z + E$:
-
+A concrete example is a UAV that uses measurements from onboard, hardwired sensors such as an Inertial Measurement Unit (IMU) for autopilot and trajectory following (i.e., secure local control loop), and communicates wirelessly with a remote control center (i.e., vulnerable link subject to attacks).
+%In the case of UAVs, this corresponds to using measurements from onboard, hardwired sensors such as Inertial Measurement Units (IMU) for autopilot and trajectory following. 
+The resulting closed loop system is:
 \begin{equation}
 \begin{aligned}
-	\tilde Y &= Q_2^\top Y =  Q_2^\top (\Phi z+E) =  Q_2^\top (E_1 - E_2 + E  ) \\
-	& =  Q_2^\top(E_1-E_2) +  Q_2^\top E =  Q_2^\top E \\
-	& \implies  Q_2^\top (E_1-E_2) = 0 \nonumber 
+x(k+1) &= A x(k)\\
+y(k) &= C x(k) + e(k),
+\end{aligned} 
+\label{eq:system_model_cl}
+\end{equation} 
+where the closed loop system matrix $A=A_o+BG$. 
+
+
+
+Finally, we define the number of correctable attacks as follows:
+\begin{definition}\label{def:num_err_change}
+When the set of attacked sensors/nodes can change over time, $q$ errors are correctable after $T$ steps by the estimator/decoder $\mathcal{D}: {(\mathbb{R} ^p) } ^T  \rightarrow \mathbb{R}^n$ if for any $x(0) \in \mathbb{R}^n$ and any sequence of vectors $e(0),...,e(T-1)$ in $\mathbb{R}^p$ such that $\lvert \textsf{supp}(e(k)) \rvert \leq q$\footnote{$\lvert \textsf{supp} (x) \rvert $  denotes the support of vector $x$, i.e., the number of nonzero components in $x$. If $f$ is any real-valued or vector-valued function on a topological space $X$, the support of $f$, denoted by $\textsf{supp}(f)$, is the closure of the set points where $f$ is nonzero: $\textsf{supp}(f)  = \{ x \in X \,|\, f(x) \neq 0 \}$.}, 
+we have $\mathcal{D} (y(0),...,y(T-1)) = x(0)$ where $y(k) = CA^k x(0) + e(k)$ for $k=0,...,T-1$.
+\end{definition}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Methodology}
+
+Let $E_{q,T}$ denote the set of error vectors $\begin{bmatrix} e(0); ~ ...~  ;  e(T-1) \end{bmatrix}   \in  \mathbb{R}^{p\cdot T} $ where each $e(k)$ satisfies $\|e(k)\|_0 \leq q \leq p$. 
+\begin{eqnarray} \label{eq:sys_err_corr}
+\begin{aligned}
+	Y &\triangleq \begin{bmatrix} y(0) \\ y(1) \\ \vdots \\ y(T-1) \end{bmatrix}  = \begin{bmatrix} Cx(0) + e(0)\\ CA x(0) + e(1) \\ \vdots \\ CA^{T-1} x(0) + e(T-1) \end{bmatrix} \\
+		& =
+		\begin{bmatrix} C \\ CA \\ \vdots \\ CA^{T-1} \end{bmatrix} x(0) + E_{q,T}  \triangleq \Phi x(0) + E_{q,T}
+		\label{eq:decoder_Phi}
 \end{aligned}
-\end{equation}
-The last equality is due to $\mathcal{N}(Q_2^\top) = \mathcal{R}(\Phi)$ (i.e., $Q_2^\top \Phi = 0$). Since all subsets of $2s$ columns of $Q_2^\top$ are linearly independent, $E_1 - E_2 = 0 $ (contradiction). \hfill$\blacksquare$
+\end{eqnarray}
+where $Y \in \mathbb{R}^{p\cdot T}$ is a collection of corrupted measurements over $T$ time steps and $\Phi \in \mathbb{R}^{p\cdot T \times n}$ represents an observability-like matrix of the system. 
+Here, we need to assume that $\operatorname{rank}(\Phi) = n$; otherwise, the system is unobservable and we cannot determine $x(0)$ even if there is no attack (i.e., $E_{q,T} = 0$).
 
 
-Next, we present two methods, inspired by error correction techniques \cite{tao11}\cite{David_Chang}, for estimating $x(0)$. We show their equivalence and provide sufficient conditions for the existence of a unique solution.\\
-\\
-{\bf Estimator 1:~} The first method determines the error vector $E_{q,T}$ first, and then solves for $x(0)$. 
-Consider the $QR$ decomposition \cite{QRdecomp} of $\Phi \in \mathbb{R}^{p\cdot T \times n}$,
-$	\Phi = \begin{bmatrix} Q_1 & Q_2 \end{bmatrix} \begin{bmatrix} R_1 \\ 0 \end{bmatrix} = Q_1 R_1 $
-where $\begin{bmatrix} Q_1 & Q_2 \end{bmatrix} \in \mathbb{R}^{p\cdot T \times p\cdot T}$ is orthogonal, $Q_1 \in \mathbb{R}^{p\cdot T\times n}, Q_2 \in \mathbb{R}^{p\cdot T \times (p\cdot T-n)}$ and $R_1 \in \mathbb{R}^{n\times n}$ is a rank-$n$ upper triangular matrix. Pre-multiply (\ref{eq:decoder_Phi}) by $\begin{bmatrix} Q_1 & Q_2 \end{bmatrix} ^\top$:
+Inspired by the error correction techniques proposed in \cite{tao11} and \cite{David_Chang}, we first determine the error vector $E_{q,T}$, and then solve for $x(0)$. 
+Consider the $QR$ decomposition of $\Phi \in \mathbb{R}^{p\cdot T \times n}$,
+\begin{eqnarray}
+	\Phi = \begin{bmatrix} Q_1 & Q_2 \end{bmatrix} \begin{bmatrix} R_1 \\ 0 \end{bmatrix} = Q_1 R_1
+\end{eqnarray}
+where $\begin{bmatrix} Q_1 & Q_2 \end{bmatrix} \in \mathbb{R}^{p\cdot T \times p\cdot T}$ is orthogonal, $Q_1 \in \mathbb{R}^{p\cdot T\times n}, Q_2 \in \mathbb{R}^{p\cdot T \times (p\cdot T-n)}$, and $R_1 \in \mathbb{R}^{n\times n}$ is a rank-$n$ upper triangular matrix.
+Pre-multiplying (\ref{eq:decoder_Phi}) by $\begin{bmatrix} Q_1 & Q_2 \end{bmatrix} ^\top$ gives:
 \begin{equation}
 	\begin{bmatrix} Q_1 ^\top \\ Q_2 ^\top \end{bmatrix} Y = \begin{bmatrix}R_1 \\ 0  \end{bmatrix} x(0) + \begin{bmatrix} Q_1 ^\top \\ Q_2^\top \end{bmatrix} E_{q,T}.
 	\label{eq:QR}
 \end{equation}
-We can now solve for $E_{q,T}$ using the second block row:
+We can compute $E_{q,T}$ by using the second block row:
 \begin{equation}
 	\tilde Y \triangleq Q_2^\top Y = Q_2^\top E_{q,T}
 	\label{eq:E_est}
 \end{equation}
-where $Q_2^\top \in \mathbb {R} ^{ (p\cdot T-n) \times p\cdot T}$. From Lemma \ref{lem:CS}, Equation (\ref{eq:E_est}) has a unique, $s(\le q\cdot T)$-sparse solution if all subsets of $2s(\le2 q\cdot T)$ columns of $Q_2^\top$ are full rank (this is a reasonable assumption if $ (p\cdot T-n) \ge 2s = 2q\cdot T$). 
-Therefore, the secure estimator has two steps, we first solve the following $l_1$-minimization problem
+where $Q_2^\top \in \mathbb {R} ^{ (p\cdot T-n) \times p\cdot T}$.
+From Lemma \ref{lem:CS}, (\ref{eq:E_est}) has a unique, $s$-sparse solution (where $s\le q\cdot T$) if all subsets of $2s$ columns (at most $2 q\cdot T$ columns) of $Q_2^\top$ are full rank. Clearly, this is a reasonable assumption if $(p\cdot T-n) \ge 2q\cdot T$. Therefore, we consider solving the following $l_1$-minimization problem:
 \begin{equation}
-	\hat E_{q,T} = \arg \min_E \norm { E}_{l_1} \text{ subject to } \tilde Y = Q_2^\top E 
+	\hat{E}_{q,T} = \arg \min_E \norm { E}_{l_1} \text{ s.t. } \tilde Y = Q_2^\top E,
 	\label{eq:solve_E}
 \end{equation}
-Note that the $l_0$ norm in (\ref{eq:CS}) was replaced with the $l_1$ norm in (\ref{eq:solve_E}) to give a convex program, which was proposed by Candes and Tao in \cite{tao11}. In addition, in Section \ref{sec:error_correction} we discussed the conditions for equivalence of these two programs.\\
-With $\hat E_{q,T}$ in hand, we then solve for $x(0)$ in the second step using the first block row of Equation (\ref{eq:QR}):
+where $\norm{E}_{l_1}:= \sum_{i=1} ^{p\cdot T} \lvert E_i \rvert$. Now, given the vector $\hat{E}_{q,T}$, we can compute $x(0)$ from the first block row of (\ref{eq:QR}) as follows:
 \begin{equation}
-	x(0) = R_1^{-1} Q_1^\top (Y- \hat E_{q,T})
+	x(0) = R_1^{-1} Q_1^\top (Y- \hat{E}_{q,T})
 	\label{eq:QR1}
 \end{equation}
-\\
-{\bf Estimator 2:~} 
-The second method recovers $x(0)$ from the corrupted data $Y$ directly by %\st{, we consider} 
-solving the following $l_1$-minimization problem \cite{tao11}:
-\begin{equation}
-	\min_x \norm { Y  - \Phi x}_{l_1}
-	\label{eq:direct_l1}
-\end{equation}
+The following lemma provides the conditions under which the solution to (\ref{eq:QR1}) exists and is unique.
 
-\begin{lem} \label{lem:equivalent}
- $x(0)$ is the unique solution of (\ref{eq:direct_l1}) if and only if ${\hat E}_{q,T}$ is the unique solution of (\ref{eq:solve_E}).
+\begin{lem} \label{lem:EC}
+	$x(0) $ is the unique solution if $\lvert \textsf{supp}( \Phi z) \rvert > 2 s = 2 (q\cdot T)$ for all $z \in \mathbb{R}^n \backslash \{ 0 \}$.
 \end{lem}
 
 \textit{Proof}:
- (By \cite{tao11}) Observe that on one hand, since $Y = \Phi x(0) + E_{q,T}$ and we may decompose $x = x(0) + v$, hence 
-\begin{equation}
-	(\ref{eq:direct_l1}) \Leftrightarrow \min_v \norm{  E_{q,T} - \Phi v }_{l_1} \nonumber 
-\end{equation}
-On the other hand, the constraint $Q_2^\top E = \tilde Y = Q_2^\top E_{q,T}$ means that $E = E_{q,T} - \Phi v $ for some $v \in \mathbb{R}^n$ since $\tilde Y = Q_2^T E = Q_2^T (E_{q,T} - \Phi v) = Q_2^T E_{q,T} - Q_2^T \Phi v = Q_2^T E_{q,T}$ and therefore,
-\begin{eqnarray}
-	(\ref{eq:solve_E}) &\Leftrightarrow& \min_v \norm{ E }_{l_1}, ~~~~ E = E_{q,T}-\Phi v  \nonumber \\
-				 & \Leftrightarrow& \min_v  \norm{E_{q,T}-\Phi v}_{l_1} \nonumber 
-\end{eqnarray}
-Thus, (\ref{eq:solve_E}) and (\ref{eq:direct_l1}) are equivalent programs \cite{tao11}.
+We first prove the claim C1: if $\lvert \textsf{supp}( \Phi z) \rvert > 2 s = 2 (q\cdot T)$ for all $z \in \mathbb{R}^n \backslash \{ 0 \}$ then all subsets of $2s$ columns of $Q_2^\top$ are full rank. Then by Lemma \ref{lem:CS} and noting that by definition the null space of $Q_2^\top$ equals the column space of $\Phi$, we have $x(0) $ is the unique solution.
+
+Proof of C1 by contradiction: Suppose there exist $2s$ columns of $Q_2^\top$ that are linearly dependent. Then, there exists $E_0 \neq 0$ such that $Q_2^\top E_0 = 0$ where $\lvert \textsf{supp}(E_0) \rvert \le 2s$. Since the null space of $Q_2^\top$ equals the column space of $\Phi$, there exists $z$ such that $E_0 = \Phi z$ (i.e., $E_0$ is in the column space of $\Phi$). Then, $ \lvert  \textsf{supp}(\Phi z) \rvert = \lvert \textsf {supp} (E_0) \rvert \le 2s $ (contradiction).
 \hfill$\blacksquare$\\
 
+The sufficient condition, provided in Lemma \ref{lem:EC}, for the existence of a unique solution to (\ref{eq:QR1}) is hard to check as it requires satisfiability of the condition for all $z \in \mathbb{R}^n \backslash \{ 0 \}$. In the following Theorem, we prove an equivalent, yet simple-to-check, sufficient condition that only needs to be verified for the eigenvectors of $A$.
 
-Even though we are interested in the state $x(0)$ and not necessarily the error vectors $E_{q,T}$, Lemma \ref{lem:equivalent} states that if the attack vectors cannot be uniquely determined from (\ref{eq:solve_E}), then we cannot estimate $x(0)$ uniquely from (\ref{eq:direct_l1}). \cite{Fawzi:2014} also mentioned this notion: the existence of an estimator that can correct $q$ attacks is equivalent to saying that the map, $\begin{bmatrix} \Phi & {\bf I}_{q\cdot T} \end{bmatrix}: \mathbb{R}^n \times E_{q,T} \rightarrow (\mathbb{R}^p)^T$ has an inverse for the first $n$ components of its domain where $Y = \begin{bmatrix} \Phi & {\bf I}_{q\cdot T} \end{bmatrix} \begin{bmatrix} x(0) \\ E_{q,T} \end{bmatrix} $ since the attack vectors are uniquely determined by $x(0)$ and the $y(k)$'s, i.e., $e(k) = y(k) - CA ^k x(0)$. 
-\\
-\\
-\begin{theorem} Let $A \in \mathbb{R}^{n\times n}, C \in \mathbb{R}^{p\times n}$. Assume that $C$ is full rank, $(A,C)$ is observable and $A$ has $n$ distinct positive eigenvalues such that $0 < \lambda_1 < \lambda_2 < \cdots < \lambda_n$. 
+
+
+\begin{theorem}\label{thm:SE} 
+Let $A \in \mathbb{R}^{n\times n}, C \in \mathbb{R}^{p\times n}$. Assume that $C$ is full rank, $(A,C)$ is observable and $A$ has $n$ distinct positive eigenvalues such that $0 < \lambda_1 < \lambda_2 < \cdots < \lambda_n$. 
 Define:
 \begin{itemize}
 \item
@@ -293,10 +265,9 @@ Then, the following are equivalent:
 \end{equation}
 \end{theorem}
 
- 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Proof of Theorem 1}
+\subsubsection{Proof of Theorem \ref{thm:SE}}
 In order to prove Theorem 1, we make use of Lemma \ref{lem:two_vec} and Proposition \ref{prop:m_vec} (see Appendix).
 
 First, it is simple to prove that $(i)$ and $(ii)$ are equivalent: $\lvert \textsf{supp} (\Phi v_i) \rvert = \sum_{k=0}^{T-1} \lvert \textsf{supp} (CA^k v_i ) \rvert = \sum_{k=0}^{T-1} \lvert  \textsf{supp} (\lambda_i^k C v_i )\rvert  = T\cdot  \lvert \textsf{supp} (C v_i) \rvert  $. 
@@ -308,113 +279,49 @@ Second, we want to show that $(ii)$ and $(iii)$ are equivalent. The direction $(
 \item $m\ge 3$: By Lemma \ref{lem:two_vec} and Proposition \ref{prop:m_vec}, if we choose $T>T_m$ for each value of $m$, respectively.
 \end{enumerate}
 We need to choose $T$ to satisfy the worst case for any $m$ such that $n \ge m \ge 2$. Thus, if $T \ge \max \{ T_2, \cdots, T_n \}$, then $(ii)$ and $(iii)$ are also equivalent. Note that $T_m$ is chosen to satisfy $T_m > T_{\mathcal{S}_m}$ for all subsets $\mathcal{S}_m$, i.e., $T_m = \max_{\mathcal{S}_m}( T_{\mathcal{S}_m})+1$.
-\hfill$\blacksquare$
+\hfill$\blacksquare$\\
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Conditions for Accurate Estimation}
 
-In order to check whether an estimator can guarantee accurate estimation of $q$ attacks, one no longer needs to check satisfiability of condition (iii) which is stated for all $z \in \mathbb{R}^n\backslash \{0 \}$ and hard to check, instead, one can simply check condition (i) for the eigenvectors of $A$ which is much simpler.
-
-It is interesting to compare the conditions for the existence of a $q$-attack-correcting estimator for when the attacked sensors are fixed (Proposition \ref{prop:Fawzi}) and when the attacked sensors can change over time (Proposition \ref{prop:equivalent}) are :
-$\forall z \in \mathbb{R}^n\backslash \{0 \}$,
-\begin{equation}
-\begin{aligned}
-(i) &~  \lvert \textsf{supp}(Cz) \cup \textsf{supp}(CAz) \cup \cdots \cup \textsf{supp}(CA^{T-1} z) \rvert > 2q  \\& \text{ (the set of attacked sensors is fixed)}\\
-(ii) & ~ \lvert \textsf{supp} (\Phi z) \rvert 
-     =  \sum_{i=0}^{T-1} \lvert \textsf{supp} (C A^i z) \rvert > 2 q \cdot T \\& \text{ (the set of attacked sensors can change)} 
-	\label{eq:connection}
-\end{aligned}
+Theorem \ref{thm:SE} states that if the feedback system and the secure estimator are designed such that all the conditions in the theorem are satisfied, then our proposed secure estimator can guarantee accurate correction of $q$ errors by checking the following very simple condition:
+\begin{equation}\label{eq:distinct}
+\forall v_i \in \mathbb{R}^n \text{ where } Av_i =\lambda_i v_i, ~ \lvert \textsf{supp}(Cv_i) \rvert > 2q.  %\nonumber
 \end{equation}
-It is easy to see that when $T=1$, conditions $(i)$ and $(ii)$ are equivalent as both of them reduce to $\lvert \textsf{supp} (Cz) \rvert > 2q$ for all $z \in \mathbb{R}^n\backslash \{0 \}$.
-When $T>1$ (i.e., with dynamics), the comparison is not so straightforward. In \cite{Fawzi:2014}, the authors proved an equivalent condition for $(i)$:
-
-\begin{lem} \label{lem:distinct}
-Assume $A$ has $n$ distinct positive eigenvalues ($0<\lambda_1 < \lambda_2 <\cdots < \lambda_n$) and $T \geq n$. Then, the following are equivalent:
-\begin{equation}
-\begin{aligned}
- (i) &~ \forall z \in \mathbb{R}^n \backslash \{0\},  \\& \lvert \textsf{supp}(Cz) \cup \textsf{supp}(CAz) \cup \cdots \cup \textsf{supp}(CA^{T-1} z) \rvert > 2q  \\
- (ii)  &~\forall v_i \in \mathbb{R}^n \text{ where }   Av_i = \lambda_i v_i \text{ (i.e., eigenvector of $A$)},\\& ~ \lvert \textsf{supp}(Cv_i) \rvert > 2q \nonumber
-\label{eq:condition}
-\end{aligned}
-\end{equation}
-\end{lem}
-
-\begin{proposition}\label{prop:equivalent2}
-Given $C$ is full rank, the closed-loop matrix $A~(=A_o+BG)$ has $n$ distinct positive eigenvalues, the open-loop pair $(A_o,B)$ is controllable, the closed-loop pair $(A,C)$ is observable and $T$ is chosen to satisfy Theorem 1. Then, the condition for secure estimation of $q$-attacks when the set of attacked sensors is fixed ((i) in (\ref{eq:connection})) is the same as the condition for when the set of attacked sensors can change over time ((ii) in (\ref{eq:connection})), except the condition on $T$.
-\end{proposition}
-
-\textit{Proof}:
-Since the pair $(A_o,B)$ is controllable, there exists a feedback matrix $G$ such that the eigenvalues of the closed-loop matrix $A$, i.e., $\lambda_1, ..., \lambda_n$ can be arbitrarily located on the complex plane. Then Proposition \ref{prop:equivalent2} directly follows from Proposition \ref{prop:equivalent}, Lemma \ref{lem:distinct} and Theorem 1. \hfill$\blacksquare$\\
 
 
-Theorem 1 and Proposition \ref{prop:equivalent2} state that if the feedback system and the secure estimator are designed such that the conditions in Proposition \ref{prop:equivalent2} are satisfied, then we can guarantee accurate correction of $q$ attacks using our proposed secure estimator for attacked sensors that can change over time, by checking the following very simple condition:
-$ %\begin{equation}
-\forall v_i \in \mathbb{R}^n \text{ where } Av_i =\lambda_i v_i, ~ \lvert \textsf{supp}(Cv_i) \rvert > 2q.  \nonumber
-$ %\end{equation}
-And interestingly, this is the exact same condition that one should check if one is designing the estimator from \cite{Fawzi:2014} for fixed attack sensors. In other words, it is equally easy to check satisfiability of the sufficient condition for $q$-attack-correction for both types of estimators.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsubsection{Discussion on Sufficient Condition of $T$}
-
-Unsurprisingly, the condition on $T$ from Theorem 1, is different from that for an estimator designed for fixed attack sensors ($T\geq n$). In \cite{Fawzi:2014}, since the set of attack sensors is fixed, one can leverage the property of fixed attacked sensors (i.e., the number of nonzero rows in (\ref{eq:opt_decoder})). However, in our setting, since the set of attack sensors can change over time, we cannot leverage this property and thus, we need more time steps $T$.
-%to ensure accurate estimation is different depending on whether the attacked sensors are fixed or changing. 
-In general, it is difficult to see what the value of $T$ is, from the formula in Theorem 1. However it is reasonable to assume that one would design the feedback matrix $G$ and matrix $C$ to maximize the number of attacks that can be corrected, i.e. $q = \max q = \lceil p/2 - 1 \rceil$ (proved in Section \ref{sec:max_q}). To achieve this, we must design $G$ and $C$ such that $s_i = \lvert \textsf{supp} (C v_i) \rvert = p$ for all eigenvectors of $A$. In other words, $\operatorname{max} \mathcal{S}_m = \operatorname{min} \mathcal{S}_m = p$ for all $m$ and for all subsets $\mathcal{S}_m$. 
-In this case, it is easy to see that according to Theorem 1, for any $p$ that is an even number, we must choose: $T\geq T_n > (n-1) \cdot p/2$.
-%\yh{ $2q = \lceil p - 2 \rceil = p-2 $  $\implies \max \mathcal{S}_m -2q = p - 2q = 2$. So, isn't it $T > (n-1)\cdot p /2 $ (no matter what $p$ is)?}
-%\begin{equation}
-%	T > \begin{cases}
-%			(n-1) \cdot p/2 \quad &\text{ $p$ is even} \\
-%                        	(n-1)\cdot p   \quad &\text{ $p$ is odd}.
-%	\end{cases}
-%	\nonumber
-%\end{equation}
-In most cases, this $T$ is larger than $n$ (the value of $T$ required for the estimator for fixed attacked sensors).
-
-At the first look, this may seem like an unsatisfying result, however there are two important points to note. First, a larger value of $T$ merely translates to a longer initial delay from time $k= 0$ to $k=T-1$ when the estimator collects enough ($T$) measurements. From time $k=T-1$ onwards, state estimation takes place at every time step $k$ as the estimator uses a ``sliding window'' of observations. Second, extensive simulation results in this chapter show that a value of $T = n$ is often sufficient for our proposed estimator to achieve good estimation, i.e., to perfectly recover the state under attacks where the attacked sensors change over time. 
-
-This is because we consider the worst case (conservative) scenario in Theorem 1. 
-%\qie{Shall we leave the descriptions below here? Eigenvalues of A are now positive real. Should we add something on negative real eigenvalues too?} \yh{I do not think so. Even our simulation includes complex eigenvalues.} 
-In the proof, we consider the case where $A$ has $n$ distinct positive eigenvalues. What if $A$ has complex eigenvalues? For instance, assume that $A \in \mathbb{R}^{3\times 3}$ $(n=3)$ and it has one pair of complex conjugate eigenvalues and one real eigenvalue, i.e., $\lambda_1, \lambda_2 (= \bar \lambda_1), \lambda_3$ where $\lambda_1, \lambda_2 \in \mathbb{C}$, $\lambda_3 \in \mathbb{R}$ and $\bar \cdot$ represents the complex conjugate. We denote $v_1 = x+ i y$, $v_2 = \bar v_1 = x - i y$ and $v_3 = w$ where $x$, $y$, $w  \in \mathbb{R}^n $ are linearly independent. Any $z \in \mathbb{R}^n$ can be represented by a linear combination of $n$ independent vectors in $\mathbb{R}^n$, i.e., $z = \alpha v_1 + \bar \alpha  v_2 + \beta w  = 2 Re( \alpha v_1) + \beta w =  \alpha_1 x + \alpha _2 y + \beta w$ where $\alpha \in \mathbb{C}$, $\beta \in \mathbb{R}$ and $\alpha_1 = Re(\alpha)\in \mathbb{R}$ and $\alpha_2 = - Im(\alpha) \in \mathbb{R}$. Therefore, the same results for real eigenvalues applies. In other words, if $ \lvert \textsf{supp}( C x) \rvert = \lvert \textsf{supp}( C y) \rvert = \lvert \textsf{supp}( C w) \rvert = p$ and $T > \frac { \sum_{k=0}^{T-1} s_{r,123}^k} {p - 2q}$, then $\lvert \textsf{supp} (\Phi z) \rvert > 2 q \cdot T$ where $s_{r,123}^k $ represents the number of cancelled support of linear combinations of $x,y$ and $w$ at time step $k$.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Number of Correctable Errors}\label{sec:max_q}
 
-Given that the set of attacked sensors can change over time and $e(k)$ satisfies $\lvert \textsf{supp} (e(k)) \rvert \le q$ for all $k$, we prove in Proposition \ref{prop:maximum} (see below) that the maximum number of correctable attacks by our estimator is $\lceil p/2-1 \rceil$, where $p$ is the number of measurements. This is in fact the same as the maximum number of correctable attacks for the estimator proposed in \cite{Fawzi:2014} which is for fixed attacked sensors.
-This is a pleasing result, because it demonstrates that with our proposed estimator, we can relax the assumption of fixed attacked sensors and protect the system against more general attacks, without compromising the maximum number of correctable attacks. 
+Given that the set of attacked nodes can change over time and $e(k)$ satisfies $\lvert \textsf{supp} (e(k)) \rvert \le q$ for all $k$, we prove in Proposition \ref{prop:maximum} (see below) that the maximum number of correctable errors (as defined in Definition \ref{def:num_err_change}) by our decoder is $\lceil p/2-1 \rceil$, where $p$ is the number of measurements. 
 
 \begin{proposition}\label{prop:maximum} 
-Let $A_0 \in \mathbb{R}^{n \times n}$, $B \in \mathbb{R}^{n \times m}$ and $C \in \mathbb{R}^{p \times n}$ and assume that the pair ($A_0$, $B$) is controllable, $C$ is full rank and each row of $C$ is not identically zero. Then there exists a finite set $F \subset \mathbb{C}$ such that for any choice of $n$ numbers $\lambda_1, \cdots, \lambda_n \in \mathbb{C} \backslash F$ such that $0<\lambda_1< \cdots < \lambda_n$, there exists $G \in \mathbb{R}^{m \times n}$ such that:
-
+Let $A_0 \in \mathbb{R}^{n \times n}$, $B \in \mathbb{R}^{n \times m}$ and $C \in \mathbb{R}^{p \times n}$ and assume that the pair ($A_0$, $B$) is controllable, $C$ is full rank and each row of $C$ is not identically zero. Then there exists a finite set $F \subset \mathbb{R}_+$ such that for any choice of $n$ numbers $\lambda_1, \cdots, \lambda_n \in \mathbb{R}_+ \backslash F$ such that $0<\lambda_1< \cdots < \lambda_n$, there exists $G \in \mathbb{R}^{m \times n}$ such that:
 \begin{itemize}
 \item
 The eigenvalues of the closed-loop matrix $A~(= A_0+BG)$ are $\lambda_1, \cdots, \lambda_n$.
 \item
-If ($A, C$) is observable, then the number of correctable attacks for the pair ($A, C$) is maximal after $T= \max\{n, T^*\}$ time steps and is equal to $\lceil p/2-1 \rceil$, where $T^*$ is the value of $T$ from Theorem 1. 
+If the pair ($A, C$) is observable, then the number of correctable errors for the pair ($A, C$) is maximal after $T= \max\{n, T^*\}$ time steps and is equal to $\lceil p/2-1 \rceil$, where $T^*$ is the value of $T$ from Theorem \ref{thm:SE}. 
 \end{itemize}
 \end{proposition}
 
 \textit{Proof}:
-The proof for Proposition 4 in \cite{Fawzi:2014} shows that if the chosen poles $\lambda_1, \cdots, \lambda_n$ are distinct, positive and do not fall in some finite set $F$, then there is a choice of $G$ such that the eigenvalues of $A~(=A_0+B)$ are exactly the $\lambda_1, \cdots, \lambda_n$, and the corresponding eigenvectors $v_i$ are such that $\lvert \textsf{supp} (C v_i) \rvert = p$. Thus, by Proposition \ref{prop:equivalent2}, the number of correctable attacks for $(A,C)$ is $\lceil p/2-1 \rceil$. \hfill$\blacksquare$
-\\
+The proof for Proposition 4 in \cite{Fawzi:2014} shows that if the chosen poles $\lambda_1, \cdots, \lambda_n$ are distinct, positive and do not fall in some finite set $F$, then there is a choice of $G$ such that the eigenvalues of $A~(=A_0+B)$ are exactly $\lambda_1, \cdots, \lambda_n$, and the corresponding eigenvectors $v_i$ are such that $\lvert \textsf{supp} (C v_i) \rvert = p$. Thus, by Theorem 1, the number of correctable errors for $(A,C)$ is $\lceil p/2-1 \rceil$.
+\hfill$\blacksquare$\\
 
-In addition, recall that $E_{q,T}$ consists of vertically stacked error vectors from $e(0), \cdots, e(T-1)$, and observe that our proofs for accurate estimation are independent of how the individual error (nonzero) terms are distributed in the vector $E_{q,T}$. In particular, %Note that the condition in 
-Theorem 1 considers $2 q \cdot T = 2 \cdot (\sum_{i=0}^{T-1} q_i) = 2 \bar q \cdot T$ where $\bar q = (\sum_{i=0}^{T-1} q_i ) /T$ and thus, it can be generalized to scenarios where there are $q$ attacks on average over a long time, not per time step.
-
-Thus, if we remove the assumption: $\lvert \textsf{supp} (e(k)) \rvert \le q$ for all $k$, and allow $e(k)$ to appear in an arbitrary fashion, e.g. $\lvert \textsf{supp} (e(0)) \rvert = 0$ and $\lvert \textsf{supp} (e(1)) \rvert = 2q$, as long as $\sum_{k=0}^{T-1} \lvert \textsf{supp} (e(k)) \rvert \leq q\cdot T$, then our $q$-attack-correcting estimator can still recover the true states. In other words, our proposed estimator can protect the system against more general attacks, where the number of attacked sensors is not necessarily less than or equal to $q$ at every time.
+In addition, recall that $E_{q,T}$ consists of the error vectors $e(0), \cdots, e(T-1)$ stacked vertically and our proofs for the existence of a unique solution to (\ref{eq:QR1}) are independent of how the individual error (nonzero) terms are distributed in the vector $E_{q,T}$. Thus, we can remove the assumption: $\lvert \textsf{supp} (e(k)) \rvert \le q$ for all $k$, and allow $e(k)$ to appear in an arbitrary fashion, e.g. $\lvert \textsf{supp} (e(0)) \rvert = 2q$ and $\lvert \textsf{supp} (e(1)) \rvert = 0$, as long as $\sum_{k=0}^{T-1} \lvert \textsf{supp} (e(k)) \rvert \leq q\cdot T$, then our $q$-attack-correcting estimator can still recover the true states. In other words, our proposed secure estimator can protect the system against more general attacks where the number of attacked sensors is not necessarily less than or equal to $q$ at every time step.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Estimator Design}\label{sec:design}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In the classical error correction problem, to ensure accurate estimation, the coding matrix must satisfy the RIP conditions  \cite{tao11}, which are extremely difficult to check in general. In practice, Theorem 1.4 from\cite{tao11} is almost always used to design a coding matrix {\it a priori}. This theorem states that a coding matrix whose entries are sampled from independent and identical distributions satisfies the RIP condition with overwhelming probability. 
-In secure estimation, however, it is impossible to choose such a coding matrix {\it a priori} because it is the observability matrix $\Phi$, which is structurally constrained: as shown in (\ref{eq:decoder_Phi}), $\Phi$ consists of $CA^{i}$'s where $i=\{0, \cdots, T-1\}$. In this Section, we use Lemma \ref{lem:distinct}, the results from Proposition 4 in \cite{Fawzi:2014} and state feedback to design a matrix $\Phi$ for accurate estimation. 
+In the classical error correction problem, to ensure accurate estimation, the coding matrix must satisfy the Restricted Isometry Properties (RIP) conditions  \cite{tao11}, which are extremely difficult to check in general. In practice, Theorem \ref{thm:SE}.4 from\cite{tao11} is almost always used to design a coding matrix {\it a priori}. This theorem states that a coding matrix whose entries are sampled from independent and identical distributions satisfies the RIP condition with overwhelming probability. 
+In secure estimation, however, it is impossible to choose such a coding matrix {\it a priori} because it is the observability matrix $\Phi$, which is structurally constrained: as shown in (\ref{eq:decoder_Phi}), $\Phi$ consists of $CA^{k}$'s where $k=\{0, \cdots, T-1\}$. In this Section, we use Condition \ref{eq:distinct} from Theorem \ref{thm:SE}, the results from Proposition 4 in \cite{Fawzi:2014} and state feedback to design a matrix $\Phi$ for accurate estimation. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -423,104 +330,61 @@ In secure estimation, however, it is impossible to choose such a coding matrix {
 
 \subsection{System and Estimator Design}\label{sec:decoder_design}
 
-Since conditions $(i)$ and $(iii)$ in Theorem 1 are equivalent, condition $(i)$ can be used to design a state feedback controller such that the closed system can achieve accurate estimation. Therefore, given a controllable open-loop pair $(A_0,B)$, design $C$ and choose an adequate feedback control law $u(k) = G x(k)$ and construct a secure estimator such that:
+Since conditions $(i)$ and $(iii)$ in Theorem \ref{thm:SE} are equivalent, condition $(i)$ can be used to design a state feedback controller such that the closed system can achieve accurate estimation. Therefore, given a controllable open-loop pair $(A_0,B)$, design $C$ and choose an adequate feedback control law $u(k) = G x(k)$ and construct a secure estimator such that:
 
 \begin{enumerate}
 	\item Each row of $C$ is not identically zero, and $C$ is full rank;
 	\item The closed-loop matrix $A~(=A_0+BG)$ has $n$ distinct positive eigenvalues: $0< \lambda_1 < \lambda_2 < \cdots < \lambda _n$;
 	\item $(A,C)$ is observable;
-	\item The length of the sliding window of measurements $T$ of the estimator satisfies Theorem 1\footnote{We found that much smaller $T$'s are often sufficient for good secure estimation performance, i.e., to perfectly recover the attack signals. In all simulations in this chapter, $T=n$ is used, where $n$ is the number of states.};
+	\item The length of the sliding window of measurements $T$ of the estimator satisfies Theorem \ref{thm:SE}\footnote{We found that much smaller $T$'s are often sufficient for good secure estimation performance, i.e., to perfectly recover the attack signals. In all simulations in this chapter, $T=n$ is used, where $n$ is the number of states.};
 	\item Maximize $q$ subject to: $\forall v_i \in \mathbb{R}^n$ where $Av_i = \lambda v_i$, $\lvert \textsf{supp} (C v_i)  \rvert > 2q$.
 \end{enumerate}
-Without loss of generality, the first condition holds. For example, if there exists a zero row in $C$, we can simply remove that row from $C$ without changing the system's behavior. Conditions 2, 3 and 4 are required for equivalence in Theorem 1. The last condition is needed for accurate estimation and for maximizing the number of correctable attacks. From Proposition \ref{prop:maximum} the maximum number of correctable attacks can be achieved when $\lvert \textsf{supp} (C v_i)  \rvert = p$ (i.e., the number of measurements) for all eigenvectors of $A$. 
+Without loss of generality, the first condition holds. For example, if there exists a zero row in $C$, we can simply remove that row from $C$ without changing the system's behavior. Conditions 2, 3 and 4 are required for equivalence in Theorem \ref{thm:SE}. The last condition is needed for accurate estimation and for maximizing the number of correctable attacks. From Proposition \ref{prop:maximum} the maximum number of correctable attacks can be achieved when $\lvert \textsf{supp} (C v_i)  \rvert = p$ (i.e., the number of measurements) for all eigenvectors of $A$. 
 
 Conditions 2, 3 and 5 depend on the feedback controller. So how do we choose a controller that achieves good performance in both control and secure estimation? Below, we describe an approach that we have taken in all simulations in this chapter, and has proved to work well. This is by no means the only method. First, we design a controller that achieves good control, for example, Linear Quadratic Regulators (LQR), which are optimal with respect to a certain quadratic cost function. However, these controllers may not have good secure estimation properties, meaning the value of $q$ that satisfies $\lvert \textsf{supp} (C v_i) \rvert > q$ for all eigenvectors of $A$ may be small, i.e., the resulting estimator can only correct few attacks. It is often easy to increase the value of $q$ and make the estimator more resilient to attacks by slightly perturbing the closed-loop poles from those resulting from the LQR controller, such as placing the poles closer to the origin, and making the poles more spread out amongst themselves. We chose to keep the perturbations small as to not lose too much control performance.  
 Although this is a heuristic method, it is relatively easy to carry out in order to satisfy the above conditions; whereas in the classical error correction method \cite{tao11}, checking whether a coding matrix satisfies RIP is extremely difficult.
 
 To summarize, we start from some optimal controller which may not result in a good estimator, then we perturb the closed-loop poles slightly to improve the resulting estimator's secure estimation capability. Therefore there is a trade-off between a system's control and secure estimation performances, and the feedback controller can be designed to achieve a desired trade-off between them.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[!t]
-\center
-\includegraphics[width=\textwidth]{chapters/se_linear/figures/performance_n8p10.pdf}
-\caption{Success rate and mean error of $l_1$ estimator on different systems (ideal coding matrix, designed state feedback and poorly designed system with $n=8$, $p=10$ and $T=n$, where black dot lines show the fundamental limit for dynamical systems and ideal coding matrix case respectively. We see that as the number of attacked sensors increase, success rate decreases. Also, by designing state feedback gain properly, we improve success rate and decrease mean error. }
-\label{fig:ex_n8p10}
-\end{figure*}
 
-
-\begin{figure}
-\center
-\includegraphics[width=0.7\textwidth]{chapters/se_linear/figures/performance_overall.pdf}
-\caption{Success rate and mean error of $l_1$ estimator on three different systems (ideal coding matrix, designed state feedback and poorly designed system with $n=8$ and $T=n$) with different $p=[8,10,12]$. Black solid lines show the fundamental limit for dynamical systems and black dashed lines show the fundamental limit for the ideal coding matrix case. We see that as the number of attacked sensors increases, the success rate decreases. Also, by designing the state feedback gain properly, we improve success rate and decrease mean error. }
-\label{fig:ex_n8_overall}
-\end{figure}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Practical Performance}\label{sec:prac_perf}
-
-In this Section, we show the performance of our proposed estimator using an arbitrary system with $n=8$, $p=10$ and $T=n$, where $A$ is chosen arbitrarily (i.e., the entries of $A$ are chosen as independent and identically distributed random variables) and $C$ is chosen such that every row of $C$ has only one nonzero component (i.e., each row of $C$ is not identically zero) and is full rank. 
-%This setting is more reasonable than a random system \cite{Fawzi:2014}, i.e., i.i.d. Gaussian entries, since such a matrix would have good RIP. 
-For each value of $S$ (i.e., number of total attacked sensors during $T$ steps), we test the estimator on 500 independent trials. For each trial, both the system matrices and initial conditions are re-generated. The initial conditions $x(0)$ were randomly generated from the standard Gaussian distribution and the set of attacked sensors are chosen at random and can change over time. Since we increase $S$ in steps of $1$ as shown in Figure \ref{fig:ex_n8p10}, 
-we first distribute $q= \lfloor S/T \rfloor$ attacks arbitrary for each time step $k$ and randomly distribute the remaining $(S-q\cdot T)$ attacks amongst $e(0),\cdots, e(T-1)$. For example, in Figure \ref{fig:ex_n8p10}, for $S=20$, we have at least 2 attacks for each $e(k)$ where $k=\{0,...,7\}$ and distribute the remaining $4$ attacks arbitrary. 
-
-Figures \ref{fig:ex_n8p10} and \ref{fig:ex_n8_overall} show the performance of our proposed estimator on three different systems: (1) an ideal random coding matrix (i.e., with i.i.d. Gaussian entries), (2) a LTI system with a state feedback controller designed using the method in Section \ref{sec:decoder_design} and (3) a LTI system with a poorly designed feedback controller. 
-The performance metric used is the \textit{success rate}, which is defined as the fraction of the total 500 trials that our estimator is able to perfectly recover the attack signals.
-System 1 acts as the baseline for the comparison because a random coding matrix has good RIP and represents the best achievable estimation performance. However it is not a realistic dynamical system. For a realistic LTI system, the coding matrix $\Phi$ is constructed by stacking $CA^{t}$'s as in (\ref{eq:decoder_Phi}) where $k=\{ 0, ..., T-1\}$. This structural constraint can reduce the restricted isometry constant (i.e., a measure of how good the RIP is, larger restricted isometry constants correspond to better RIP), and indeed, the success rates for system 3 are lower than those for system 1. Figure \ref{fig:ex_n8p10} also shows that by designing the feedback controller, we can recover some of the lost RIP due to the structure in the system dynamics, and improve the success rate (system 2).
-Fundamental limits of the $l_1$-optimization for both secure estimation and ideal coding are also shown in Figure \ref{fig:ex_n8p10}. 
-
-Figure \ref{fig:ex_n8_overall} shows that as $S$ increases, more measurements ($p$) are needed to correctly recover the state of the system. In practice, this can be done by fusing different types of measurements and sensors together. For example, consider simplified UAV dynamics where $ x = \begin{bmatrix} p_x, p_y, p_z, v_x, v_y, v_z \end{bmatrix}^\top$ and $p_{(\cdot)}$'s and $v_{(\cdot)}$'s represent positions and velocities, respectively. The observation equations of the IMU and GPS are as follows:
-\begin{equation}
-C_{IMU} =\begin{bmatrix} {\bf 0}_{3\times 3} & {\bf I} \end{bmatrix}, C_{GPS} = \begin{bmatrix} {\bf I} & {\bf 0}_{3\times 3} \end{bmatrix} \nonumber
-\end{equation}
-By combining measurements from both IMU and GPS, we can increase the types of measurements ($p$), $C = \begin{bmatrix} C_{IMU} ; C_{GPS}\end{bmatrix} \in \mathbb{R}^{6 \times n}$.
-
-Finally, we want to point out that $T=n=8$ in all these simulations, which is much smaller than that dictated by Theorem 1 ($T=35$).
-Nevertheless, our estimator's success rates are quite high: in Figure \ref{fig:ex_n8p10}, it achieves success rates of more than 0.8 for system~2 for all attacks where the number of attacked sensors is below the maximum number of correctable attacks, in Figure \ref{fig:ex_n8_overall}, these success rates increase to above 0.9 when 12 measurements are available. These results suggest that the sufficient condition on $T$ given in Theorem 1 is conservative, and can be relaxed in practice.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%
 
 \subsection{Combination of Secure Estimation and Kalman Filter}\label{sec:estimation}
-
 Consider the state estimation problem for the following LTI system under attack:
 \begin{equation}
 \begin{aligned}
-x(k+1) & = A x(k) + B u(k) + w(k)\\
-y(k) & = C x(k) + e(k) + v(k)
+x(k+1) & = A x(k) + B u(k)\\
+y(k) & = C x(k) + e(k) + v(k),
 \end{aligned}
-\label{eq:noise_model}
 \end{equation}
-where $x(k)$, $y(k)$, $u(k)$ and $e(k)$ are as defined in (\ref{eq:system_model_se});
-%$x$ is the state, $u$ is the control input, $y$ is the output, $e$ is the attack signal, 
-$w$ and $v$ are zero mean i.i.d. Gaussian process noise and measurement noise, respectively. 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+where $x$, $y$, $u$ and $e$ are as defined in (\ref{eq:system_model_se}); and $v$ is a zero mean independent and identically distributed (i.i.d.) Gaussian measurement noise. 
+
+
 \begin{figure}
 \center
 \includegraphics[width=0.6\textwidth]{chapters/se_linear/figures/qh/est_illu.pdf}
-%\includegraphics[width=0.5\textwidth]{fig/qh/est_illu}
 \caption{Illustrative comparison of three schemes: KF only (KF), secure estimator only (SE), secure estimator with a KF (SE+KF). KF fails to estimate the true state as attack signal is non-Gaussian. SE correctly estimates the system state most of the time but has occasional large estimation attacks. SE+KF tracks the true state trajectory perfectly.}
 \label{fig:estimation}
 \end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-We can model the attack signal as noise and use a KF to estimate the states. More specifically, one would define a new measurement noise vector $\tilde{v}(k) = e(k) + v(k)$, so that the measurement equation becomes $y(k) = C x(k) + \tilde{v}(k)$. A KF can then estimate the states from the inputs $u(k)$ and the corrupted measurements $y(k)$ \cite{KwonACC}. However, KFs are derived using the assumption that both process and measurement noises are zero mean i.i.d. white Gaussian processes, but attack signals are usually erratic and may be poorly modeled by Gaussian processes \cite{KwonACC}. For example, in GPS spoofing attacks, attack signals are often structured to resemble normal GPS signals or can be genuine GPS signals captured elsewhere. %Such signals are neither Gaussian nor white. 
-When the system is subjected to attacks that are poorly modeled by Gaussian processes, a KF is expected to fail to recover the true states. Figure \ref{fig:estimation} gives an illustrative example where an attack signal that increases linearly with time is injected into the measurements of state $x_i$. The red dashed line shows a plausible estimated state trajectory from a KF.
 
-On the other hand, our proposed secure estimator works for arbitrary and unbounded attacks.
-Nevertheless, Figures \ref{fig:ex_n8p10} and \ref{fig:ex_n8_overall} show that when the number of attacked sensors are close to the theoretical maximum number of correctable attacks, our estimator occasionally fails to perfectly recover the states.
-%\st{such state estimates may not be satisfactory as secure estimation fails perfect recovery as described in Section,} 
-The green dashed line in Figure \ref{fig:estimation} depicts a possible result from this estimator: the estimated state trajectory follows the true trajectory most of the time with occasional attacks.
-When we consider the system model (\ref{eq:noise_model}), i.e., taking into account the zero mean i.i.d. Gaussian process noise and measurement noise, we can relax the equality constraint ($\tilde Y = Q_2 ^\top E)$ as follows: $\min_E \norm{E}_{l_1}$ subject to $\norm { \tilde Y - Q_2^\top E}\le \epsilon$, where $\epsilon$ represents the amount of noise. Consequently, the secure estimator acts as a prefilter for the KF (for example, identifying erratic and large error) so that $\tilde v(k)$ is close to a zero mean i.i.d. Gaussian process even when the true attack signal $e(k)$ is not.
 
-Therefore, to improve the performance, we propose to combine our secure estimator with a KF as follows:
+A KF can be used to estimate the states by modeling the attack signal as noise. More specifically, define a new measurement noise $\bar{v}(k) = e(k) + v(k)$ to give a new measurement equation $y(k) = C x(k) + \bar{v}(k)$. A KF can then estimate the states from the inputs $u(k)$ and the corrupted measurements $y(k)$ \cite{KwonACC}. 
+One caveat with this method is that KFs assume zero mean and i.i.d. white Gaussian measurement noise, however, attack signals are usually erratic and may be poorly modeled by Gaussian processes \cite{KwonACC}, i.e., $e(k)$ and consequently, $\bar v(k)$ may not be Gaussian. Take Global Positioning System (GPS) spoofing attacks for example, attack signals are often structured to resemble normal GPS signals or can be genuine GPS signals captured elsewhere.  
+When the system is subjected to attacks that are poorly modeled by Gaussian processes, it is reasonable to expect KFs to fail to recover the true states. 
+Figure \ref{fig:estimation} gives an illustrative example where an attack signal that increases linearly with time is injected into the measurements of state $x_i$. The red dashed line shows a plausible estimated state trajectory from a KF.
+
+On the other hand, our proposed secure estimator does not assume the attack signal to follow any model, and therefore, it works for arbitrary and unbounded attacks. 
+The only assumption is that the number of attacked sensors is sparse, i.e., less than $\lceil p/2-1\rceil$. 
+As the set of attacked sensors becomes less sparse, our secure estimator occasionally fails to recover the true states.
+The green dashed line in Figure \ref{fig:estimation} depicts a possible result from this estimator: the estimated state trajectory follows the true trajectory most of the time with occasional attacks. 
+%When we consider the system model (\ref{eq:noise_model}), i.e., taking into account the zero mean i.i.d. Gaussian process noise and measurement noise, we can relax the equality constraint ($\tilde Y = Q_2 ^\top E)$ as follows: $\min_E \norm{E}_{l_1}$ subject to $\norm { \tilde Y - Q_2^\top E}\le \epsilon$, where $\epsilon$ represents the amount of noise. Consequently, the secure estimator acts as a prefilter for the KF (for example, identifying erratic and large error) so that $\tilde v(k)$ is close to a zero mean i.i.d. Gaussian process even when the true attack signal $e(k)$ is not.
+Based on these observations, we propose to combine our secure estimator with a KF to improve its practical performance, as detailed in Algorithm 1.
 \begin{algorithm}
 \caption{Combined secure estimator with KF}
 \label{al:se_kf}
 \begin{algorithmic}[1]
 \State Initialize the KF
 \For{each $k$}
-	\If{$t \geq T$}
+	\If{$k \geq T$}
 		\State Estimate the attack signal at time $k$, $\hat e(k)$, using secure estimator
 	\Else
 		\State Set $\hat e(k) = 0$
@@ -530,12 +394,43 @@ Therefore, to improve the performance, we propose to combine our secure estimato
 \EndFor
 \end{algorithmic}
 \end{algorithm}
-The intuition is that the secure estimator acts as a pre-filter for the KF, so that $\tilde v(k)$ is close to a zero mean i.i.d. Gaussian process even when the true attack signal $e(k)$ is not. More specifically, the secure estimator usually perfectly recovers $e(k)$, thus $e(k) - \hat e(k) = 0$ and $\tilde v(k) = v(k)$. What happens when the secure estimator fails? Equation (\ref{eq:sys_err_corr}) shows that the estimated state at time $k$, $\hat x(k)$, %depends on measurements from the past $T$ steps, however it 
-does not directly depend on the estimated state at another time point $\hat x(\tau)$ ($t \neq \tau$). As a result, when the secure estimator fails, its estimation error, $e(k) - \hat e(k)$, appears to be quite random. Putting these together: $\tilde v(k) = e(k) - \hat e(k) + v(k)$ is closer to a zero mean white Gaussian process than the original attack signal $e(k)$, and this improves the KF's performance. 
-Finally, the \textit{if} statement in Algorithm 1 ensures that the secure estimator always has access to $T$ past measurements, as required by Theorem 1.
-A more realistic example illustrating these behaviors is shown in Figure \ref{fig:ex_uav_remote}.
 
 
+The intuition is that the secure estimator acts as a pre-filter for the KF, so that $\tilde v(k)$ is close to a zero mean i.i.d. Gaussian process even when the true attack signal $e(k)$ is not. 
+More specifically, the secure estimator usually perfectly recovers $e(k)$, thus $e(k) - \hat e(k) = 0$ and $\tilde v(k) = v(k)$. 
+What happens when the secure estimator fails? 
+Equation \eqref{eq:sys_err_corr} shows that the estimated state at time $k$, $\hat x(k)$, does not directly depend on the estimated state at another time point $\hat x(\tau)$ ($t \neq \tau$).
+As a result, when the secure estimator fails, its estimation error, $e(k) - \hat e(k)$, appears to be quite random. 
+Putting these together: $\tilde v(k) = e(k) - \hat e(k) + v(k)$ is closer to a zero mean i.i.d. white Gaussian process than $\bar v(k)$ (i.e., the corresponding measurement noise if a KF is applied directly to estimate the states), which improves the KF's performance.
+Finally, the \textit{if} statement in Algorithm 1 ensures that the secure estimator always has access to $T$ past measurements, as required by Theorem \ref{thm:SE}.
+
+Next, we demonstrate the effectiveness of our proposed method through simulations of a UAV under two types of adversarial attacks, which also provides a realistic example illustrating the behaviors described in this section.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+ 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -556,54 +451,6 @@ In this section, we focus on 2 types of adversarial cyber attacks on UAVs and de
 \caption{Different communication channels that are subject to adversarial attacks: Channels 1 and 2 are vulnerable to attack in the MITM attack example (Section 5.3.1) and Channel 3 is vulnerable to attack in the GPS spoofing example (Section 5.3.2).}
 \label{fig:ex_uav_pic}
 \end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[t]
-\begin{equation}
-\begin{aligned}
-A_0 &= \begin{bmatrix} 1 & T_s &  g \cdot \frac {T_s^2} {2} & 0 		& 0 & 0 & 0 & 0 	& 0 &   0 \\
-			      0 & 1 & g T_s & 0 				& 0 & 0 & 0 & 0 	& 0 &   0 \\
-			      0 & 0 & A_\theta^{11} & A_\theta^{12} 			& 0 & 0 & 0 & 0 	& 0 &   0 \\
-			      0 & 0 & A_\theta^{21} & A_\theta^{22}  			& 0 & 0 & 0 & 0 	& 0 &   0 \\
-			      0 & 0 & 0 & 0 & 1 & T_s &  g\frac{T_s^2} {2} & 0	& 0 & 0 \\
-			      0 & 0 & 0 & 0 & 0 & 1 & g \cdot T_s & 0  & 0 & 0 \\
-			      0 & 0 & 0 & 0 & 0 & 0 &  A_\theta^{11} & A_\theta^{12} & 0 & 0 \\
-			      0 & 0 & 0 & 0 & 0 & 0 &  A_\theta^{21} & A_\theta^{22}  & 0 & 0 \\
-			      0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & T_s \\
-			      0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
-	\end{bmatrix}, 
-B = \begin{bmatrix}  
-				0	& 	0	& 	0 \\
-				0	& 	0	& 	0 \\
-				B_\theta^1 & 0 & 0 \\
-				B_\theta^2 & 0 & 0 \\
-				0	& 	0	& 	0 \\
-				0	& 	0	& 	0 \\
-				0 &  B_\theta^1  & 0 \\
-				0 &  B_\theta^2  & 0 \\
-				0 & 0 & \frac {k_T \cdot T_s^2} {2m} \\
-				0 & 0 & \frac {k_T \cdot T_s} {m}
-	\end{bmatrix}, \\
-%k = \begin{bmatrix}
-%				0\\
-%				0\\
-%				0\\
-%				0\\
-%				0\\
-%				0\\
-%				0\\
-%				0\\
-%				- \frac {g \cdot T_s^2} {2m}\\
-%				- \frac {g T_s} {m}
-%	\end{bmatrix}\\
-%C_I &= \begin{bmatrix} 
-%			1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
-%			0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
-%			0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 
-%	\end{bmatrix}
-\end{aligned}
-\end{equation}
-\end{figure*}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -663,7 +510,7 @@ The same information is shown in Figure \ref{fig:ex_pp_err}, where each row corr
 
  
 Note that the poor performance is not an inherent feature of LQR. 
-Since LQR does not consider the conditions for secure estimation, there is no guarantee of good secure estimation performance, as shown in Figures \ref{fig:ex_n8p10} and \ref{fig:ex_n8_overall}.
+Since LQR does not consider the conditions for secure estimation, there is no guarantee of good secure estimation performance. %, as shown in Figures \ref{fig:ex_n8p10} and \ref{fig:ex_n8_overall}.
 On the other hand, if we satisfy the guaranteed conditions for accurate secure estimation, then we can correctly estimate the true attack signals, i.e., achieve good secure estimation performance (although we may loose some control performance).
 
 Next, we implement feedback controller (2), i.e., one designed with pole-placement, and compare the performance of three different state estimation schemes: (a) KF only (KF), (b) secure estimator only (SE), and (c) secure estimator combined with KF (KF+SE). 
