@@ -97,12 +97,6 @@ Justin~R. Dobbs.
 \newblock {A Comparison of Thermal Zone Aggregation Methods}.
 \newblock {\em 51st Conference on Decision and Control}, 2012.
 
-\bibitem{Donoho2003}
-David~L. Donoho and Michael Elad.
-\newblock Optimally sparse representation in general (nonorthogonal)
-  dictionaries via $l_1$ minimization.
-\newblock {\em Proc. Natl. Acad. Sci.}, pages 2197--2202, 2003.
-
 \bibitem{kron}
 Florian Dorfler and Francesco Bullo.
 \newblock Kron reduction of graphs with applications to electrical networks.
@@ -113,13 +107,6 @@ Florian Dorfler and Francesco Bullo.
 M.~Duffy, M.~Hiller, D.~Bradley, W.~Keilholz, and J.~Thornton.
 \newblock {TRNSYS - Features and Functionality for Building Simulation}.
 \newblock {\em IBSPA Conference}, pages 1950 -- 1954, 2009.
-
-\bibitem{Elad2002}
-Michael Elad and Alfred~M. Bruckstein.
-\newblock A generalized uncertainty principle and sparse representation in
-  pairs of $r^n$ bases.
-\newblock {\em Information Theory, IEEE Transactions on}, 48(9):2558--2567,
-  2002.
 
 \bibitem{faa}
 FAA.
@@ -184,11 +171,6 @@ Virgil~D. Gligor.
 \newblock {\em IEEE Transactions on Software Engineering}, 10(3):320 -- 324,
   May 1984.
 
-\bibitem{QRdecomp}
-Colin~R Goodall.
-\newblock Computation using the qr decomposition.
-\newblock {\em Handbook of statistics}, 9:467--508, 1993.
-
 \bibitem{Google}
 Google.
 \newblock {G}oogle project wing.
@@ -213,12 +195,6 @@ Siddharth Goyal, Herbert~A. Ingley, and Prabir Barooah.
 \newblock {Occupancy-Based Zone-Climate Control for Energy-Efficient Buildings:
   Complexity vs. Performance}.
 \newblock {\em Applied Energy}, 106:209--221, 2013.
-
-\bibitem{Gribonval11}
-R.~Gribonval and M.~Nielsen.
-\newblock Sparse representations in unions of bases.
-\newblock {\em IEEE Transactions on Information Theory}, 49(12):3320--3325,
-  2003.
 
 \bibitem{Walrand}
 Assane Gueye, Vladimir Marbukh, and Jean~C. Walrand.
@@ -562,12 +538,6 @@ Andre Teixeira, Saurabh Amin, Henrik Sandberg, Karl~H. Johansson, and Shankar
   systems.
 \newblock {\em 49th IEEE Conference on Decision and Control}, pages 5991 --
   5998, December 2010.
-
-\bibitem{Tropp2004}
-Joel Tropp.
-\newblock Greed is good: algorithmic results for sparse approximation.
-\newblock {\em IEEE Transactions on Information Theory}, 50(10):2231--2242,
-  2004.
 
 \bibitem{VAV}
 {U.E. Energy Information Administration}.
