@@ -9,12 +9,16 @@
 \documentclass[../thesis.tex]{subfiles}
 \begin{document}
 
-The electric power grid is a complex system whose reliable operation depends on many conditions, amongst these are the balance between electricity generation and consumption, and protection against cyber attacks.
-%subject to natural disasters, cyber attacks, in addition to the rapid system dynamics and demand swings inherent in providing electric power across large areas.
-%A large mismatch between generation and consumption, as well as cyber attacks 
-When these conditions are not met, the grid can experience power outages leading to economic losses, physical damage, or even bodily harm.
-This thesis presents progress in the path of tackling these two problems, and consists of two main parts.
-Chapters 2 and 3 describe first attempts at using commercial buildings to provide frequency regulation -- a type of service used to balance electricity generation and demand. 
+%The electric power grid is a complex system whose reliable operation depends on many conditions, amongst these are the balance between electricity generation and consumption, and protection against cyber attacks.
+%When these conditions are not met, the grid can experience power outages leading to economic losses, physical damage, or even bodily harm.
+The electric power grid is a complex system subject to natural disasters and nuisance attacks, in addition to the rapid system dynamics and demand swings inherent in providing electric power across large areas.
+A balance between electricity generation and consumption at all times is one necessary condition for the normal operation of the power system, and large imbalances can cause power outages, leading to economic losses, physical damage, or even bodily harm.
+In addition, the power system is an example of a cyber-physical system (CPS), which consists of physical components such as actuators, sensors and controllers that communicate with each other over a network. 
+Although communication networks are often protected by security measures, cyber attacks can still take place when a malicious attacker obtains unauthorized access. % launching jamming attacks \cite{Gligor}, or spoofing sensor readings and sending erroneous control signals to actuators \cite{Mo}.
+In a power system, cyber attacks not only compromise information, but can also cause physical damage. 
+Therefore, it is desirable to protect the system against such cyber attacks.
+This thesis presents progress in the path of tackling these two problems and consists of two main parts.
+Chapters 2 and 3 describe first attempts at using commercial buildings to provide frequency regulation -- a type of service used by electricity grid operators to balance electricity generation and demand. 
 Chapters 4 and 5 focus on developing methods that estimate the true state of a power system when it is under cyber attack.
 
 
@@ -25,14 +29,14 @@ Chapters 4 and 5 focus on developing methods that estimate the true state of a p
 
 \section{Frequency Regulation from Commercial Buildings}
 
-A balance of supply and demand must be maintained at all times to achieve the reliable operation of the power system.
-Any mismatch between them is reflected through the power system's frequency: if generation exactly meets demand, then the system's frequency is at its nominal value of 60 Hz; if generation exceeds demand, then the frequency increases, and vice versa.
+A balance of electricity generation and demand must be maintained at all times to achieve the reliable operation of the power system.
+Any mismatch between them is reflected through the grid frequency: if generation exactly meets demand, then the grid frequency is at its nominal value of 60 Hz; if generation exceeds demand, then the frequency increases, and vice versa.
 %Too much deviation of the grid frequency from the nominal value can lead to a power outage.
 Therefore, to maintain normal operation of the power grid, the grid operator uses reserves known as ancillary services (AS) to correct any mismatch between electricity generation and demand.
 Amongst these reserves, frequency regulation is the highest quality AS over which the grid operator has almost real-time control and is active continuously during normal operation of the grid.
 Recent rapid increase in the penetration of renewable energy sources has increased the volatility and uncertainty of electricity generation, which lead to a greater demand for frequency regulation reserves.
-These reserves have been traditionally provided by fast ramping power generators.
-An alternative is to explore flexibility on the demand side, which may have less economic and environmental cost in the long run. 
+Traditionally, these reserves have been provided by fast ramping power generators.
+However, an alternative is to explore the flexibility on the demand side, which may have less economic and environmental cost in the long run. 
 More specifically, loads can provide regulation by increasing (decreasing) their electricity consumption when the grid frequency increases (decreases).
 
 In particular, commercial buildings are a tremendous untapped resource for this application. 
@@ -50,8 +54,7 @@ In addition, buildings are often not sufficiently excited, as they must satisfy 
 Second, about one third of commercial buildings in the U.S. are equipped with variable air volume (VAV) HVAC systems \cite{Hao:2012demandresponse}, which are typically complex with many control variables and interdependent control loops.
 
 This thesis proposes procedures to develop both data-driven and physics-based models for the thermodynamic behavior of commercial buildings, and provides a quantitative comparison between them using both open- and closed-loop metrics. 
-In addition, this thesis experimentally demonstrates the feasibility of using a VAV HVAC system for frequency regulation. 
-Experiments are conducted in accordance with Pennsylvania, New Jersey, Maryland's (PJM) requirements using historical PJM regulation signals.
+In addition, this thesis presents an experimental demonstration of the feasibility of using a VAV HVAC system for frequency regulation, with experiments being conducted in full accordance with Pennsylvania, New Jersey, Maryland's (PJM) requirements. %using historical PJM regulation signals.
 To the best of our knowledge, this is the first report where an occupied commercial building equipped with a VAV HVAC system can successfully provide frequency regulation.
 
 
@@ -68,10 +71,11 @@ A key element in the development of smart power transmission systems over the pa
 This is enabled by phasor measurement units (PMUs) which record and communicate GPS-synchronized, high sampling rate dynamic power system data, and they are currently being installed at different points in the North American grid, especially under the smart grid initiatives of the US Department of Energy.
 Significant efforts have been made in using PMU measurements for wide area control in a smart grid. 
 In such a system, a wide area control system (WACS) communicates with PMUs over a communication network to achieve increased efficiency and reliability of the power system.
-Although communication networks are often protected by security measures, cyber attacks can still take place when a malicious attacker obtains unauthorized access, launching jamming attacks \cite{Gligor}, or spoofing sensor readings and sending erroneous control signals to actuators \cite{Mo}.
-In a power network, cyber attacks not only compromise information, but can also cause physical damage. 
-\cite{liu2014coordinated} describes a multi-switch attack, in which different switches in a power network attacked at different times, can lead to stealthy and wide-scale cascading failures in the power system.
-Therefore, the WACS must estimate the system?s true states before using the received data for computing control signals, in order to protect the system against cyber attacks.
+%Although communication networks are often protected by security measures, cyber attacks can still take place when a malicious attacker obtains unauthorized access, launching jamming attacks \cite{Gligor}, or spoofing sensor readings and sending erroneous control signals to actuators \cite{Mo}.
+However, communication networks are often vulnerable to cyber attacks. 
+%In a power network, cyber attacks not only compromise information, but can also cause physical damage. 
+For example, \cite{liu2014coordinated} describes a multi-switch attack, in which different switches in a power network attacked at different times, can lead to stealthy and wide-scale cascading failures in the power system.
+Therefore, in order to protect the system against cyber attacks, the WACS must estimate the system's true states before using the received data for computing control signals.
 However, this is a challenging task as cyber attacks can be erratic and difficult to model. 
 
 Secure estimation problems study how to estimate the true system states when measurements are corrupted and/or control inputs are compromised by attackers.
