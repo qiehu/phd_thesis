@@ -9,28 +9,31 @@
 \documentclass[../thesis.tex]{subfiles}
 \begin{document}
 
-\section{Contributions and Organization}
 
-In this paper, we experimentally demonstrate that VAV HVAC systems can be controlled to provide frequency regulation using a commercial building in regular operation.
-Our contributions are three-fold:
 
-First, we propose a procedure to identify a linear data-driven model of the HVAC system, that is easy to implement with the building in regular operation. 
-Our model describes the temperature evolution of multiple building zones and is amenable to control design.
-In addition, the model explicitly captures internal gains such as occupancy without the need for additional instrumentation such as carbon dioxide sensors.
+There has been a tremendous amount of progress in the development of smart and reliable power systems over the past decade. 
+However, the increased penetration of renewable energy sources and advanced instruments such as PMUs, as part of this movement, also introduced new challenges. 
+This thesis describes initial progress in the path towards a more reliable power system.
+In particular, by exploiting demand side flexibility by using commercial buildings to provide regulation for the grid frequency, and by using secure state estimation to protect the power system against cyber attacks.
 
-Second, we aim to improve existing frequency regulation control algorithms.
-%proposed in \cite{Vrettos:2016flexlab1}.
-Unlike the frequency tracking controller in \cite{Vrettos:2016flexlab1}, which relies on an accurate supply fan model, we propose a controller that is suitable when the building is subject to larger disturbances and/or modeling uncertainties. 
-%Our method also differs from \cite{Lin:2015exp} by computing the regulation capacities and baseline consumption at the beginning of each regulation period.
+There are many exciting areas of future research in this field. A few high level directions are given below.\\
+\\
+%\textbf{Using machine learning for building model identification}: An accurate model of the building can significantly \\
+%\\
+\textbf{Exploring alternative flexibility in buildings}: %Although lighting may be inappropriate for frequency regulation, as human eyes are sensitive to variations in the lighting condition at the frequency range required for this application, 
+There are a number of alternative flexible loads such as chillers and heat pumps that present great potential for frequency regulation. The flexibility from different loads can be combined to provide a larger regulation capacity.\\
+\\
+\textbf{Frequency regulation from an aggregation of buildings}: Power system operators such as PJM and California ISO require a resource to provide a minimum of 0.1 MW of regulation capacity in order to participate in the frequency regulation market. It is unlikely that a single building can satisfy this requirement. One solution is to aggregate several buildings and offer their combined capacity to the regulation market. There has been some initial theoretical work in how to design the contract in this scenario \cite{Balandat:2014contractdesign}. With the experimental setup presented in this thesis, the feasibility of this idea can now be verified experimentally.\\
+\\
+\textbf{Applying secure estimation methods to other systems}: In this thesis, the development of the secure state estimation methods assumes general system dynamics. Therefore the resulting estimation algorithms are applicable to a wide variety of systems, ranging from autonomous ground and aerial vehicles to large systems such as traffic and water networks.\\
+\\
+\textbf{Reducing computational complexity of the secure estimator}: The computational complexity increases with the time index of the estimator. Alternatives such as computing an exact solution to the $l_1$-minimization problem in a recursive way may significantly reduce the time required to obtain a new estimate.\\
+\\
+\textbf{Secure estimation for general nonlinear systems}: The secure estimation method presented in Chapter \ref{chapter:se_nonlinear} focuses on two classes of nonlinear dynamical system. It is an initial attempt at tackling the nonlinear system's secure estimation problem. \\
+\\
+\textbf{Hardware implementation}: The secure state estimation methods that we develop can be, and should be validated on hardware platforms. 
 
-Finally, on the experimental side, as far as we know, this is the first report where an occupied commercial building equipped with a VAV HVAC system successfully provides frequency regulation.
-Experiments are conducted in accordance with Pennsylvania, New Jersey, Maryland's (PJM) certification test (40 minute duration) and tracking requirements (over multiple hours), using historical PJM regulation signals.  
-Good tracking performance was achieved despite large disturbances such as occupancy and the use of a simple building model, which demonstrates the robustness of our method to uncertainties.
 
-This paper is organized as follows. We first briefly describe the building where experiments are conducted and our control scheme in Section \ref{sec:problem_statement}. Then, Section \ref{sec:model_id} presents the data-driven identification method for the building and fan models, followed by Section \ref{sec:control}, which describes the controller design in detail. Section \ref{sec:results} then demonstrates the performance our controller through extensive field experiment results.
-Finally, Section \ref{sec:conclusions} concludes.
-%The paper concludes with the experimental results %and a discussion on the economic potential of utilizing commercial buildings for frequency regulation 
-%and conclusions in Sections \ref{sec:results} and \ref{sec:conclusions}.
 
 
 \end{document}
