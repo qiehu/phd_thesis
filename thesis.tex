@@ -99,7 +99,8 @@
 % Declarations for Front Matter
 
 % TITLE
-\title{Toward a Smart and Secure Power Grid: \\ Frequency Regulation from Buildings and Secure State Estimation for the Grid}
+\title{Toward a Reliable Power Grid: \\ Frequency Regulation from Buildings and Secure State Estimation for the Grid}
+%\title{Toward a Smart and Secure Power Grid: \\ Frequency Regulation from Buildings and Secure State Estimation for the Grid}
 % Note that this must be exactly as it appears in University records.
 \author{Qie Hu}
 
@@ -142,10 +143,19 @@
 %\approvalpage
 \copyrightpage
 \abstract
-Automation is becoming pervasive in everyday life, and many automated systems, such as unmanned aerial systems, autonomous cars, and many types of robots, are complex and safety-critical. Formal verification tools are essential for providing performance and safety guarantees for these systems. In particular, reachability analysis has previously been successfully applied to small scale control systems with general nonlinear dynamics under the influence of disturbances. Its exponentially scaling computational complexity, however, makes analyzing more complex, large scale systems intractable. Alleviating computation burden is in general a primary challenge in formal verification.
+This thesis presents progress in overcoming two challenges in achieving a reliable electric power system: frequency regulation and secure state estimation against cyber attacks.
 
+Taking frequency regulation first, this is a type of reserve used by the grid operator to control the grid frequency around its nominal value and therefore, achieve a balance between electricity generation and consumption, which is required at all times in order to maintain the normal operation of the power system.
+%a balance between electricity generation and consumption at all times is one of the conditions required to maintain the normal operation of the electric power system.
+%Frequency regulation is a type of reserve used by the grid operator to control the grid frequency around its nominal value and thus, achieve the balance between generation and consumption.
+However, the increased penetration of renewable energy sources has aggravated the volatility and uncertainty of electricity generation, which leads to a greater demand for frequency regulation reserves.
+This thesis explores the feasibility of using commercial buildings for frequency regulation through experimental demonstration in an occupied building.
 
-This thesis presents ways to tackle this ``curse of dimensionality'' from multiple fronts, bringing tractable verification of complex, practical systems such as unmanned aerial systems, autonomous cars and robots, and biological systems closer to reality. The theoretical contributions pertain to Hamilton-Jacobi (HJ) reachability analysis, with applications to unmanned aerial system. In addition, this thesis also explores two frontiers of HJ reachability by combining the formal guarantees of reachability with the computational advantages of optimization and machine learning, and with fast motion planning algorithms commonly used in robotics. The potential and benefits of the theoretical advances are demonstrated in numerous practical applications.
+On the other hand, instruments such as phasor measurement units that communicate over wireless networks to achieve better efficiency of the power system are becoming pervasive, especially under the smart grid initiatives. 
+However, these communication networks are vulnerable to cyber attacks that can be erratic and difficult to predict.
+To add to the challenge, the dynamics of the power system cannot be approximated by a linear model when it's under severe disturbances.
+This thesis first develops a secure state estimation method for linear dynamical systems under sensor attack, and then extends it to two classes of nonlinear systems which is applied to the nonlinear power system.
+Both estimation methods do not make any assumptions about the attacker's strategy, with the only condition being the number of sensors that are corrupted.
 
 \endabstract
 
