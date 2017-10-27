@@ -19,7 +19,7 @@
 %
 %To realize these goals, it is of prime importance to identify a realistic model for the temperature dynamics of a building.
 
-According to \cite{Perez-Lombard:2008aa}, residential and commercial buildings account for up to 40\% of the total electricity consumption in developed countries, with an upward trend. HVAC systems are a major source of this consumption \cite{USenergy:2017}. %, ~35% of energy use in commercial buildings is for heating, cooling and ventilation.
+According to \cite{Perez-Lombard:2008aa}, commercial buildings account for more than 35\% of the total electricity consumption in the U.S., with an upward trend. HVAC systems are a major source of this consumption \cite{USenergy:2017}. %, ~35% of energy use in commercial buildings is for heating, cooling and ventilation.
 Nevertheless, their power consumption can be flexibly scheduled without compromising occupant comfort, due to the thermal capacity of buildings. 
 As a result, commercial buildings' HVAC systems have become the focal point of research, with the goal of utilizing this source of consumption flexibility. From the point of view of energy efficiency, researchers have studied optimization of building control in order to minimize power consumption \cite{Siroky:2011aa, Parisio:2014aa}.  
 More recently, it has been proposed to engage buildings in supporting the supply quality of electricity and the grid stability, by participating in the regulation of electricity's frequency \cite{Balandat:2014contractdesign, Lin:2015exp, Vrettos:2014aggregation, Baccino:2014aa}.
@@ -30,12 +30,13 @@ Such a model should be identified using actual experimental data and capture rea
 In addition, it should describe the building's temperature evolution with suitable accuracy and spatial granularity, without being too computationally expensive.
 However, there are many challenges in identifying such a building model. 
 First, buildings often have different types of spaces that are subject to very different uncertainties. 
-Second, disturbances such as occupancy are difficult to capture. 
-Third, buildings are often not sufficiently excited, as they must satisfy strict regulatory requirements during regular operation, which limit the type and duration of excitation experiments that can be conducted.  
+Second, disturbances such as occupancy are difficult to predict \textit{a priori}. 
+Third, buildings are often not sufficiently excited, as they must satisfy strict regulatory requirements during regular operation, which limits the type and duration of excitation experiments that can be conducted.  
 
 In this chapter, we present two methods for the identification of a building model: a physics-based method and a data-driven method. 
 We use both techniques to identify building models for the same testbed using experimental data collected from the building, and quantitatively compare the models using various metrics, including open-loop prediction accuracy and closed loop control strategies. 
-
+\\
+\\
 \noindent
 \textit{This chapter is an adaptation of the paper in \cite{Zhou:2017modelcomp}.}
 

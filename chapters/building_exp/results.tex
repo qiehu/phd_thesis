@@ -20,9 +20,9 @@ The HLC is implemented in Matlab on a standard laptop and the LLC is implemented
 The Matlab and Python scripts communicate asynchronously via local port forwarding and TCP/IP.
 All requests are initiated from the Matlab script and forwarded to the connected port on the laptop, while the Python script continuously listens to the corresponding port on the server and responds to any received requests.
 
-The HLC queries the publicly available database of forecast.io to obtain weather forecasts, and collects building measurements by sending read requests to the Python script, which directly queries the BACnet to obtain these measurements. 
-At the same time, the HLC computes the regulation capacities, baseline and optimal airflow rate setpoints and sends them as write requests to the Python script. The script then updates the values of its local copy of the regulation capacities and baseline, and adjust actuator setpoints via BACnet.
-Finally, the LLC reads preloaded PJM regulation signal, then determines and adjusts the fan speed setpoint using read and write requests via the BACnet.  
+The HLC queries the publicly available database of \textit{darksky.net} to obtain weather forecasts, and collects building measurements by sending read requests to the Python script, which then directly queries the BACnet to obtain these measurements. 
+At the same time, the HLC computes the regulation capacities, baseline and optimal airflow rate setpoints and sends them as write requests to the Python script. The script then updates the values of its local copy of the regulation capacities and baseline, and adjusts the appropriate actuator setpoints via BACnet.
+Finally, the LLC reads the preloaded PJM regulation signal, and determines and adjusts the fan speed setpoint using read and write requests via the BACnet.  
 
 \begin{figure}[t]
 \centering
@@ -41,7 +41,7 @@ Finally, the LLC reads preloaded PJM regulation signal, then determines and adju
 
 \subsection{Performance Metric}\label{sec:performance_metric}
 
-PJM's composite performance score $S_\text{comp}$ is used to evaluate our controller's performance in following the regulation signal. 
+PJM's composite performance score $S_\text{comp}$ is used to evaluate our controller's performance in tracking the regulation signal. 
 This score consists of three equally weighted components: a correlation score $S_\text{c}$, a delay score $S_\text{d}$ and a precision score $S_\text{p}$, defined as in \cite{PJM12}:
 
 \begin{equation}\label{eq:pjm_score}
@@ -49,14 +49,15 @@ This score consists of three equally weighted components: a correlation score $S
 S_\text{c} = & \max_{t \in [0, 5 \text{min}]} (\sigma_t) \\
 S_\text{d} = & \frac{1}{5 \text{min}} \left(5 \text{min} - \frac{\max(t^\star - 10 \text{sec},0)}{60\text{sec}}\right) \\
 & \text{where}~t^\star =  \arg\max_{t \in [0, 5 \text{min}]} (\sigma_t)\\
-S_\text{p} = & 1 - \frac{1}{n_h} \sum_{k=1}^{n_h}  \frac{\left | P_{\text{ref},k} - P_{k}\right |}{0.5\cdot(R_{\text{d},h} + R_{\text{u},h})}  \\
+S_\text{p} = & 1 - \frac{1}{n_h} \sum_{k=1}^{n_h}  \frac{\left | P_{\text{ref}}(k) - P(k)\right |}{0.5\cdot(R_{\text{d},h} + R_{\text{u},h})}  \\
 S_\text{comp} = & \frac{1}{3} \cdot \left( S_\text{c} + S_\text{d} + S_\text{p} \right).\\
 \end{aligned}
 \end{equation}
 
-In \eqref{eq:pjm_score}, $\sigma_t$ represents the correlation between the reference signal $P_{\text{ref},k}$ and the fans' actual power consumption delayed by $t$ seconds $P_{k+t}$. In other words, $S_\text{c}$ measures the maximum correlation between the regulation signal and the building's response signal within each 5 minute window. $S_\text{d}$ represents the response delay when maximum correlation occurs with a ``free'' 10 second allowance, and $S_\text{p}$ measures the average tracking error scaled by the building's regulation capacity offered for that hour $h$.
+In \eqref{eq:pjm_score}, $\sigma_t$ represents the correlation between the reference signal $P_{\text{ref}}(k)$ and the fans' actual power consumption delayed by $t$ seconds $P(k+t)$. 
+In other words, $S_\text{c}$ measures the maximum correlation between the regulation signal and the building's response signal within each 5 minute window. $S_\text{d}$ represents the response delay when maximum correlation occurs, with a ``free'' 10 second allowance, and finally $S_\text{p}$ measures the average tracking error scaled by the building's regulation capacity offered for that hour $h$.
 All scores take values between 0 and 1, with 1 being a perfect score. 
-Following PJM's rules, we generate $S_\text{c}$ and $S_\text{d}$ every 10 seconds and calculate $S_\text{p}$ once per hour.
+Following PJM's rule, we generate $S_\text{c}$ and $S_\text{d}$ every 10 seconds and calculate $S_\text{p}$ once per hour.
 The performance score $S_\text{comp}$ is then computed every hour by averaging $S_\text{c}$ and $S_\text{d}$ scores for the hour and using $S_\text{p}$ for that hour.
 
 
@@ -67,13 +68,13 @@ The performance score $S_\text{comp}$ is then computed every hour by averaging $
 \subsection{Certification Experiment}\label{sec:certification_exp}
 Any resource that intends to participate in PJM's regulation market must first pass the certification test, which is run during a continuous 40-minute period, using the test signal published on PJM's website \cite{PJM_signal_price}.
 The test is scored using $S_\text{comp}$ evaluated on the entire 40-minute test period, and a resource is certified only after it achieves three consecutive scores of 0.75 or above.
-Finally, both the baseline consumption and regulation capacity must be declared before the test begins and remain constant throughout the test.
+In addition, both the baseline consumption and regulation capacity must be declared before the test begins and remain constant throughout the test.
 
 %The resource must set and hold for the test duration the MW-value base point that the resource is regulating around. Changes in base loading for a resource during the test period invalidates the test. Once the test is announced, a resource is not permitted to change its regulation capacity.
 
 %The first of these test may be performed internally by the member following the PJM Regulation test procedure. The remaining tests should be administered by PJM Dispatch.
 
-We carried out four certification tests at various hours of the day from November 27 (Sunday) to 28 (Monday), 2016 and achieved $S_\text{comp}$ values around 0.9 in all tests (Table \ref{tab:certification}). This demonstrates that our controller's performance is robust to disturbances such as weather and occupancy. 
+We carried out four certification tests at various hours of the day from November 27 (Sunday) to 28 (Monday) 2016 and achieved $S_\text{comp}$ values around 0.9 in all tests (Table \ref{tab:certification}). This demonstrates that our controller's performance is robust to disturbances such as weather and occupancy. 
 Figure \ref{fig:cert_power} shows the desired reference signal $P_{\text{ref}}$, the fan's actual power consumption $P$ and the percentage tracking error defined as $(P_\text{ref} - P)/P_\text{ref} \cdot 100 $ for the test conducted on November 28 starting at 10~a.m.. An absolute tracking error of less than 28\% is observed during 90\% of the test period.
 
 \begin{table}[b]
@@ -130,16 +131,16 @@ Mean & 0.73 & 0.59 & 0.99 & 0.77 \\
 \label{tab:tracking}
 \end{table}
 
-Figure \ref{fig:track_power} shows that the actual fan power is regulated to closely track the reference power signal. Indeed, an absolute tracking error of less than 16\% is achieved 90\% of the time. The error is greatest at the start of the experiment as the fans switch from normal operation to frequency regulation mode, and decays as the experiment progresses.
+Figure \ref{fig:track_power} shows that the actual fan power closely tracks the reference power signal and indeed, an absolute tracking error of less than 16\% is achieved 90\% of the time. The error is greatest at the start of the experiment as the fans switch from normal operation to frequency regulation mode, and decays as the experiment progresses.
 The fans offer a constant total regulation capacity of 23.3 kW every hour, % This is because the constraints on fan speed (N_min and N_max) are active at the optimal solution, which translates to fixed power difference P(N_max) - P(N_min).
 but the split between up- and down-regulation capacities varies hourly as the building's baseline consumption changes. 
 Finally, we confirm that the duct static pressure remains below the maximum limit of 2 inches water column throughout the experiment.
 
 We present the zone temperatures and airflow rates from the experiment in Figure \ref{fig:track_temp_flow}, and note the following observations. 
 First, all zone temperatures are maintained within the comfort bounds and flow rates are kept within the permissible ranges. 
-Second, to minimize electricity cost, flow rates are kept at their minima unless continued supply of minimum airflow rate to a zone is predicted to cause the zone temperature to exceed its maximum limit within the prediction horizon. 
-For example, flow rates are increased in the second and third hours for the West zone to maintain occupant comfort. 
-Third, observe that temperatures decrease during the third hour in the West zone and the second hour in the South zone, which indicates that the rooms are overcooled, i.e., supply airflow rates are more than the minimum required to maintain zone temperatures within the comfort range. 
+Second, to minimize electricity cost, flow rates are kept at their minima unless continued supply of minimum airflow to a zone is predicted to cause the zone temperature to exceed its maximum limit within the prediction horizon. 
+For example, flow rates are increased in the second and third hours in the West zone to maintain occupant comfort. 
+Third, observe that temperatures decrease during the third hour in the West zone and the second hour in the South zone, which indicates that the rooms are overcooled, i.e., supply air's flow rates are more than the minimum required to maintain zone temperatures within the comfort range. 
 This is likely due to disturbance prediction errors.
 
 %\textcolor{red}{Comment on power tracking, when is it good/bad, when is PI controller used/feedforward controller used. Room temperatures are not exceeded.}

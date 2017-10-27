@@ -21,7 +21,7 @@ First, resources that wish to participate in the regulation market can submit th
 After the day-ahead market closes, PJM calculates the initial regulation schedule for each hour of the operating day, based on bids, offers, submitted schedules and predicted reserve needs. %, amongst other requirements.
 The hourly scheduling process operates at an overlapping time frame, and allows participating resources to declare their regulation capacities and baseline consumptions, which must remain fixed for each operating hour, up to 60 minute before the beginning of the operating hour.
 \begin{assumption}
-In this work, we assume that our building participates in the hourly reserve scheduling process.
+In this chapter, we assume that our building participates in the hourly reserve scheduling process.
 \end{assumption}
 %To participate in the regulation market, a demand resource must meet the following criteria. First, it must provide at least 0.1MW of regulation capacity. Second, 
 
@@ -54,7 +54,7 @@ During real time operation, a frequency regulation signal is sent from PJM to ea
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Control Scheme}\label{sec:control_scheme}
-The field experiments are conducted on the fourth floor of SDH, i.e., the same building used for model identification in Chapter \ref{chapter:building_model}, which is a seven-floor-building equipped with a VAV HVAC system.
+The field experiments are conducted on the fourth floor of SDH, the same building used for model identification in Chapter \ref{chapter:building_model}, which is a seven-floor-building equipped with a VAV HVAC system.
 On the control system side, SDH is equipped with the Siemens' APOGEE system -- a BAS that controls the building's HVAC system and lighting based on existing control loops. %and 
 The communication between the building automation devices is enabled by a building automation and control network (BACnet). 
 We develop an external frequency regulation controller to read measurements from and send control commands to the HVAC equipment via the BACnet. 
@@ -69,17 +69,17 @@ Our proposed control architecture consists of a High Level Controller and a Low 
 \begin{itemize}
 	\item{High Level Controller (HLC) - Reserve Scheduling and Room Temperature Control}\label{sec:high_level}
 
-A closed-loop Model Predictive Controller (MPC) that operates every hour. Its objective is two-fold: first, determine the reserve capacity that the building can reliably offer for the next operating hour; second, calculate the baseline airflow rate to each room that ensures occupant comfort while providing this amount of reserves.
+A closed-loop MPC that operates every hour. Its objective is two-fold: first, determine the reserve capacity that the building can reliably offer for the next operating hour; second, calculate the baseline airflow rate to each room that ensures occupant comfort while providing this amount of reserves.
 Both the capacity and the baseline are chosen to minimize electricity cost and maximize rewards from reserve provision.
 
 	\item{Low Level Controller (LLC) - Frequency Tracking}\label{sec:low_level}
 
-A switched controller that modulates the speed of the supply fan every 4 seconds so that its power consumption deviations from its baseline tracks the frequency regulation signal.
+An improved version of the switched controller proposed in \cite{Vrettos:2016flexlab1}, which modulates the speed of the supply fan every 4 seconds so that its power consumption deviations from its baseline tracks the frequency regulation signal.
 It consists of a model-based feedforward controller and a Proportional Integral (PI) feedback controller.
 As explained in Section \ref{sec:llc}, our switched controller has a different switching condition from \cite{Vrettos:2016flexlab1}, which makes our controller suitable for scenarios where the building is subject to larger disturbances.
 \\
 \\
-Note that although PJM's regulation signal is updated every 2 seconds, power consumption measurements of the supply fans in SDH are only available every 10-20 seconds, therefore the LLC was chosen to run at an intermediate rate of 4 seconds. This is a restriction of our particular building. Using another building whose supply fans' power measurements are updated more frequently would only improve our controller's tracking performance.
+Note that although PJM's regulation signal is updated every 2 seconds, power consumption measurements of the supply fans in SDH are only available every 10 to 20 seconds, therefore the LLC was chosen to run at an intermediate rate of 4 seconds. This is a restriction of our particular building. Using another building whose supply fans' power measurements are updated more frequently would only improve our controller's tracking performance.
 \end{itemize}
 
 
@@ -95,8 +95,6 @@ Note that although PJM's regulation signal is updated every 2 seconds, power con
 
 \begin{table}[b]
 \centering
-\caption{Table of notation.}
-\label{tab:notation}
 \begin{tabular}{ll}
 \toprule
 Symbol & Description \\ \hline
@@ -112,6 +110,7 @@ $c$ & Unit electricity cost\\
 $\lambda$ & Reward for reserve provision\\
 \bottomrule
 \end{tabular}
+\caption{Table of notation.}\label{tab:notation}
 \end{table}
 
 

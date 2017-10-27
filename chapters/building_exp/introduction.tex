@@ -20,10 +20,10 @@
 
 Commercial buildings are a tremendous untapped resource for frequency regulation provision for various reasons.
 First, they account for a large fraction of the total electricity consumption (up to 40\% in the U.S., up to 35\% of which is due to HVAC systems \cite{USenergy:2017}). 
-Second, the building's large thermal capacity allows the power consumption of HVAC systems be partly shifted in time without compromising occupant comfort. 
+Second, the electricity consumption of HVAC systems can be flexibly scheduled without compromising occupant comfort thanks to its large thermal inertia.
 Third, many commercial buildings are equipped with a variable frequency drive which can be controlled to vary the power consumption of supply fans of the HVAC system quickly and continuously \cite{Hao:2012demandresponse}. This greatly simplifies tracking of the reference regulation signal, as opposed to resources with on-off control.
 %as opposed to on-off control of other equipments such as residential air conditioners and electric vehicles.
-Fourth, about one third of commercial buildings in the U.S. are equipped with a building automation system (BAS) \cite{Braun:2012} which facilitates the implementation of new controllers.
+Fourth, about one third of commercial buildings in the U.S. are equipped with a BAS \cite{Braun:2012} which facilitates the implementation of new controllers.
 On the other hand, commercial buildings are often subject to large disturbances and uncertainties, such as occupancy, which are difficult to capture and predict. %First, obtaining a building model that is amenable to control is not straightforward. 
 %In addition, buildings are often not sufficiently excited, as they must satisfy strict regulatory requirements during regular operation, which limit the type and duration of excitation experiments that can be conducted.
 In addition, about one third of commercial buildings in the U.S. are equipped with VAV HVAC systems \cite{Hao:2012demandresponse}, which are typically complex with many control variables and interdependent control loops.
@@ -41,8 +41,10 @@ On the experimental side, there has been only a few field tests, and most of the
 %\textit{Maasoumy et al.} showed that by adjusting the setpoint of the duct static pressure, the power consumption of the supply fans can be varied quickly without significant changes in the building temperature \cite{Maasoumy:2014exp}.
 \textit{Maasoumy et al.} showed that variations in the setpoint of the duct static pressure can indirectly control the supply fans' power \cite{Maasoumy:2014exp}. %, but the authors did not attempt to track any regulation signal \cite{Maasoumy:2014exp}.
 In \cite{Lin:2015exp}, experiments were conducted in an unoccupied auditorium where filtered versions of the frequency regulation signal were tracked over 40 minute time durations using two distinct control inputs: the supply fans' speed and the setpoint of the supply air flow rate. 
-In their work, the baseline consumption was determined \textit{a posteriori} using a high pass filter, which is not in accordance with the current AS market rules.
-Later, \textit{Vrettos et al.} presented a method that computes the reserve capacity and baseline at the beginning of the regulation period \cite{Vrettos:2016flexlab1}, and carried out extensive experiments in single-zone unoccupied test cells \cite{Vrettos:2016flexlab2}.
+In their work, the baseline consumption was determined \textit{a posteriori} using a high pass filter.
+Nevertheless, it is desirable to determine the reserve capacity and baseline at the beginning of the regulation period in order to comply with the current AS market rules. 
+\textit{Vrettos et al.} proposed such a method in \cite{Vrettos:2016flexlab1} using a MPC-based reserve scheduler.
+In addition, \textit{Vrettos et al.} carried out extensive experiments in single-zone unoccupied test cells \cite{Vrettos:2016flexlab2}.
 
 In another interesting contribution, the power consumption of electric heaters was %varied in a controlled environment 
 controlled to provide frequency regulation \cite{Fabietti:2016exp}. 
@@ -51,10 +53,10 @@ The same group of researchers then extended these results with a formulation to 
 %a formal method to compute optimal regulation capacities to account for uncertainties and demonstrated their method through a similar set of experiments, but carried out during the day in occupied offices.
 Electric heaters have the advantage of being simpler to model compared to VAV HVAC systems and are found in many European buildings.
 %therefore they are often chosen by researchers to demonstrate the feasibility of proposed frequency tracking strategies. 
-However, since many commercial buildings in the U.S. are equipped with the latter, experimental demonstration using VAV HVAC systems is essential for their wide implementation in the U.S..
+However, since many commercial buildings in the U.S. are equipped with the latter, experimental demonstration using VAV HVAC systems is essential for their wide adoption in the U.S..
 
 
-In this chapter, we experimentally demonstrate that VAV HVAC systems can be controlled to provide frequency regulation using a commercial building in regular operation.
+In this chapter, we demonstrate that VAV HVAC systems can be controlled to provide frequency regulation through field experiments conducted on an occupied commercial building during both daytime and nighttime.
 Our contributions are two-fold:
 
 %First, we propose a procedure to identify a linear data-driven model of the HVAC system, that is easy to implement with the building in regular operation. 
@@ -65,11 +67,11 @@ First, we aim to improve existing frequency regulation control algorithms.
 Unlike the frequency tracking controller in \cite{Vrettos:2016flexlab1}, which relies on an accurate supply fan model, we propose a controller that is suitable when the building is subject to larger disturbances and/or modeling uncertainties. 
 
 Second, on the experimental side, as far as we know, this is the first report where an occupied commercial building equipped with a VAV HVAC system successfully provides frequency regulation.
-Experiments are conducted in accordance with Pennsylvania, New Jersey, Maryland's (PJM) certification test (40 minute duration) and tracking requirements (over multiple hours), using historical PJM regulation signals.  
+Experiments are conducted in accordance with PJM's certification test (40 minute duration) and tracking requirements (over multiple hours), using historical PJM regulation signals.  
 Good tracking performance was achieved despite large disturbances such as occupancy and the use of a simple building model, which demonstrates the robustness of our method to uncertainties.
 
 This chapter is organized as follows. We first briefly describe our control scheme in Section \ref{sec:problem_statement}. 
-Then, Section \ref{sec:model_id} presents the fan model, followed by Section \ref{sec:control}, which describes the controller design in detail. Section \ref{sec:results} then demonstrates the performance our controller through extensive field experiment results.
+Then, Section \ref{sec:model_id} presents the fan model, followed by Section \ref{sec:control}, which describes the controller design in detail. Section \ref{sec:results} then demonstrates the performance of our controller through extensive field experiments.
 Finally, Section \ref{sec:conclusions} concludes.
 
 

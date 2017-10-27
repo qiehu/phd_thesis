@@ -13,35 +13,35 @@
 \subsection{High Level Controller}\label{sec:hlc}
 \subsubsection{Regulation Capacities}
 
-Let $P_{\text{base},k}$ and $u_{\text{tot},k}$ represent the power consumption of the supply fans and the airflow rate through the fans at the baseline operating point. Then,
+Let $P_{\text{base}}$ and $u_{\text{base}}$ represent the power consumption of the supply fans and the airflow rate through the fans at the baseline operating point. Then,
 \begin{equation}\label{eq:P}
 \begin{aligned}
-P_{\text{base},k} &= h(u_{\text{tot},k})\\
-&=h(1^\top u_k + v_{\dot{\text{m}},k}),
+P_{\text{base}}(k) &= h\big(u_{\text{base}}(k)\big)\\
+&=h\big(1^\top u(k) + v_{\dot{\text{m}}}(k)\big),
 \end{aligned}
 \end{equation}
-where $u_k \in \mathbb{R}^6$ represents the controlled airflow rates to the six zones on the fourth floor, and $v_{\dot{\text{m}},k} \in \mathbb{R}$ is a disturbance that represents the total airflow rate to the remaining floors.
-Now, define $R_{\text{u},k}$ and $R_{\text{d},k}$ as the up- and down-regulation capacities at time step $k$, respectively\footnote{For demand resources, up-regulation requires a reduction in its power consumption and down-regulation requires an increase in consumption.}. In addition, let $r_{\text{u},k}$ and $r_{\text{d},k}$ denote the maximum changes in fan speed at time step $k$ as a result of reserve provision. Then, the regulation capacities are as follows
+where $u(k) \in \mathbb{R}^6$ represents the controlled airflow rates to the six zones on the fourth floor, and $v_{\dot{\text{m}}}(k) \in \mathbb{R}$ is a disturbance that represents the total airflow rate to the remaining floors.
+Now, define $R_{\text{u}}(k)$ and $R_{\text{d}}(k)$ as the up- and down-regulation capacities at time step $k$, respectively\footnote{For demand resources, up-regulation requires a reduction in its power consumption and down-regulation requires an increase in consumption.}. In addition, let $r_{\text{u}}(k)$ and $r_{\text{d}}(k)$ denote the maximum changes in fan speed at time step $k$ as a result of reserve provision. Then, the regulation capacities are as follows
 
 \begin{equation}\label{eq:Ru_Rd}
 \begin{aligned}
-R_{\text{u},k} & = P_{\text{base},k} - P_{\text{u},k}\\
- & = h(u_{\text{tot},k}) - g(f(u_{\text{tot},k}) - r_{\text{u},k})\\
-R_{\text{d},k} & = P_{\text{d},k} - P_{\text{base},k}\\
- & = g(f(u_{\text{tot},k}) + r_{\text{d},k}) - h(u_{\text{tot},k}),
+R_{\text{u}}(k) & = P_{\text{base}}(k) - P_{\text{u}}(k)\\
+ & = h\big(u_{\text{base}}(k)\big) - g\big(f(u_{\text{base}}(k)) - r_{\text{u}}(k)\big)\\
+R_{\text{d}}(k) & = P_{\text{d}}(k) - P_{\text{base}}(k)\\
+ & = g\big(f(u_{\text{base}}(k)\big) + r_{\text{d}}(k)) - h\big(u_{\text{base}}(k)\big),
 \end{aligned}
 \end{equation}
 \noindent
-where $P_{\text{u},k}$ and $P_{\text{d},k}$ denote the fans' power consumption when providing maximum up- and down-regulation capacities, respectively.
+where $P_{\text{u}}$ and $P_{\text{d}}$ denote the fans' power consumption when providing maximum up- and down-regulation capacities, respectively.
 
-During operating hour, the building receives a normalized real-time regulation signal $\omega_k \in [-1,1]$ from PJM, which represents the requested regulation amount $R_k$ as a fraction of the declared capacities $R_{\text{u},k}$ and $R_{\text{d},k}$. In other words, the building must control its power consumption $P_k$ at time $k$ to track the following reference (desired) value:
+During operating hour, the building receives a normalized real-time regulation signal $\omega \in [-1,1]$ from PJM, which represents the requested regulation amount $R$ as a fraction of the declared capacities $R_{\text{u}}$ and $R_{\text{d}}$. In other words, the building must control its power consumption $P$ at time $k$ to track the following reference (desired) value:
 
 \begin{equation}\label{eq:P_ref}
 \begin{aligned}
-P_{\text{ref},k} &= P_{\text{base},k}+R_k \\
-	&= P_{\text{base},k}+\begin{cases}
-	\omega_k R_{\text{u},k} & \mbox{if } \omega_k < 0 \mbox{ (up-regulation)} \\ 
-	\omega_k R_{\text{d},k} & \mbox{if } \omega_k \geq 0 \mbox{ (down-regulation).} 
+P_{\text{ref}}(k) &= P_{\text{base}}(k)+R(k) \\
+	&= P_{\text{base}}(k)+\begin{cases}
+	\omega(k) R_{\text{u}}(k) & \mbox{if } \omega(k) < 0 \mbox{ (up-regulation)} \\ 
+	\omega(k) R_{\text{d}}(k) & \mbox{if } \omega(k) \geq 0 \mbox{ (down-regulation).} 
 	\end{cases} 
 \end{aligned}
 \end{equation}
@@ -52,114 +52,80 @@ P_{\text{ref},k} &= P_{\text{base},k}+R_k \\
 
 \subsubsection{Input Constraints}
 
-%The airflow rates to the fourth floor are fixed for each hour in order to maintain a constant baseline, as required by PJM.
-%On the other hand, the fan speed is adjusted every 4 seconds to provide frequency regulation.
-%so that its power consumption tracks the frequency regulation signal.
-%This combination leads to fluctuations in the HVAC ducts' static pressure, which must remain under 2 inch water column for safety reasons.
-%This setup results in the following input constraints on the airflow rates and fan speed.
 
-First, the airflow rates to the fourth floor are fixed for each hour in order to maintain a constant baseline
+The airflow rates to the fourth floor must remain fixed for each hour in order to maintain a constant baseline, in addition to being restricted by the minimum and maximum airflow settings of the HVAC system.
+Note that in our experiment setup, $u$ is unaffected by the uncertain regulation signal $w$.
 %\begin{equation}
 \begin{multline}\label{eq:u_constraint_const}
-u_k = u_{k+j} \text{~for all~} k = 4m+1,~ j = \{1,2,3\}, \\
-m \leq n/4-1, ~m \in \mathbb{N}.
+u(k) = u(k+j) \text{~~for all~} k = 4m+1,~ j = \{1,2,3\}, m \leq n/4-1, ~m \in \mathbb{N},
 \end{multline}
 %\end{equation} 
-They are also restricted by the minimum and maximum airflow settings of the HVAC system
 \begin{equation}\label{eq:u_constraint}
-u_{\text{min}} \leq u_{k} \leq u_{\text{max}}.
+u_{\text{min}} \leq u(k) \leq u_{\text{max}}.
 \end{equation}
-Note that in our experiment setup, $u_k$ is unaffected by the uncertain regulation signal $w_k$.
 
-%According to the fan law, variation in fan speed causes fluctuations in the HVAC ducts' static pressure, which must remain under 2 inch water column as per safety guidelines of SDH.
- 
-%The fan speed at time step $k$ is $N_{\text{base},k} + \Delta N_k (\omega_k)= g^{-1}\left(P_{\text{base},k} + R_k\right)$,
-%where $N_{\text{base},k} := f(u_\text{tot})$ is the baseline fan speed and $\Delta N_k (\omega_k)$ is the change in fan speed as a result of reserve provision.
-%This involves the inverse of the speed-to-power function and is usually complex, however, it has a simple form at the boundary values of $w_k$ %and when $w_k = 0$
-%\begin{equation}\label{eq:N_w}
-%N_{\text{base},k} + \Delta N_k (\omega_k) = \begin{cases}
-%	N_{\text{base},k} - r_{\text{u},k} & \mbox{if } \omega_k = -1 \\ 
-%	%N_k & \mbox{if } \omega_k = 0 \\
-%	N_{\text{base},k} + r_{\text{d},k} & \mbox{if } \omega_k = 1. \\ 
-%	\end{cases} 
-%\end{equation}
-
-%The HVAC system's duct static pressure, which is a quadratic function of the fan speed \cite{Hvac_book}, must remain under 2 inches water column as per safety guidelines of SDH. 
-%Analysis of historic data indicates that keeping the fan speed below 60\% of its maximum value would be sufficient. 
-%In addition, a minimum fan speed is required to drive supply air throughout the HVAC system. 
-%These requirements translate to the following constraint
-%\begin{multline}\label{eq:N_constraint}
-%20\% = N_\text{min} \leq N_{\text{base},k} + \Delta N_k (\omega_k) \leq N_\text{max} = 60\% \\
-%\text{~for all~} \omega_k \in [-1,1].
-%\end{multline}
-
-
-The fan speed must be kept below 60\% of its maximum value to ensure that the HVAC system's duct static pressure remains under the maximum safe value of 2 inches water column. 
-In addition, a minimum fan speed is required to drive supply air throughout the building.
-These requirements translate to the following constraint: 
+Furthermore, there are minimum and maximum fan speed requirements: $N_\text{min} = 20\%$ and $N_\text{max} = 60\%$, where the maximum limit ensures that the HVAC system's duct static pressure remains under the maximum safe value of 2 inches water column, and the minimum limit ensures that the supply fans have sufficient power to drive the supply air throughout the building: 
 \begin{equation}\label{eq:N_constraint}
-N_\text{min} \leq N_k \leq N_\text{max} \text{~for all~} \omega_k \in [-1,1],
+N_\text{min} \leq N(k) \leq N_\text{max} \text{~for all~} \omega(k) \in [-1,1],
 \end{equation}
-where $N_k$ is the fan speed at time step $k$, $N_\text{min} = 20\%$ and $N_\text{max} = 60\%$.
+where $N(k)$ is the fan speed at time step $k$.
 Since $\omega$ is unknown at scheduling time, the above constraint must hold for any $\omega$. 
-From the fan model, $N_k$ is given by the inverse of the speed-to-power function, $N_k = g^{-1}(P_k)$.
-Although this is usually complex, it has a simple form at the boundary values of $\omega_k$:
+The fan model states that $N$ is given by the inverse of the speed-to-power function, $N = g^{-1}(P)$, which is usually complex, however, it has a simple form at the boundary values of $\omega$:
 \begin{equation}\label{eq:N_w}
-N_k = \begin{cases}
-	N_{\text{base},k} - r_{\text{u},k} & \mbox{if } \omega_k = -1 \\ 
-	N_{\text{base},k} + r_{\text{d},k} & \mbox{if } \omega_k = 1. \\ 
+N(k) = \begin{cases}
+	N_{\text{base}}(k) - r_{\text{u}}(k) & \mbox{if } \omega(k) = -1 \\ 
+	N_{\text{base}}(k) + r_{\text{d}}(k) & \mbox{if } \omega(k) = 1. \\ 
 	\end{cases} 
 \end{equation}
-%where $N_{\text{base},k} := f(u_\text{tot})$ is the baseline fan speed.
 Thus, the above constraints can be satisfied by imposing the following robustified version of \eqref{eq:N_constraint}
 \begin{equation}\label{eq:N_constraint_rob}
-N_\text{min} + r_u \leq N_{\text{base},k} \leq N_\text{max} - r_d.
+N_\text{min} + r_u \leq N_{\text{base}}(k) \leq N_\text{max} - r_d.
 \end{equation}
 Although \cite{Vrettos:2016flexlab1} showed that the energy content of $\omega$ over a 15 minute interval is typically limited and $\omega \in [ -\omega_{\text{lim}}, \omega_{\text{lim}}]$ most of the time, where $0<\omega_{\text{lim}} < 1$;
-we choose to deal with the uncertainty introduced by $\omega$ in a robust fashion, by accounting for the worst case, i.e., $\omega_k = \pm 1$.
+we choose to deal with the uncertainty introduced by $\omega$ in a robust fashion, by accounting for the worst case, i.e., $\omega = \pm 1$.
 This way, the building need not make any assumptions on the statistical properties of $\omega$, and it has the added advantage of building additional robustness to modeling and forecast uncertainties for an occupied building.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Output Constraints}
 
-The indoor temperatures $x_k$ should be kept within the time varying comfort zone $[x_{\text{min},k}, x_{\text{max},k}]$ for all $k$:
+The indoor temperature $x$ should be kept within the time varying comfort zone $[x_{\text{min}}(k), x_{\text{max}}(k)]$ for all $k$:
 \begin{equation}
-x_{\text{min},k} \leq x_{k} \leq x_{\text{max},k}.
+x_{\text{min}}(k) \leq x(k) \leq x_{\text{max}}(k).
 \end{equation}
 Note that $x$ is unaffected by the unknown signal $\omega$ since $u$ is independent of $\omega$.
 
 
-%Since we choose $u_k$ independently from the unknown signal $\omega_k$ and the zone temperatures $x_k$ are given by \eqref{eq:building_model}, then $x_k$ is also unaffected by $w_k$. 
-%Therefore to maintain the indoor temperatures within the time varying comfort zone $[x_{\text{min},k}, x_{\text{max},k}]$, we simply impose
+%Since we choose $u(k)$ independently from the unknown signal $\omega(k)$ and the zone temperatures $x(k)$ are given by \eqref{eq:building_model}, then $x(k)$ is also unaffected by $w(k)$. 
+%Therefore to maintain the indoor temperatures within the time varying comfort zone $[x_{\text{min}}(k), x_{\text{max}}(k)]$, we simply impose
 %\begin{equation}
-%x_{\text{min},k} \leq x_{k} \leq x_{\text{max},k}.
+%x_{\text{min}}(k) \leq x(k) \leq x_{\text{max}}(k).
 %\end{equation}
 
 The regulation capacities are required to be fixed for each hour which translates to the following constraint:
 \begin{multline}\label{eq:R_constraint_const}
-R_{\text{u},k} = R_{\text{u},k+j} \text{~and~} R_{\text{d},k} = R_{\text{d},k+j}\\
-\text{~for all~} k = 4m+1,~ j = \{1,2,3\}, \\
-m \leq n/4-1, ~m \in \mathbb{N}.
+R_{\text{u}}(k) = R_{\text{u}}(k+j) \text{~and~} R_{\text{d}}(k) = R_{\text{d}}(k+j)\\
+\text{~for all~} k = 4m+1,~ j = \{1,2,3\}, m \leq n/4-1, ~m \in \mathbb{N}.
 \end{multline}
 
-\noindent In addition, these capacities must be non-negative. Since fan power is a non-decreasing function of its speed in the operating range $[N_\text{min}, N_\text{max}]$, the following condition ensures $R_{\text{u},k} \geq 0$ and $R_{\text{d},k} \geq 0$:
+\noindent In addition, these capacities must be non-negative.
+Because fan power is a non-decreasing function of its speed in the operating range $[N_\text{min}, N_\text{max}]$, the following condition ensures $R_{\text{u}}(k) \geq 0$ and $R_{\text{d}}(k) \geq 0$:
 \begin{equation}\label{eq:r_constraint} 
-r_{\text{u},k} \geq 0, ~r_{\text{d},k} \geq 0.
+r_{\text{u}}(k) \geq 0, ~r_{\text{d}}(k) \geq 0.
 \end{equation}
 
-%Furthermore, the regulation capacities must be fixed for each hour and be non-negative, i.e., $R_{\text{u},k} \geq 0$ and $R_{\text{d},k} \geq 0$. 
+%Furthermore, the regulation capacities must be fixed for each hour and be non-negative, i.e., $R_{\text{u}}(k) \geq 0$ and $R_{\text{d}}(k) \geq 0$. 
 %Similar to the constant baseline restriction for each hour, the first requirement can be met by applying the following constraint
 %\begin{multline}\label{eq:R_constraint_const}
-%R_{\text{u},k} = R_{\text{u},k+j} \text{~and~} R_{\text{d},k} = R_{\text{d},k+j}\\
+%R_{\text{u}}(k) = R_{\text{u},k+j} \text{~and~} R_{\text{d}}(k) = R_{\text{d},k+j}\\
 %\text{~for all~} k = 4m+1,~ j = \{1,2,3\}, \\
 %m \leq n/4-1, ~m \in \mathbb{N}.
 %\end{multline}
 %To meet the second requirement, we constrain the deviations in the fan speed as a result of reserve provision as follows
 %\begin{equation}\label{eq:r_constraint} 
-%r_{\text{u},k} \geq 0, ~r_{\text{d},k} \geq 0.
+%r_{\text{u}}(k) \geq 0, ~r_{\text{d}}(k) \geq 0.
 %\end{equation}
-%Since fan power is a non-decreasing function of its speed in the operating range $[N_\text{min}, N_\text{max}]$, the above constraint results in $R_{\text{u},k} \geq 0$ and $R_{\text{d},k} \geq 0$. 
+%Since fan power is a non-decreasing function of its speed in the operating range $[N_\text{min}, N_\text{max}]$, the above constraint results in $R_{\text{u}}(k) \geq 0$ and $R_{\text{d}}(k) \geq 0$. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -174,9 +140,9 @@ The payment for both up- and down-regulations are the same.
 \end{assumption}
 Then, the building's objective is to minimize the following cost function
 \begin{equation}\label{eq:cost_function}
-c_k P_{\text{base},k} - \lambda_k (R_{\text{u},k} + R_{\text{d},k}),
+c(k) P_{\text{base}}(k) - \lambda(k) \big(R_{\text{u}}(k) + R_{\text{d}}(k)\big),
 \end{equation}
-where $c_k$ denotes the unit electricity cost and $\lambda_k$ denotes the reward for providing regulation service.
+where $c$ denotes the unit electricity cost and $\lambda$ denotes the reward for providing regulation service.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -185,34 +151,33 @@ where $c_k$ denotes the unit electricity cost and $\lambda_k$ denotes the reward
 We introduce the following robust optimization problem:
 \begin{equation}\label{eq:opt}
 \begin{aligned}
-& \underset{u_k, r_{\text{u},k}, r_{\text{d},k}}{\text{minimize}} 
-%& & \textstyle\sum_{k=1}^{n} c_k h(1^\top u_k + v_{\dot{\text{m}},k}) - \lambda_k (R_{\text{u},k} + R_{\text{d},k}) \nonumber\\
-& & \textstyle\sum_{k=1}^{n} c_k P_{\text{base},k} - \lambda_k (R_{\text{u},k} + R_{\text{d},k}) \\
+& \underset{u(k), r_{\text{u}}(k), r_{\text{d}}(k)}{\text{minimize}} 
+%& & \textstyle\sum_{k=1}^{n} c(k) h(1^\top u(k) + v_{\dot{\text{m}}}(k)) - \lambda(k) (R_{\text{u}}(k) + R_{\text{d}}(k)) \nonumber\\
+& & \textstyle\sum_{k=1}^{n} c(k) P_{\text{base}}(k) - \lambda(k) \big(R_{\text{u}}(k) + R_{\text{d}}(k)\big) \\
 & \text{subject to}
-& & u_{\text{min}} \leq u_{k} \leq u_{\text{max}} \\%, \forall k \\
-&&& N_{\text{min}} + r_u \leq N_{\text{base},k} \leq N_{\text{max}} - r_d \\
-&&& x_k = Ax_k + Bu_k + Cv_k + q_k \\
-&&& x_{\text{min},k} \leq x_{k} \leq x_{\text{max},k}  \\
-%& u_{\text{min},i} \leq u_{i,k} \leq u_{\text{max},i} ~\text{for}~ i \in \mathcal{I}\\
-&&& r_{\text{u},k} \geq 0, ~r_{\text{d},k} \geq 0\\
-%&&&u_k = u_{k+j} \text{~for all~} k = 4m+1,~ j = \{1,2,3\}, \\
+& & u_{\text{min}} \leq u(k) \leq u_{\text{max}} \\%, \forall k \\
+&&& N_{\text{min}} + r_u \leq N_{\text{base}}(k) \leq N_{\text{max}} - r_d \\
+&&& x(k) = Ax(k) + Bu(k) + Cv(k) + q(k) \\
+&&& x_{\text{min}}(k) \leq x(k) \leq x_{\text{max}}(k)  \\
+%& u_{\text{min},i} \leq u_{i}(k) \leq u_{\text{max},i} ~\text{for}~ i \in \mathcal{I}\\
+&&& r_{\text{u}}(k) \geq 0, ~r_{\text{d}}(k) \geq 0\\
+%&&&u(k) = u_{k+j} \text{~for all~} k = 4m+1,~ j = \{1,2,3\}, \\
 %&&& \quad \quad \text{for all}~ k \\
 &&& \text{conditions~} (\ref{eq:u_constraint_const}) \text{~and~} (\ref{eq:R_constraint_const}) \text{~for constant }\\
 &&& \quad\quad \text{hourly baseline and regulation capacities}.
 \end{aligned}
 \end{equation}
 
-\noindent (\ref{eq:opt}) is a deterministic nonlinear optimization, with non-convex quadratic cost function and linear equality and inequality constraints. Despite its non-convexity, it can be solved in Matlab using YALMIP \cite{Lofberg:2004yalmip} and the \textit{fmincon} solver in less than one second, due to its small size. The outcome is the baseline operating point for the HVAC system, and the up- and down-regulation capacities $R_{\text{u},k}$ and $R_{\text{d},k}$ for each time step in the scheduling horizon $k = 1, \ldots, n$.
+\noindent (\ref{eq:opt}) is a deterministic nonlinear optimization, with non-convex quadratic cost function and linear equality and inequality constraints. Despite its non-convexity, it can be solved in Matlab using YALMIP \cite{Lofberg:2004yalmip} and the \textit{fmincon} solver in less than one second, due to its small size. The outcome is the baseline operating point for the HVAC system, and the up- and down-regulation capacities $R_{\text{u}}(k)$ and $R_{\text{d}}(k)$ for each time step in the scheduling horizon $k = 1, \ldots, n$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Disturbance Approximation and Forecast}
-The building's dynamics are subject to the following disturbances: ambient temperature $v_{\text{Ta}}$, supply air temperature $v_{\text{Ts}}$ and internal gains due to occupancy $q$. 
-Ambient temperature forecasts are obtained from the publicly available database of darksky.net \cite{darksky}. 
-Analysis of historical data indicates that the supply air temperature rarely varies.
-Therefore the supply air temperature is measured at each time step $k$ and assumed constant for the HLC horizon, which is 1 hour for the certification experiment and 4 hours for the tracking experiment.
-For the internal gains, we first estimate $q$ at each time step $k$ from our building model and real-time measurements, then assume it is constant for the HLC horizon.
-In addition, the cost function \eqref{eq:cost_function} is affected by $v_{\dot{\text{m}}}$, the total airflow rate to the other floors of SDH, through \eqref{eq:P} and \eqref{eq:Ru_Rd}. This is also measured at each time step $k$ and assumed constant for the HLC horizon.
+The building's dynamics are subject to the following disturbances: ambient temperature $v_{\text{Ta}}$, SAT $v_{\text{Ts}}$ and internal gains due to occupancy $q$. 
+Ambient temperature forecasts are obtained from the publicly available database of \textit{darksky.net} \cite{darksky}. 
+Analysis of historical data indicates that SAT rarely varies, as a result, it is measured at each time step $k$ and assumed constant for the HLC horizon, i.e., 1 hour for the certification experiment and 4 hours for the tracking experiment.
+The internal gains $q$ is first estimated at each time step $k$ from the building model and real-time measurements, and then assumed constant for the HLC horizon.
+In addition, the cost function \eqref{eq:cost_function} is affected by $v_{\dot{\text{m}}}$, the total airflow rate to other floors of SDH, through \eqref{eq:P} and \eqref{eq:Ru_Rd}. This is also measured at each time step $k$ and assumed constant for the HLC horizon.
 
 
 
@@ -224,19 +189,19 @@ In addition, the cost function \eqref{eq:cost_function} is affected by $v_{\dot{
 
 \subsection{Low Level Controller}\label{sec:llc}
 
-The Low Level Controller (LLC)'s responsibility is to vary the fans' power consumption $P$ to track the reference $P_{\text{ref}}$. 
+The Low Level Controller (LLC)'s responsibility is to vary the fan power $P$ to track the reference $P_{\text{ref}}$. 
 Our approach is different from \cite{Macdonald:2014pjm} which used the frequency of the variable frequency drive as the control input, and from \cite{Lin:2015exp} where control inputs, acting as disturbances, are superimposed onto HVAC's existing control loop commands.
 
-We propose a switched controller that is suitable even for buildings subjected to large disturbances, where an accurate fan model is not available. 
+We improve on the switched controller proposed in \cite{Vrettos:2016flexlab1}, so that it is suitable for buildings subjected to large disturbances where an accurate fan model is not available. 
 It consists of two sub-controllers. 
-Controller 1 is a model-based feedforward controller which uses the fan model from \eqref{eq:fan_model} to determine the fan speed required for a given $P_{\text{ref},k}$, i.e., $N_k = g^{-1}(P_{\text{ref},k})$. 
-This feedforward controller has a fast response and thus, is best suited when there is a large change in the reference regulation signal, i.e., $|P_{\text{ref},k} - P_{\text{ref},k-1}|>\epsilon$ where $\epsilon$ is a user defined threshold value. 
+Controller 1 is a model-based feedforward controller which uses the fan model from \eqref{eq:fan_model} to determine the fan speed required for a given $P_{\text{ref}}(k)$, i.e., $N(k) = g^{-1}(P_{\text{ref}}(k))$. 
+This feedforward controller has a fast response and thus, is best suited when there is a large change in the reference regulation signal, i.e., $|P_{\text{ref}}(k) - P_{\text{ref}}(k-1)|>\epsilon$ where $\epsilon$ is a user defined threshold value. 
 On the other hand, Controller 1 has non zero steady state error due to inaccuracies in the fan model. 
 Therefore, Controller 2 -- a PI controller, is used to reduce any steady state error from Controller 1. 
 %In designing PI controllers, there is a trade-off between small overshoot and fast response rate. 
 The implementation of the LLC is presented in Algorithm \ref{alg:llc}.
-%Consider a small step change in the reference regulation signal, i.e., i.e., $|\Delta P_{\text{ref},k} - \Delta P_{\text{ref},k-1}| \leq \epsilon$, Controller 2 is active and is sufficient to provide good tracking.
-%On the other hand,  if the step change in the reference signal is large and $|\Delta P_{\text{ref},k} - \Delta P_{\text{ref},k-1}|>\epsilon$, then Controller 1 is activated to quickly bring the fans' power consumption close to the required value.
+%Consider a small step change in the reference regulation signal, i.e., i.e., $|\Delta P_{\text{ref}}(k) - \Delta P_{\text{ref},k-1}| \leq \epsilon$, Controller 2 is active and is sufficient to provide good tracking.
+%On the other hand,  if the step change in the reference signal is large and $|\Delta P_{\text{ref}}(k) - \Delta P_{\text{ref},k-1}|>\epsilon$, then Controller 1 is activated to quickly bring the fans' power consumption close to the required value.
 Step 13 is the discrete implementation of the PI controller, where $\Delta t$ is the discretization time step (4 seconds in our case).
 In step 15, the fan speed is capped between $N_\text{min}$ and $N_\text{max}$ to satisfy constraint (\ref{eq:N_constraint}).
 
@@ -244,37 +209,37 @@ In step 15, the fan speed is capped between $N_\text{min}$ and $N_\text{max}$ to
 \caption{Low Level Controller}
 \label{alg:llc}
 \begin{algorithmic}[1]
-\State Initialize previous tracking error $e_{k-1} = 0$, reference regulation signal $P_{\text{ref},k-1}=0$ and fan speed $N_{k-1}$ 
+\State Initialize previous tracking error $e(k-1) = 0$, reference regulation signal $P_{\text{ref}}(k-1)=0$ and fan speed $N(k-1)$ 
 \While{experiment is running}
-	\State Compute baseline fan power $P_{\text{base},k} = h(u_{\text{tot},k})$
-	\State Compute reference (desired) fan power $P_{\text{ref},k} = P_{\text{base},k}+\omega_k R_{\text{u},k}$ if $\omega_k<0$ and $P_{\text{ref},k} = P_{\text{base},k}+\omega_k R_{\text{d},k}$ if $\omega_k \geq0$
-	\State Measure actual fan power $P_k$
-	\State Compute current tracking error $e_k = P_{\text{ref},k} - P_k$ 
-	\If {$|P_{\text{ref},k} - P_{\text{ref},k-1}|>\epsilon$}
+	\State Compute baseline fan power $P_{\text{base}}(k) = h(u_{\text{base}}(k))$
+	\State Compute reference (desired) fan power $P_{\text{ref}}(k) = P_{\text{base}}(k)+\omega(k) R_{\text{u}}(k)$ if $\omega(k)<0$ and $P_{\text{ref}}(k) = P_{\text{base}}(k)+\omega(k) R_{\text{d}}(k)$ if $\omega(k) \geq0$
+	\State Measure actual fan power $P(k)$
+	\State Compute current tracking error $e(k) = P_{\text{ref}}(k) - P(k)$ 
+	\If {$|P_{\text{ref}}(k) - P_{\text{ref}}(k-1)|>\epsilon$}
 		\State Use model-based controller:
-    		\State $N_k = g^{-1}(P_{\text{ref},k})$
+    		\State $N(k) = g^{-1}(P_{\text{ref}}(k))$
     	\Else
 		\State Use PI controller:
-        	\State $N_k = N_{k-1} + K_\text{P} (e_k-e_{k-1})+\frac{K_\text{P}}{K_\text{I}} e_k \cdot \Delta t$	
+        	\State $N(k) = N(k-1) + K_\text{P} (e(k)-e(k-1))+\frac{K_\text{P}}{K_\text{I}} e(k) \cdot \Delta t$	
     	\EndIf
-	\State Cap fan speed: $N_k = \max(\min(N_k,N_\text{max}),N_\text{min})$
-	\State Update variables: $e_{k-1} \gets e_k$, $P_{\text{ref},k-1} \gets P_{\text{ref},k}$ and $N_{k-1} \gets N_k$
+	\State Cap fan speed: $N(k) = \max\big(\min(N(k),N_\text{max}),N_\text{min}\big)$
+	\State Update variables: $e(k-1) \gets e(k)$, $P_{\text{ref}}(k-1) \gets P_{\text{ref}}(k)$ and $N(k-1) \gets N(k)$
 \EndWhile
 \end{algorithmic}
 \end{algorithm}
 
-Our switched controller is different from \cite{Vrettos:2016flexlab1} whose switching condition is whether the absolute tracking error is greater than a threshold $\bar{\epsilon}$, i.e., $|e_k|>\bar{\epsilon}$. 
-Consider a step change in the reference signal $P_{\text{ref}}$ at time step $k$ such that $|e_k|>\bar{\epsilon}$. 
-According to this switching condition, Controller 1 would become active. 
-If the fan model is accurate enough such that the fan speed given by the inverse fan model is able to reduce the tracking error at the next time step $k+1$ to $|e_{k+1}| \leq \bar{\epsilon}$, then Controller 2 would take over and can continue to decrease the tracking error. 
-On the other hand, if the fan model is not accurate enough such that $|e_{k+1}| > \bar{\epsilon}$, then the switched controller is stuck in Controller 1 with a constant fan speed $N_k = g^{-1}(P_{\text{ref},k})$, %unless $P_{\text{base},k}$ or $\Delta P_{\text{ref},k}$ changes. 
-and consequently, a constant tracking error with an absolute value that is greater than $\bar{\epsilon}$.
-Accurate fan models are often not available for commercial buildings like SDH which are subject to large disturbances and uncertainties. 
+The improved performance of our switched controller compared to that in \cite{Vrettos:2016flexlab1} is a result of the new switching condition. 
+In \cite{Vrettos:2016flexlab1}, the LLC switches between its sub-controllers based on whether the absolute tracking error is greater than a threshold $\bar{\epsilon}$, i.e., $|e(k)|>\bar{\epsilon}$. 
+To see why this controller may fail when an accurate fan model is not available, consider a step change in the reference signal $P_{\text{ref}}$ at time step $k$ such that $|e(k)|>\bar{\epsilon}$. 
+According to the switching condition in \cite{Vrettos:2016flexlab1}, Controller 1 would become active.
+If the fan model is accurate enough such that the fan speed given by the inverse fan model is able to reduce the tracking error at the next time step $k+1$ to $|e(k+1)| \leq \bar{\epsilon}$, then Controller 2 would take over and continue to decrease the tracking error from time $k+1$ onwards.
+On the other hand, if the fan model is not accurate enough such that $|e(k+1)| > \bar{\epsilon}$, then the switched controller in \cite{Vrettos:2016flexlab1} is stuck in Controller 1 with a constant fan speed $N(k) = g^{-1}(P_{\text{ref}}(k))$, %unless $P_{\text{base}}(k)$ or $\Delta P_{\text{ref}}(k)$ changes. 
+and consequently, a constant tracking error whose absolute value is greater than $\bar{\epsilon}$.
+In practice, accurate fan models are often not available for commercial buildings like SDH which are subject to large disturbances and uncertainties. 
 Therefore, larger values of $\bar{\epsilon}$ are needed to avoid the above problem. 
-We found that for SDH, the required value of $\bar{\epsilon}$ would be so large that the switched controller essentially acts as a simple PI controller. 
-However a PI controller alone is not able to achieve the fast response necessary for a good tracking performance.%frequency regulation signal tracking.
+We found that for SDH, the required value of $\bar{\epsilon}$ would be so large that the switched controller essentially acts as a simple PI controller, and a PI controller alone is unable to achieve the fast response necessary for a good tracking performance.%frequency regulation signal tracking.
 
-Our proposed switched controller overcomes the above problem and is therefore suitable for buildings where an accurate fan model is not available. Consider the above scenario again, $|P_{\text{ref},k+1} - P_{\text{ref},k}| = 0 \leq \epsilon$ independent of the fan model, therefore Controller 2 is actived at time step $k+1$ and continues to reduce the tracking error.
+Our proposed switched controller overcomes the above problem and is therefore suitable for buildings where an accurate fan model is not available. Consider the above scenario again, $|P_{\text{ref}}(k+1) - P_{\text{ref}}(k)| = 0 \leq \epsilon$ independent of the fan model, therefore Controller 2 is activated at time step $k+1$ and continues to reduce the tracking error.
 
 
 

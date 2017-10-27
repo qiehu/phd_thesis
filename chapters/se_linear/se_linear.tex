@@ -10,8 +10,8 @@
 %Cyber-physical systems are found in many applications such as power networks, manufacturing processes, and air and ground transportation systems. Maintaining security of these systems under cyber attacks is an important and challenging task, since these attacks can be erratic and thus difficult to model. Secure estimation problems study how to estimate the true system states when  measurements are corrupted and/or control inputs are compromised by attackers. The authors in \cite{Fawzi:2014} proposed a secure estimation method when the set of attacked sensors (sensors, controllers) is fixed. In this chapter, we extend these results to scenarios in which the set of attacked sensors can change over time. We formulate this secure estimation problem into the classical error correction problem \cite{tao11} and we show that accurate estimation can be guaranteed. Furthermore, we propose a combined secure estimation method with our proposed secure estimator and the Kalman Filter for improved practical performance. Finally,  we demonstrate the performance of our method through simulations of two scenarios where an unmanned aerial vehicle is under attack.
 %\end{abstract}
 
-Cyber-physical systems (CPS) are found in many applications such as power networks, manufacturing processes, air and ground transportation systems. They consist of physical components such as actuators, sensors and controllers that communicate with each other over a network \cite{kim2012cyber}. 
-For example, unmanned aerial vehicles (UAV) may obtain position measurements from a Global Positioning System (GPS) or communicate with a remote control center (RCC). Although communication networks are often protected by security measures, cyber attacks can still take place when a malicious attacker obtains unauthorized access, launching jamming attacks \cite{Gligor}, or spoofing sensor readings and sending erroneous control signals to actuators \cite{Mo}. For CPS, cyber attacks not only compromise information but can also cause damage in the physical process, ranging from power systems \cite{teixeira2010cyber, liu2011false} to UAVs \cite{Hu:2016uav}. This presents new challenges and thus demands new strategies and algorithms \cite{Sastry}.
+CPSs are found in many applications such as power networks, manufacturing processes, air and ground transportation systems. They consist of physical components such as actuators, sensors and controllers that communicate with each other over a network \cite{kim2012cyber}. 
+For example, unmanned aerial vehicles (UAV) may obtain position measurements from a GPS or communicate with a remote control center (RCC). Although communication networks are often protected by security measures, cyber attacks can still take place when a malicious attacker obtains unauthorized access, launching jamming attacks \cite{Gligor}, or spoofing sensor readings and sending erroneous control signals to actuators \cite{Mo}. For CPS, cyber attacks not only compromise information but can also cause damage in the physical process, ranging from power systems \cite{teixeira2010cyber, liu2011false} to UAVs \cite{Hu:2016uav}. This presents new challenges and thus demands new strategies and algorithms \cite{Sastry}.
 
 Maintaining security of these systems under cyber attacks is an important and challenging task, since these attacks can be erratic and thus difficult to model. Secure estimation problems study how to estimate the true system states when  measurements are corrupted and/or control inputs are compromised by attackers. 
 In designing such estimators, it is desirable to make as few assumptions about the attackers as possible. This is because it is very difficult, if not impossible, to predict the behavior of attackers, and when an attack signal violates the assumptions of a secure estimator, then this estimator would fail to detect the attack.
@@ -26,7 +26,7 @@ In this chapter, we extend these results to scenarios in which the set of attack
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Researchers have studied various approaches to securing CPS. Each of them relies on specific assumptions about attackers' strategies and it is rarely the case, if not impossible, that one estimator/detector can protect against all possible attacks. 
-For example, \cite{Tong}\cite{KwonACC}\cite{liu2011false}\cite{teixeira2010cyber} studied optimal attack strategies for different control systems and applications. 
+For example, \cite{Tong, KwonACC, liu2011false, teixeira2010cyber} studied optimal attack strategies for different control systems and applications. 
 From the controller's point of view, \cite{Bullo, Liu} assumed that the attack signal would follow certain probabilistic distributions and then designed filters to detect these attacks.
 In \cite{Wu, Basar, Basar2, Walrand, Pappas}, the authors used the game theory framework, where the controller and attacker are players with competing goals in a game. 
 Attackers are assumed to adopt specific strategies that maximize a certain cost and the controller or estimator is designed to minimize such a cost.
@@ -66,7 +66,7 @@ Finally, to improve the estimator's practical performance, we propose to combine
 
 
 
-This chapter is organized as follows. A review of compressed sensing and error correction in given in Section \ref{sec:overview}, followed by Section \ref{sec:SE} which proposed a secure state estimator for an LTI system under sensor attack where the attacked sensors can change over time. 
+This chapter is organized as follows. A review of compressed sensing and error correction in given in Section \ref{sec:overview}, followed by Section \ref{sec:SE} which proposes a secure state estimator for an LTI system under sensor attack where the attacked sensors can change over time. 
 Then, Section \ref{sec:design} describes how pole-placement can be used to design a good secure estimator and how it can be combined with a KF to improve its practical performance. 
 Finally we demonstrate the performance of the combined secure estimator through two numerical examples of UAVs subject to adversarial attacks in Section \ref{sec:examples}. 
 
@@ -107,7 +107,7 @@ Suppose the solution is not unique. Therefore, there exists $x_1 \neq  x_2$ such
 
 
 \begin{remark}
-(Measurement Noise) In practice, the measurements are noisy so one cannot assume that the $Ax$ term in (\ref{eq:CS}) is known with arbitrary precision. More appropriately, we need to assume that one is given noisy measurement, i.e., $b = Ax + \epsilon$, where $\epsilon$ represents measurement noise. In \cite{Candes_Tao}, the authors prove that one can recover approximately sparse signals with an error at most proportional to the noise level. 
+(Measurement Noise) In practice, the measurements are noisy so one cannot assume that the $Ax$ term in (\ref{eq:CS}) is known with arbitrary precision. More appropriately, we need to assume that one is given noisy measurements, i.e., $b = Ax + \epsilon$, where $\epsilon$ represents measurement noise. In \cite{Candes_Tao}, the authors prove that one can recover approximately sparse signals with an error at most proportional to the noise level. 
 An alternative is to combine secure estimation with a KF to improve the secure estimator's performance for noisy measurements as we propose later in this chapter: the KF filters out both occasional estimation errors by the secure estimator and noisy measurements.
 \end{remark}
 
@@ -143,7 +143,7 @@ y(k) &= C x(k) + e(k),
 \end{equation} 
 where $x(k) \in \mathbb{R}^n$, $y(k) \in \mathbb{R}^p$ and $u(k) \in \mathbb{R}^m$ are the states, measurements and control inputs at time step $k$. $e(k) \in \mathbb{R}^p$ represents the attack signal at time $k$. Our goal is to reconstruct the initial state $x(0)$ of the plant from the corrupted observations $y(k)$'s where $k=0,...,T-1$.
 
-The attack vector $e(k)$ is such that if the $i$th sensor is attacked at time $k$, then $e_i(k)$, the $i$th element of $e(k)$ is nonzero, otherwise $e_i(k) = 0$. We assume that the attack signal can be arbitrary and unbounded. In addition, we assume that the set of attacked sensors can change over time. As illustrated by the following example, if 2 sensors are attacked at each time step, we can have sensors 1 and 3 attacked at time step 0, sensors 2 and 3 attacked at time 1, and so on:
+The attack vector $e(k)$ is such that if the $i$-th sensor is attacked at time $k$, then $e_i(k)$, the $i$-th element of $e(k)$ is nonzero, otherwise $e_i(k) = 0$. We assume that the attack signal can be arbitrary and unbounded. In addition, we assume that the set of attacked sensors can change over time. As illustrated by the following example, if two sensors are attacked at each time step, we can have sensors 1 and 3 attacked at time step 0, sensors 2 and 3 attacked at time 1, and so on:
 \begin{equation}
 	\begin{bmatrix} e(0)  & \lvert & e(1) & \lvert &  ...  & \end{bmatrix} 
 	= \begin{bmatrix} * & 0 & * & \cdots \\
@@ -265,6 +265,11 @@ Then, the following are equivalent:
 \end{equation}
 \end{theorem}
 
+Theorem \ref{thm:SE} states that if the feedback system and the secure estimator are designed such that all the conditions in the theorem are satisfied, then our proposed secure estimator can guarantee accurate correction of $q$ errors by checking the following very simple condition:
+\begin{equation}\label{eq:distinct}
+\forall v_i \in \mathbb{R}^n \text{ where } Av_i =\lambda_i v_i, ~ \lvert \textsf{supp}(Cv_i) \rvert > 2q.  %\nonumber
+\end{equation}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Proof of Theorem \ref{thm:SE}}
@@ -283,10 +288,7 @@ We need to choose $T$ to satisfy the worst case for any $m$ such that $n \ge m \
 
 
 
-Theorem \ref{thm:SE} states that if the feedback system and the secure estimator are designed such that all the conditions in the theorem are satisfied, then our proposed secure estimator can guarantee accurate correction of $q$ errors by checking the following very simple condition:
-\begin{equation}\label{eq:distinct}
-\forall v_i \in \mathbb{R}^n \text{ where } Av_i =\lambda_i v_i, ~ \lvert \textsf{supp}(Cv_i) \rvert > 2q.  %\nonumber
-\end{equation}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -309,7 +311,7 @@ If the pair ($A, C$) is observable, then the number of correctable errors for th
 The proof for Proposition 4 in \cite{Fawzi:2014} shows that if the chosen poles $\lambda_1, \cdots, \lambda_n$ are distinct, positive and do not fall in some finite set $F$, then there is a choice of $G$ such that the eigenvalues of $A~(=A_0+B)$ are exactly $\lambda_1, \cdots, \lambda_n$, and the corresponding eigenvectors $v_i$ are such that $\lvert \textsf{supp} (C v_i) \rvert = p$. Thus, by Theorem 1, the number of correctable errors for $(A,C)$ is $\lceil p/2-1 \rceil$.
 \hfill$\blacksquare$\\
 
-In addition, recall that $E_{q,T}$ consists of the error vectors $e(0), \cdots, e(T-1)$ stacked vertically and our proofs for the existence of a unique solution to (\ref{eq:QR1}) are independent of how the individual error (nonzero) terms are distributed in the vector $E_{q,T}$. Thus, we can remove the assumption: $\lvert \textsf{supp} (e(k)) \rvert \le q$ for all $k$, and allow $e(k)$ to appear in an arbitrary fashion, e.g. $\lvert \textsf{supp} (e(0)) \rvert = 2q$ and $\lvert \textsf{supp} (e(1)) \rvert = 0$, as long as $\sum_{k=0}^{T-1} \lvert \textsf{supp} (e(k)) \rvert \leq q\cdot T$, then our $q$-attack-correcting estimator can still recover the true states. In other words, our proposed secure estimator can protect the system against more general attacks where the number of attacked sensors is not necessarily less than or equal to $q$ at every time step.
+In addition, recall that $E_{q,T}$ consists of the error vectors $e(0), \cdots, e(T-1)$ stacked vertically and our proofs for the existence of a unique solution to (\ref{eq:QR1}) are independent of how the individual error (nonzero) terms are distributed in the vector $E_{q,T}$. Thus, we can remove the assumption: $\lvert \textsf{supp} (e(k)) \rvert \le q$ for all $k$, and allow $e(k)$ to appear in an arbitrary fashion, e.g. $\lvert \textsf{supp} (e(0)) \rvert = 2q$ and $\lvert \textsf{supp} (e(1)) \rvert = 0$, as long as $\sum_{k=0}^{T-1} \lvert \textsf{supp} (e(k)) \rvert \leq q\cdot T$, then our $q$-error-correcting estimator can still recover the true states. In other words, our proposed secure estimator can protect the system against more general attacks where the number of attacked sensors is not necessarily less than or equal to $q$ at every time step.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -368,7 +370,7 @@ where $x$, $y$, $u$ and $e$ are as defined in (\ref{eq:system_model_se}); and $v
 
 
 A KF can be used to estimate the states by modeling the attack signal as noise. More specifically, define a new measurement noise $\bar{v}(k) = e(k) + v(k)$ to give a new measurement equation $y(k) = C x(k) + \bar{v}(k)$. A KF can then estimate the states from the inputs $u(k)$ and the corrupted measurements $y(k)$ \cite{KwonACC}. 
-One caveat with this method is that KFs assume zero mean and i.i.d. white Gaussian measurement noise, however, attack signals are usually erratic and may be poorly modeled by Gaussian processes \cite{KwonACC}, i.e., $e(k)$ and consequently, $\bar v(k)$ may not be Gaussian. Take Global Positioning System (GPS) spoofing attacks for example, attack signals are often structured to resemble normal GPS signals or can be genuine GPS signals captured elsewhere.  
+One caveat with this method is that KFs assume zero mean and i.i.d. white Gaussian measurement noise, however, attack signals are usually erratic and may be poorly modeled by Gaussian processes \cite{KwonACC}, i.e., $e(k)$ and consequently, $\bar v(k)$ may not be Gaussian. Take GPS spoofing attacks for example, attack signals are often structured to resemble normal GPS signals or can be genuine GPS signals captured elsewhere.  
 When the system is subjected to attacks that are poorly modeled by Gaussian processes, it is reasonable to expect KFs to fail to recover the true states. 
 Figure \ref{fig:estimation} gives an illustrative example where an attack signal that increases linearly with time is injected into the measurements of state $x_i$. The red dashed line shows a plausible estimated state trajectory from a KF.
 

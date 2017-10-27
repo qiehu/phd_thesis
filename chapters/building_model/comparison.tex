@@ -4,7 +4,7 @@
 \label{sec:Comparison}
 
 \subsection{Prediction Accuracy}\label{sec:prediction_accuracy}
-The high-dimensional physics-based model (Model B) is found to have a higher prediction accuracy compared to the low-dimensional data-driven model for the individual zones (Model A) presented in Section \ref{sec:Indiv_Zones}: According to Table \ref{tab:data_RMS_zones}, the mean RMS error for Model B across zones is $0.11^\circ \text{C}$ lower than for Model A. This is also illustrated in Figure \ref{fig:open_loop_trajectories}, which shows 7-day open-loop predictions of the temperature of a randomly selected holdout test week in the spring period, simulated with both models initialized with the measured temperature. The increase in RMS error from Model B to Model A is notably larger in the zones ``East'' (0.38) and ``Center'' (0.15), compared to the other zones (0.11, $-$0.03, 0.07, and 0.08). 
+The high-dimensional physics-based model (Model B) is found to have a higher prediction accuracy compared to the low-dimensional data-driven model for the individual zones (Model A) presented in Section \ref{sec:Indiv_Zones}: According to Table \ref{tab:data_RMS_zones}, the mean RMS error for Model B across zones is $0.11^\circ \text{C}$ lower than for Model A. This is also illustrated in Figure \ref{fig:open_loop_trajectories}, which shows 7-day open-loop predictions of the temperature of a randomly selected holdout test week in the spring period, simulated with both models initialized with the measured temperature. The increase in RMS error from Model B to Model A is notably larger in the zones East (0.38) and Center (0.15), compared to the other zones (0.11, $-$0.03, 0.07, and 0.08). 
 
 This provides new insight into the existing knowledge as we provide a quantitative comparison between the low-dimensional data-driven model and the high-dimensional physics-based model's prediction accuracy for the same multi-zone commercial building, which is in regular operation. The existing literature merely mentions that data-driven models are likely to have lower prediction accuracies than physics-based ones and, to the best of our knowledge, a quantitative comparison at this level is non-existent, as previous building models were developed for different testbeds, fictitious buildings or from simulated data.
 %We show what prediction accuracies are achievable by each model when applied to a building subjected to disturbances such as occupancy, without using additional hardware such as occupancy sensors.
@@ -31,7 +31,7 @@ Winter & 0.55 & 0.39 & 0.34 & 0.32 & 0.18 & 0.24 & 0.338\\
 Spring & 0.45 & 0.28 & 0.24 & 0.33 & 0.09 & 0.19 & 0.263\\
 \bottomrule
 \end{tabular}
-\caption{RMS by Zone and Season for Data-Driven and Physics-Based Models}
+\caption{RMS error by zone and season for data-driven and physics-based models.}
 \label{tab:data_RMS_zones}
 \end{table}
 
@@ -42,14 +42,14 @@ Spring & 0.45 & 0.28 & 0.24 & 0.33 & 0.09 & 0.19 & 0.263\\
 \vspace*{-0.1cm}
 \includegraphics[width=\textwidth]{chapters/building_model/figures/open_loop_traj.eps}
 \vspace*{-0.5cm}
-\caption{Simulated Temperatures from the Data-Driven Model (blue), Physics-Based Model (orange) and Actual Temperatures (green) }
+\caption{Simulated temperatures from the data-driven model (blue), physics-based model (orange) and actual temperatures (green). }
 \vspace*{-0.5cm}
 \label{fig:open_loop_trajectories}
 \end{figure}
 %The higher inaccuracy of the data-driven model becomes particularly apparent in zones Center and East, where the data-driven estimate notably deviates from the measured temperatures.
 
 \subsection{Energy Efficient Control}\label{sec:energy_efficient_control}
-In this section, we compare the performance of Model A and Model B for the purpose of energy efficiency. We formulate an MPC problem to find the optimal control strategy that minimizes the cost of HVAC operation over the same week used in Figure \ref{fig:open_loop_trajectories}, while guaranteeing the temperature to stay within a comfort zone $[T_{\text{min}}, T_{\text{max}}]$, which we chose as $[20^\circ \text{C}, 22^\circ \text{C}]$ \cite{Hansen:2013aa}, and confining the control input to the physical limits of the HVAC system $[u_{\text{min}}, u_{\text{max}}]$. This problem is formulated as follows:
+In this section, we compare the performance of Model A and Model B for the purpose of energy efficiency. We formulate a model predictive control (MPC) problem to find the optimal control strategy that minimizes the cost of HVAC operation over the same week used in Figure \ref{fig:open_loop_trajectories}, while guaranteeing the temperature to stay within a comfort zone $[T_{\text{min}}, T_{\text{max}}]$, which we chose as $[20^\circ \text{C}, 22^\circ \text{C}]$ \cite{Hansen:2013aa}, and confining the control input to the physical limits of the HVAC system $[u_{\text{min}}, u_{\text{max}}]$. This problem is formulated as follows:
 \begin{equation}\label{eq:ee_controller}
 \begin{split}
 \min_{u, \varepsilon}~&\sum_{k=1}^N u(k)^2 + \rho \Vert\varepsilon\Vert_2 \\
@@ -75,7 +75,7 @@ To find the optimal control strategy, we make use of receding horizon control wi
 \vspace*{-0.4cm}
 \includegraphics[width=\textwidth]{chapters/building_model/figures/Comparison_Temp.png}
 \vspace*{-0.5cm}
-\caption{Optimal Temperature for MPC with Data-Driven Model (blue), MPC with Physics-Based Model (orange) and Actual Temperature (green)}
+\caption{Optimal temperature for MPC with data-driven model (blue), MPC with physics-based model (orange) and actual temperature (green).}
 \vspace*{-0.2cm}
 \label{fig:MPC_comparison_temp}
 \end{figure}
@@ -85,13 +85,13 @@ To find the optimal control strategy, we make use of receding horizon control wi
 %\vspace*{-0.4cm}
 \includegraphics[width=\textwidth]{chapters/building_model/figures/Comparison_Flow.png}
 \vspace*{-0.5cm}
-\caption{Optimal Control Strategy for MPC with Data-Driven Model (blue), MPC with Physics-Based Model (orange) and Actual Input (green)}
+\caption{Optimal control strategy for MPC with data-driven model (blue), MPC with physics-based model (orange) and actual input (green).}
 %\vspace*{-0.2cm}
 \label{fig:MPC_comparison_flow}
 \end{figure}
 
 Figure \ref{fig:MPC_comparison_temp} shows the temperature trajectory computed by the energy efficient controller \eqref{eq:ee_controller} computed with both models A and B, together with the measured temperature as a reference. 
-It can be seen that both control schemes are capable of maintaining the temperature within $[20^\circ \text{C}, 22^\circ \text{C}]$, with a control strategy that is of comparable cost (1,006 and 1,731 for Model A and Model B, respectively, where $\rho=100$), shown in Figure \ref{fig:MPC_comparison_flow}. An interesting observation is that the largest difference in the control strategies is detected in zones ``East'' and ``Center'', which show a larger increase in RMS error from Model B to Model A.
+It can be seen that both control schemes are capable of maintaining the temperature within $[20^\circ \text{C}, 22^\circ \text{C}]$, with a control strategy that is of comparable cost (1,006 and 1,731 for Model A and Model B, respectively, where $\rho=100$), shown in Figure \ref{fig:MPC_comparison_flow}. An interesting observation is that the largest difference in the control strategies is detected in zones East and Center, which show a larger increase in RMS error from Model B to Model A.
 %The dips of the computed control trajectory $u$ below the black dashed lines represent violations of the physical limits needed to maintain the temperature in the narrow range $[20^\circ, 22^\circ]$. 
 Furthermore, it is interesting to observe that variations in the control input do not impact the periodicity of the temperature qualitatively, which can be explained by the regularity of the identified internal gains.
 
