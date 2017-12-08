@@ -73,6 +73,12 @@ Aranya Chakrabortty and Pramod Khargonekar.
 \newblock Introduction to wide-area control of power systems.
 \newblock {\em Proceedings of American Control Conference}, 2013.
 
+\bibitem{Chang:2017}
+Young~Hwan Chang, Qie Hu, and Claire Tomlin.
+\newblock {Secure estimation based Kalman Filter for cyber-physical systems
+  against adversarial attacks}.
+\newblock {\em Automatica (submitted)}, 2017.
+
 \bibitem{Cole:2013aa}
 Wesley~J. Cole, Elaine~T. Hale, and Thomas~F. Edgar.
 \newblock {Building Energy Model Reduction for Model Predictive Control Using

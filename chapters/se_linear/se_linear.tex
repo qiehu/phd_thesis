@@ -10,10 +10,10 @@
 %Cyber-physical systems are found in many applications such as power networks, manufacturing processes, and air and ground transportation systems. Maintaining security of these systems under cyber attacks is an important and challenging task, since these attacks can be erratic and thus difficult to model. Secure estimation problems study how to estimate the true system states when  measurements are corrupted and/or control inputs are compromised by attackers. The authors in \cite{Fawzi:2014} proposed a secure estimation method when the set of attacked sensors (sensors, controllers) is fixed. In this chapter, we extend these results to scenarios in which the set of attacked sensors can change over time. We formulate this secure estimation problem into the classical error correction problem \cite{tao11} and we show that accurate estimation can be guaranteed. Furthermore, we propose a combined secure estimation method with our proposed secure estimator and the Kalman Filter for improved practical performance. Finally,  we demonstrate the performance of our method through simulations of two scenarios where an unmanned aerial vehicle is under attack.
 %\end{abstract}
 
-In this Chapter, we develop a secure estimator for a general linear system and demonstrate its effectiveness through an example of an unmanned aerial vehicle (UAV) under cyber attack.
-In the next Chapter, we extend these results to two classes of nonlinear systems and apply the secure estimator to the nonlinear power system.
+In this chapter, we develop a secure estimator for a general linear system and demonstrate its effectiveness through an example of an unmanned aerial vehicle (UAV) under cyber attack.
+In the next chapter, we extend these results to two classes of nonlinear systems and apply the secure estimator to the nonlinear power system.
 
-CPSs are found in many applications such as power networks, manufacturing processes, air and ground transportation systems. They consist of physical components such as actuators, sensors and controllers that communicate with each other over a network \cite{kim2012cyber}. 
+Cyber-physical systems (CPSs) are found in many applications such as power networks, manufacturing processes, air and ground transportation systems. They consist of physical components such as actuators, sensors and controllers that communicate with each other over a network \cite{kim2012cyber}. 
 For example, UAVs may obtain position measurements from a GPS or communicate with a remote control center (RCC). Although communication networks are often protected by security measures, cyber attacks can still take place when a malicious attacker obtains unauthorized access, launching jamming attacks \cite{Gligor}, or spoofing sensor readings and sending erroneous control signals to actuators \cite{Mo}. For CPS, cyber attacks not only compromise information but can also cause damage in the physical process, ranging from power systems \cite{teixeira2010cyber, liu2011false} to UAVs \cite{Hu:2016uav}. This presents new challenges and thus demands new strategies and algorithms \cite{Sastry}.
 
 Maintaining security of these systems under cyber attacks is an important and challenging task, since these attacks can be erratic and thus difficult to model. Secure estimation problems study how to estimate the true system states when  measurements are corrupted and/or control inputs are compromised by attackers. 
@@ -35,7 +35,7 @@ In \cite{Wu, Basar, Basar2, Walrand, Pappas}, the authors used the game theory f
 Attackers are assumed to adopt specific strategies that maximize a certain cost and the controller or estimator is designed to minimize such a cost.
 Finally, the authors of \cite{KwonCDC} proposed a hybrid controller, where each constituent controller protects the system against a specific type of attack.
 
-More recently, Fawzi \textit{et al.} studied secure estimation of a discrete time linear time invariant (LTI) system and proposed in \cite{Fawzi:2014} a secure estimation method for arbitrary attacks. 
+More recently,  \textit{Fawzi et al.} studied secure estimation of a discrete time linear time invariant (LTI) system and proposed in \cite{Fawzi:2014} a secure estimation method for arbitrary attacks. 
 %\cite{chong2016characterising} proposed the security index of a discrete time LTI system under sensor attacks as a quantitative measure on the security of an observable system.
 Later, \cite{Pajic:2014} and \cite{shoukry2016smt} extended this work by relaxing the assumption of having an exact system model and proposed an Satisfiability Modulo Theory (SMT)-based observer that handles large systems with thousands of sensors. 
 One limiting assumption of \cite{Fawzi:2014}, \cite{Pajic:2014} and \cite{shoukry2016smt} is that the set of attacked sensors is fixed and can not change over time. 
@@ -268,26 +268,30 @@ Then, the following are equivalent:
 \end{equation}
 \end{theorem}
 
+\textit{Proof}:
+Interested readers are referred to proof for Theorem \ref{thm:SE} in our archived paper \cite{Chang:2017}.
+\hfill$\blacksquare$\\
+
 Theorem \ref{thm:SE} states that if the feedback system and the secure estimator are designed such that all the conditions in the theorem are satisfied, then our proposed secure estimator can guarantee accurate correction of $q$ errors by checking the following very simple condition:
 \begin{equation}\label{eq:distinct}
 \forall v_i \in \mathbb{R}^n \text{ where } Av_i =\lambda_i v_i, ~ \lvert \textsf{supp}(Cv_i) \rvert > 2q.  %\nonumber
 \end{equation}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Proof of Theorem \ref{thm:SE}}
-In order to prove Theorem 1, we make use of Lemma \ref{lem:two_vec} and Proposition \ref{prop:m_vec} (see Appendix).
-
-First, it is simple to prove that $(i)$ and $(ii)$ are equivalent: $\lvert \textsf{supp} (\Phi v_i) \rvert = \sum_{k=0}^{T-1} \lvert \textsf{supp} (CA^k v_i ) \rvert = \sum_{k=0}^{T-1} \lvert  \textsf{supp} (\lambda_i^k C v_i )\rvert  = T\cdot  \lvert \textsf{supp} (C v_i) \rvert  $. 
-
-Second, we want to show that $(ii)$ and $(iii)$ are equivalent. The direction $(iii) \implies (ii)$ is trivial, since $(ii)$ is a specific case of (iii) with $z = v_i$. The other direction is more complex. Note that $A$ is diagonalizable, therefore its eigenvectors form a basis for $\mathbb{R}^n$. Now consider the decomposition of $z $ in the eigenbasis of $A$, i.e. $z = \sum_{i=1}^n \alpha_i v_i$ with $\alpha_i \neq 0$ for at least one $i$. 
-\begin{enumerate}
-\item $m=1$: Suppose there exists $z \in \mathbb{R}^n \backslash \{ 0\}$ such that $ \lvert \textsf{supp} (\Phi z) \rvert \le 2 q \cdot T$. Without loss of generality, let $\alpha_i \neq 0$ and $\alpha_j= 0$ for all $j \neq i$, then, $2 q \cdot T \ge \lvert \textsf{supp} (\Phi z) \rvert = \lvert \textsf{supp} (\alpha_i \Phi v_i) \rvert = \lvert \textsf{supp} (\Phi v_i) \rvert $ for all $T$ (contradiction, $\because \forall v_i, \lvert \textsf{supp} (\Phi v_i) \rvert  > 2 q \cdot T$). 
-\item $m=2$: By Lemma \ref{lem:two_vec}, if we choose $T>T_2$.
-\item $m\ge 3$: By Lemma \ref{lem:two_vec} and Proposition \ref{prop:m_vec}, if we choose $T>T_m$ for each value of $m$, respectively.
-\end{enumerate}
-We need to choose $T$ to satisfy the worst case for any $m$ such that $n \ge m \ge 2$. Thus, if $T \ge \max \{ T_2, \cdots, T_n \}$, then $(ii)$ and $(iii)$ are also equivalent. Note that $T_m$ is chosen to satisfy $T_m > T_{\mathcal{S}_m}$ for all subsets $\mathcal{S}_m$, i.e., $T_m = \max_{\mathcal{S}_m}( T_{\mathcal{S}_m})+1$.
-\hfill$\blacksquare$\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsubsection{Proof of Theorem \ref{thm:SE} \cite{Chang:2017}} 
+%In order to prove Theorem 1, we make use of Lemma \ref{lem:two_vec} and Proposition \ref{prop:m_vec} (see Appendix).
+%
+%First, it is simple to prove that $(i)$ and $(ii)$ are equivalent: $\lvert \textsf{supp} (\Phi v_i) \rvert = \sum_{k=0}^{T-1} \lvert \textsf{supp} (CA^k v_i ) \rvert = \sum_{k=0}^{T-1} \lvert  \textsf{supp} (\lambda_i^k C v_i )\rvert  = T\cdot  \lvert \textsf{supp} (C v_i) \rvert  $. 
+%
+%Second, we want to show that $(ii)$ and $(iii)$ are equivalent. The direction $(iii) \implies (ii)$ is trivial, since $(ii)$ is a specific case of (iii) with $z = v_i$. The other direction is more complex. Note that $A$ is diagonalizable, therefore its eigenvectors form a basis for $\mathbb{R}^n$. Now consider the decomposition of $z $ in the eigenbasis of $A$, i.e. $z = \sum_{i=1}^n \alpha_i v_i$ with $\alpha_i \neq 0$ for at least one $i$. 
+%\begin{enumerate}
+%\item $m=1$: Suppose there exists $z \in \mathbb{R}^n \backslash \{ 0\}$ such that $ \lvert \textsf{supp} (\Phi z) \rvert \le 2 q \cdot T$. Without loss of generality, let $\alpha_i \neq 0$ and $\alpha_j= 0$ for all $j \neq i$, then, $2 q \cdot T \ge \lvert \textsf{supp} (\Phi z) \rvert = \lvert \textsf{supp} (\alpha_i \Phi v_i) \rvert = \lvert \textsf{supp} (\Phi v_i) \rvert $ for all $T$ (contradiction, $\because \forall v_i, \lvert \textsf{supp} (\Phi v_i) \rvert  > 2 q \cdot T$). 
+%%\item $m=2$: By Lemma \ref{lem:two_vec}, if we choose $T>T_2$.
+%\item $m\ge 2$: By Lemma \ref{lem:two_vec} and Proposition \ref{prop:m_vec}, if we choose $T>T_m$ for each value of $m$, respectively.
+%\end{enumerate}
+%We need to choose $T$ to satisfy the worst case for any $m$ such that $n \ge m \ge 2$. Thus, if $T \ge \max \{ T_2, \cdots, T_n \}$, then $(ii)$ and $(iii)$ are also equivalent. Note that $T_m$ is chosen to satisfy $T_m > T_{\mathcal{S}_m}$ for all subsets $\mathcal{S}_m$, i.e., $T_m = \max_{\mathcal{S}_m}( T_{\mathcal{S}_m})+1$.
+%\hfill$\blacksquare$\\
 
 
 
@@ -555,17 +559,20 @@ Finally the combined method KF+SE perfectly recovers the true path of the target
 \subsubsection{GPS Spoofing}
 
 In this section, we focus on adversarial attacks in the GPS navigation system (Channel 3 in Figure \ref{fig:ex_uav_pic}). Consider the scenario where a UAV uses a Linear Quadratic Gaussian (LQG) controller to follow a desired path, $x_r(k)$, designed by LQ control. In other words, a KF takes compromised and noisy measurements $y(k)$ and outputs a state estimate $\hat x(k)$, which is then used for state feedback control: $u(k) = G (\hat x(k) - x_r(k))$, where $G$ is the feedback matrix. Note that in the previous example (Section \ref{sec:uav_utm}), the feedback controller had access to uncorrupted state measurements $x(k)$, therefore the true path of the UAV is unaffected by attacks. On the other hand, in this example, the UAV uses estimated states $\hat x(k)$ for feedback control and path following. Hence, if measurements are corrupted and the state estimates are poor, then the UAV may not be able to follow its desired path and may deviate away from it. The goal is to correctly estimate the true states of the UAV and therefore, follow the desired path. Assume an attacker spoofs the GPS position measurements in order to deviate the UAV from its planned path. She injects a sinusoidal signal to $x$-position measurement, as well as a Gaussian noise to a randomly chosen position measurement at each time step. 
-\\
+
 In this example, we explore the effect of the number of sensor measurements on the secure estimation performance of two schemes: (a) KF only, (b) KF+SE.
 We first assume that the UAV only uses GPS for navigation, i.e., 3 positional measurements. 
-Figure \ref{fig:ex_uav_error} shows that KF completely fails to estimate the attack signal (KF, $n_y = 3$, plots in Row 1), %There are large estimation attacks in its estimated $x$- and $z$-positions, 
-consequently the actual UAV trajectory (red dashed line)  deviates significantly from its desired path (solid blue line) as shown in Figure \ref{fig:ex_uav_traj}, and deviations are largest along the $x$- and $z$-axis (Figure \ref{fig:ex_uav_est}).
-On the other hand, Figure \ref{fig:ex_uav_error} (KF + SE, $n_y = 3$) shows that KF+SE's estimated attack signals are significantly more accurate with only a small estimation error in the $x$-position (plots in Row 2). 
-Therefore the UAV can follow its planned path much more closely (Figures \ref{fig:ex_uav_traj}  and \ref{fig:ex_uav_est}).
+Figure \ref{fig:ex_uav_traj} shows that KF completely fails to estimate the attack signal (KF, $n_y = 3$, plots in Row 1), %There are large estimation attacks in its estimated $x$- and $z$-positions, 
+consequently the actual UAV trajectory (red dashed line)  deviates significantly from its desired path (solid blue line). %as shown in Figure \ref{fig:ex_uav_traj}.%, and deviations are largest along the $x$- and $z$-axis (Figure \ref{fig:ex_uav_est}).
+On the other hand, Figure \ref{fig:ex_uav_traj} (KF + SE, $n_y = 3$) shows that KF+SE's estimated attack signals are significantly more accurate with only a small estimation error in the $x$-position (plots in Row 2). 
+Therefore the UAV can follow its planned path much more closely. % (Figures \ref{fig:ex_uav_traj}).%  and \ref{fig:ex_uav_est}).
 Recall from Proposition \ref{prop:maximum} that the maximum number of correctable attacks for a system with $p$ measurements is $\lceil p/2-1 \rceil$, which equals 1 in this case. There are at most 2 attacked sensors at any time $k$ in this example, which exceeds the above limit. This explains the estimation error in the $x$-position. Despite this small estimation error, the combined scheme KF+SE still outperforms the KF on its own.
-\\
-We now show the effect of increasing the number of measurements ($n_y$, or equivalently $p$) through sensor fusion, on the estimation performance and consequently, the UAV's path following performance. Autonomous UAVs often use IMUs in addition to GPS for navigation, the former provides additional measurements such as the UAV's velocities, pitch and roll angles. Figure \ref{fig:ex_uav_error} shows that increasing the number of measurements has no effect on the KF's estimation accuracy (compare plots in Rows 1, 3 and 5). 
-Even when 8 measurements are used the UAV equipped with a KF still fails to follow the desired path (Figures \ref{fig:ex_uav_traj} and \ref{fig:ex_uav_est}). On the other hand, increasing the number of measurements improves the estimation performance of the secure estimator (SE) and consequently the performance of the combined scheme KF+SE (compare plots in Rows 2, 4 and 6 in Figure  \ref{fig:ex_uav_error}). Observe that for both 3 and 5 measurements, the combined scheme KF+SE perfectly estimates the attack signals and therefore, can completely subtract them out from the corrupted measurements. As a result, the UAV can follow its original planned path perfectly (KF + SE $n_y=5$, KF + SE $n_y=8$ in Figures \ref{fig:ex_uav_traj} and \ref{fig:ex_uav_est}).
+
+We now show the effect of increasing the number of measurements ($n_y$, or equivalently $p$) through sensor fusion, on the estimation performance and consequently, the UAV's path following performance. Autonomous UAVs often use IMUs in addition to GPS for navigation, the former provides additional measurements such as the UAV's velocities, pitch and roll angles. Figure \ref{fig:ex_uav_traj} shows that increasing the number of measurements has no effect on the KF's estimation accuracy (compare plots in Rows 1, 3 and 5). 
+Even when 8 measurements are used the UAV equipped with a KF still fails to follow the desired path. %(Figures \ref{fig:ex_uav_traj}).% and \ref{fig:ex_uav_est}). 
+On the other hand, increasing the number of measurements improves the estimation performance of the secure estimator (SE) and consequently the performance of the combined scheme KF+SE. %(compare plots in Rows 2, 4 and 6 in Figure  \ref{fig:ex_uav_error}). 
+Figure \ref{fig:ex_uav_traj} shows that when 5 and 8 measurements are used, the UAV can follow its original plannedpath perfectly (KF + SE $n_y = 5$ and KF + SE $n_y = 8$).
+%Observe that for both 3 and 5 measurements, the combined scheme KF+SE perfectly estimates the attack signals and therefore, can completely subtract them out from the corrupted measurements. As a result, the UAV can follow its original planned path perfectly (KF + SE $n_y=5$, KF + SE $n_y=8$ in Figures \ref{fig:ex_uav_traj}).% and \ref{fig:ex_uav_est}).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -576,13 +583,13 @@ Even when 8 measurements are used the UAV equipped with a KF still fails to foll
 In this chapter, we consider the problem of secure estimation for CPS under adversarial attacks. Unlike \cite{Fawzi:2014} where the attacked sensors are assumed to be fixed, we allow the set of attacked sensors to change over time, and propose a computationally efficient secure estimator for the latter scenario that works for arbitrary and unbounded attacks. In addition, we propose to combine the secure estimator with a KF for improved practical performance. We demonstrate through numerical examples, that our proposed secure estimator based KF outperforms standard KF. Furthermore, we illustrate practical applications of secure estimation in UAVs under adversarial cyber attacks. This is important not only for today's aviation system but also UAV delivery systems in the near future. 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}
-\center
-\includegraphics[width=0.9\textwidth]{chapters/se_linear/figures/qh/uav_lqg_error}
-\caption{Estimated attack signal, true attack signal and estimation error in different cases: KF and KF+SE, each using 3, 5 and 8 different measurements. Left column shows estimated attack signals. Middle column shows true attack signal. Right column shows estimation error. Each row corresponds to one sensor measurement and the first three rows in each plot are the $x$, $y$ and $z$ position measurements, respectively. Red pixels indicate positive values, green pixels are negative values and black indicates zero.}
-\label{fig:ex_uav_error}
-\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{figure}
+%\center
+%\includegraphics[width=0.9\textwidth]{chapters/se_linear/figures/qh/uav_lqg_error}
+%\caption{Estimated attack signal, true attack signal and estimation error in different cases: KF and KF+SE, each using 3, 5 and 8 different measurements. Left column shows estimated attack signals. Middle column shows true attack signal. Right column shows estimation error. Each row corresponds to one sensor measurement and the first three rows in each plot are the $x$, $y$ and $z$ position measurements, respectively. Red pixels indicate positive values, green pixels are negative values and black indicates zero.}
+%\label{fig:ex_uav_error}
+%\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}
 \center
@@ -591,13 +598,13 @@ In this chapter, we consider the problem of secure estimation for CPS under adve
 \label{fig:ex_uav_traj}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}
-\center
-\includegraphics[width=0.9\textwidth]{chapters/se_linear/figures/qh/uav_lqg_est}
-\caption{Desired and actual UAV trajectory in different cases: KF and KF+SE, each using 3, 5 and 8 different measurements. Blue solid lines are the desired $x$, $y$ and $z$ trajectories. Red dashed lines are the actual UAV trajectories under adversarial attack.}
-%\qie{Same for this figure} \yh{What does it mean?}}
-\label{fig:ex_uav_est}
-\end{figure}
+%\begin{figure}
+%\center
+%\includegraphics[width=0.9\textwidth]{chapters/se_linear/figures/qh/uav_lqg_est}
+%\caption{Desired and actual UAV trajectory in different cases: KF and KF+SE, each using 3, 5 and 8 different measurements. Blue solid lines are the desired $x$, $y$ and $z$ trajectories. Red dashed lines are the actual UAV trajectories under adversarial attack.}
+%%\qie{Same for this figure} \yh{What does it mean?}}
+%\label{fig:ex_uav_est}
+%\end{figure}
 
 
                                  

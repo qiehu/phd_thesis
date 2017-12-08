@@ -34,7 +34,7 @@ R_{\text{d}}(k) & = P_{\text{d}}(k) - P_{\text{base}}(k)\\
 \noindent
 where $P_{\text{u}}$ and $P_{\text{d}}$ denote the fans' power consumption when providing maximum up- and down-regulation capacities, respectively.
 
-During operating hour, the building receives a normalized real-time regulation signal $\omega \in [-1,1]$ from PJM, which represents the requested regulation amount $R$ as a fraction of the declared capacities $R_{\text{u}}$ and $R_{\text{d}}$. In other words, the building must control its power consumption $P$ at time $k$ to track the following reference (desired) value:
+During real-time operation, the building receives a normalized real-time regulation signal $\omega \in [-1,1]$ from PJM, which represents the requested regulation amount $R$ as a fraction of the declared capacities $R_{\text{u}}$ and $R_{\text{d}}$. In other words, the building must control its power consumption $P$ at time $k$ to track the following reference (desired) value:
 
 \begin{equation}\label{eq:P_ref}
 \begin{aligned}

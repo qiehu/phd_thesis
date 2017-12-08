@@ -141,7 +141,7 @@
 
 \begin{frontmatter} 
 \maketitle
-%\approvalpage
+\approvalpage
 \copyrightpage
 \abstract
 This thesis presents progress in overcoming two challenges in achieving a reliable electric power system: frequency regulation and secure state estimation against cyber attacks.
@@ -152,7 +152,7 @@ This thesis explores the feasibility of using commercial buildings for this appl
 Commercial buildings are a tremendous untapped source because of their large consumption and thermal inertia, as well as being able to adjust their electricity consumption continuously.
 However, large disturbances such as occupancy and the complexity of the heating, ventilation and air conditioning system of commercial buildings make it challenging to: 1) identify a model that accurately describes its temperature evolution and is amenable to control, 2) design a robust frequency regulation controller.
 This thesis tackles both challenges.
-First, it proposes a physics-based and a data-driven method to identity a building model that is suitable with the building in regular operation and captures internal gains such as occupancy.
+First, it proposes a physics-based and a data-driven method to identify a building model that captures internal gains such as occupancy.
 Both methods are used to identify models of the same testbed, and a quantitative comparison of the resulting models is made including open-loop prediction accuracy and closed-loop control performance.
 It is concluded that a data-driven model may be suitable for temperature critical applications such as frequency regulation.
 Second, this thesis improves on existing frequency regulation control schemes and proposes a bilevel controller that is suitable for buildings subject to larger uncertainties, where accurate models are unavailable.
@@ -165,17 +165,17 @@ Finally, field experiments in accordance with the Pennsylvania, New Jersey and M
 %However, the increased penetration of renewable energy sources has aggravated the volatility and uncertainty of electricity generation, which leads to a greater demand for frequency regulation reserves.
 %This thesis explores the feasibility of using commercial buildings for frequency regulation through experimental demonstration in an occupied building.
 
-On the other hand, instruments such as phasor measurement units that communicate over wireless networks to achieve better efficiency of the power system are becoming increasingly pervasive, especially under the smart grid initiatives. 
+Advanced instruments such as phasor measurement units that communicate over wireless networks to achieve better efficiency of the power system are becoming increasingly pervasive, especially under the smart grid initiatives. 
 However, these communication networks are vulnerable to cyber attacks that can be erratic and difficult to predict.
 To add to the challenge, the dynamics of the power system cannot be approximated by a linear model when it's under severe disturbances.
 This thesis first develops a secure state estimation method for linear dynamical systems under sensor attack, and then extends it to two classes of nonlinear systems and applies it to the nonlinear power system.
 Both estimation methods assume that the attack signal can be arbitrary and unbounded, and the set of attacked sensors can change over time.
 More specifically, we use feedback linearization to transform the nonlinear system into an equivalent linear system.
 We then formulate the secure estimation problem into a classical error correction problem, from which we propose an $l_1$-optimization based estimator that is computationally efficient.
-In addition, we prove the maximum number of sensor attacks that can be corrected with our estimator and propose to use pole placement techniques to design a feedback controller such that the resulting secure estimator can guarantee accurate estimation. 
-Finally, to improve the estimator's practical performance, we propose to combine our secure estimator with a KF, where the KF serves to  filter out both occasional estimation attacks by the secure estimator and noisy measurements.
+In addition, we derive the maximum number of sensor attacks that can be corrected with our estimator and propose to use pole placement techniques to design a feedback controller such that the resulting secure estimator can guarantee accurate estimation. 
+Finally, to improve the estimator's practical performance, we propose to combine our secure estimator with a Kalman Filter (KF), where the KF serves to  filter out both occasional estimation attacks by the secure estimator as well as noisy measurements.
 
-
+\abstractsignature
 \endabstract
 
 \end{frontmatter}
@@ -248,9 +248,9 @@ Finally, I would also like to thank my parents for supporting me in all my endea
 \bibliography{references}
 
 
-\appendix
-\chapter{Proof of Theorem 1 \label{sec:appendix}}
-	\subfile{chapters/appendix.tex}
+%\appendix
+%\chapter{Proof of Theorem 1 \cite{Chang:2017} \label{sec:appendix}}
+%	\subfile{chapters/appendix.tex}
 
 \end{dissertationText}
 \end{document}
